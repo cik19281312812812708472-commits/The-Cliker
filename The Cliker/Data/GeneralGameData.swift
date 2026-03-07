@@ -5,4 +5,13 @@
 //  Created by Desire on 2026-03-07.
 //
 
-f
+import Foundation
+
+
+class GeneralGameData {
+    
+
+    
+    
+    
+}

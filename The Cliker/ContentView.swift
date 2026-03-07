@@ -7,15 +7,34 @@
 
 import SwiftUI
 
+enum gameConditionBlueprint {
+    
+    case startedGame
+    case playingGame
+    
+}
+
+
 struct ContentView: View {
+    
+    @State private var gameCondition: gameConditionBlueprint = .startedGame
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        
+        switch gameCondition {
+
+        case .startedGame:
+            ClickingView()
+        case .playingGame:
+            Button("clik to play") {
+                
+                gameCondition = .playingGame
+                
+            }
+            
         }
-        .padding()
+        
+        
     }
 }
 
