@@ -24,13 +24,21 @@ struct ContentView: View {
         switch gameCondition {
 
         case .startedGame:
-            ClickingView()
-        case .playingGame:
-            Button("clik to play") {
-                
-                gameCondition = .playingGame
+            VStack{
+                Button {
+                    
+                    gameCondition = .playingGame
+                    
+                } label: {
+                    
+                    Text("clik to play")
+                    
+                }
                 
             }
+            
+        case .playingGame:
+            ClickingView()
             
         }
         
