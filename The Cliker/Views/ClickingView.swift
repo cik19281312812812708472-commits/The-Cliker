@@ -10,11 +10,11 @@ import SwiftUI
 
 struct ClickingView: View {
     
-    
+    @EnvironmentObject var gameState: GeneralGameData
     
     var body: some View {
         Button {
-            
+            gameState.totalClicks += 1
         } label: {
             Image("Clik!")
                 .resizable()

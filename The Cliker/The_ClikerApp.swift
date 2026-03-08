@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct The_ClikerApp: App {
     
-    @StateObject var gameState = GeneralGameData()
+    @StateObject public var gameState_Blueprint = GeneralGameData()
     
     var body: some Scene {
         WindowGroup {
