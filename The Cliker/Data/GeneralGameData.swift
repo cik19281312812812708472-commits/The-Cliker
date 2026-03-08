@@ -19,23 +19,7 @@ class GeneralGameData: ObservableObject {
     @Published var clickerIncrease: Int = 1
         
     
-    ///Per Second
-    func updateTotalClicks() {
-        
-        var amount: Int = 0
-
-        for (building, Amount) in totalUpgrades.allBuildings {
-            
-            switch building {
-                
-            case .numOfClickers:
-                amount += clickerIncrease * Amount
- 
-            }
-        }
-
-        totalClicks += amount
-    }
+    
     
     enum AllBuildingsBlueprint_blueprint {
         

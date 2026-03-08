@@ -11,11 +11,13 @@ import SwiftUI
 struct The_ClikerApp: App {
     
     @StateObject public var gameState_Blueprint = GeneralGameData()
+    @StateObject public var allGameMechanics_Blueprint = allGameMechanics()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(gameState_Blueprint)
+                .environmentObject(allGameMechanics_Blueprint)
             
         }
     }
