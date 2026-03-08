@@ -13,7 +13,15 @@ struct ClickingView: View {
     
     
     var body: some View {
-        
+        Button {
+            
+        } label: {
+            Image("Clik!")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 100, height: 100)
+                
+        }
         
         
     }
