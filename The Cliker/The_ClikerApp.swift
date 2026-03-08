@@ -15,7 +15,7 @@ struct The_ClikerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(gameState)
+                .environmentObject(gameState_Blueprint)
             
         }
     }
