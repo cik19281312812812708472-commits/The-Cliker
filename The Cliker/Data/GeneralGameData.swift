@@ -6,11 +6,26 @@
 //
 
 import Foundation
+import Combine
 
 
-class GeneralGameData {
+class GeneralGameData: ObservableObject {
+   
+    @Published var totalClicks: Int = 0
+    @Published var totalUpgrades: AllUpgradesBlueprint = AllUpgradesBlueprint(numOfExtraClickers: 0)
     
-
+    
+    struct AllUpgradesBlueprint {
+        
+        var numOfExtraClickers: Int = 0
+        init(numOfExtraClickers: Int) {
+            self.numOfExtraClickers = numOfExtraClickers
+        }
+        
+    }
+    
+    
+    
     
     
     

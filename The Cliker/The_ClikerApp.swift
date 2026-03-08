@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct The_ClikerApp: App {
+    
+    @StateObject var gameState = GeneralGameData()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(gameState)
+            
         }
     }
 }
