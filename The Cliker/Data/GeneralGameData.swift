@@ -15,6 +15,7 @@ enum AllBuildingsBlueprint_blueprint: CaseIterable {
     
 }
 
+//should only have func's for saving and storing data and initializing
 class GeneralGameData: ObservableObject {
    
     @Published var totalClicks: Decimal = 0
