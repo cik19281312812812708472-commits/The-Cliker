@@ -13,17 +13,27 @@ struct ClickingView: View {
     @EnvironmentObject var gameState: GeneralGameData
     
     var body: some View {
-        Button {
-            gameState.totalClicks += 1
-        } label: {
-            Image("Clik!")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 100, height: 100)
+        
+        GeometryReader { geometry in
+            
+            ZStack {
                 
+                Text("Cliks:\(gameState.totalClicks)")
+                    .position(x:geometry.size.width/2, y:geometry.size.height/1.5)
+                
+                Button {
+                    gameState.totalClicks += 1
+                } label: {
+                    Image("Clik!")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100, height: 100)
+                }
+                .position(x:geometry.size.width/2, y:geometry.size.height/2)
+                
+            }
+            
         }
-        
-        
     }
     
     
