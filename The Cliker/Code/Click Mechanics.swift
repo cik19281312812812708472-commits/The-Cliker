@@ -18,22 +18,28 @@ class allGameMechanics: ObservableObject {
         
         @EnvironmentObject var gameState: GeneralGameData
         
-        var amount: Int = 0
+        var totalClickIncrease: Decimal = 0
 
-        for (building, Amount) in gameState.totalUpgrades.allBuildings {
+        for (building, buildingAttributes) in gameState.allBuildingAttribites {
             
             switch building {
                 
             case .numOfClickers:
-                amount += gameState.clickerIncrease * Amount
+                totalClickIncrease = gameState.allBuildingAttribites[.numOfClickers]?.Increase ?? 15
  
             }
         }
-
-        gameState.totalClicks += amount
+        
+        
+        //increase the total clicks by the total click increase
+        gameState.totalClicks += totalClickIncrease
     }
     
-    
+    func updateCosts() {
+        
+        
+        
+    }
     
     
 }

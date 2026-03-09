@@ -8,33 +8,57 @@
 import Foundation
 import Combine
 
+enum AllBuildingsBlueprint_blueprint: CaseIterable {
+    
+    case numOfClickers
+    
+    
+}
 
 class GeneralGameData: ObservableObject {
    
-    @Published var totalClicks: Int = 0
-    @Published var totalUpgrades: AllUpgradesBlueprint = AllUpgradesBlueprint(allBuildings: [.numOfClickers: 0])
+    @Published var totalClicks: Decimal = 0
+    @Published var allBuildingAttribites: [AllBuildingsBlueprint_blueprint:BuildingAttributesBlueprint] = [:]
+    //MARK: All the costs
+    @Published var clickerCost: Decimal = 15
     
     
     //MARK: all the increases 
-    @Published var clickerIncrease: Int = 1
+    @Published var clickerIncrease: Decimal = 1
         
     
-    
-    
-    enum AllBuildingsBlueprint_blueprint {
+    func setStartingData() {
         
-        case numOfClickers
-        
-        
+        for buildingCase in AllBuildingsBlueprint_blueprint.allCases {
+            
+            var buildingCost: Decimal = 0
+            var buildingIncrease: Decimal = 0
+            
+            switch buildingCase {
+                
+                case .numOfClickers:
+                    buildingCost = 15
+                    buildingIncrease = 1
+            }
+            
+            let newBuildingAttribute = BuildingAttributesBlueprint(Building: buildingCase, Cost: buildingCost, Increase: buildingIncrease)
+            allBuildingAttribites[buildingCase] = newBuildingAttribute
+            
+        }
+  
     }
     
-    //for expansion
-    struct AllUpgradesBlueprint {
+   
+    struct BuildingAttributesBlueprint {
         
-        var allBuildings: [AllBuildingsBlueprint_blueprint:Int] = [:]
+        var Building: AllBuildingsBlueprint_blueprint
+        var Cost: Decimal
+        var Increase: Decimal
         
-        init(allBuildings: [AllBuildingsBlueprint_blueprint:Int]) {
-            self.allBuildings = allBuildings
+        init(Building: AllBuildingsBlueprint_blueprint, Cost: Decimal, Increase: Decimal) {
+            self.Building = Building
+            self.Cost = Cost
+            self.Increase = Increase
         }
         
     }
