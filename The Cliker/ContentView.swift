@@ -31,7 +31,7 @@ struct ContentView: View {
                     
                 } label: {
                     
-                    Text("clik to play")
+                    Text("Clik to Play")
                     
                 }
                 
@@ -39,7 +39,8 @@ struct ContentView: View {
             
         case .playingGame:
             ClickingView()
-            
+      
+        
         }
         
         
