@@ -24,8 +24,8 @@ class allGameMechanics: ObservableObject {
             
             switch building {
                 
-            case .numOfClickers:
-                totalClickIncrease = gameState.allBuildingAttribites[.numOfClickers]?.Increase ?? 15
+            case .Clickers:
+                totalClickIncrease = gameState.allBuildingAttribites[.Clickers]?.Increase ?? 15
  
             }
         }

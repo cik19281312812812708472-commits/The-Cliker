@@ -8,9 +8,9 @@
 import Foundation
 import Combine
 
-enum AllBuildingsBlueprint_blueprint: CaseIterable {
+enum AllBuildingsBlueprint: CaseIterable {
     
-    case numOfClickers
+    case Clickers
     
     
 }
@@ -19,7 +19,7 @@ enum AllBuildingsBlueprint_blueprint: CaseIterable {
 class GeneralGameData: ObservableObject {
    
     @Published var totalClicks: Decimal = 0
-    @Published var allBuildingAttribites: [AllBuildingsBlueprint_blueprint:BuildingAttributesBlueprint] = [:]
+    @Published var allBuildingAttribites: [AllBuildingsBlueprint:BuildingAttributesBlueprint] = [:]
     //MARK: All the costs
     @Published var clickerCost: Decimal = 15
     
@@ -30,14 +30,16 @@ class GeneralGameData: ObservableObject {
     
     func setStartingData() {
         
-        for buildingCase in AllBuildingsBlueprint_blueprint.allCases {
+        
+        // it creates a building attribute for each building
+        for buildingCase in AllBuildingsBlueprint.allCases {
             
             var buildingCost: Decimal = 0
             var buildingIncrease: Decimal = 0
             
             switch buildingCase {
                 
-                case .numOfClickers:
+                case .Clickers:
                     buildingCost = 15
                     buildingIncrease = 1
             }
@@ -52,11 +54,11 @@ class GeneralGameData: ObservableObject {
    
     struct BuildingAttributesBlueprint {
         
-        var Building: AllBuildingsBlueprint_blueprint
+        var Building: AllBuildingsBlueprint
         var Cost: Decimal
         var Increase: Decimal
         
-        init(Building: AllBuildingsBlueprint_blueprint, Cost: Decimal, Increase: Decimal) {
+        init(Building: AllBuildingsBlueprint, Cost: Decimal, Increase: Decimal) {
             self.Building = Building
             self.Cost = Cost
             self.Increase = Increase
