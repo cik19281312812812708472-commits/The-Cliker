@@ -3,6 +3,7 @@
 //  The Cliker
 //
 //  Created by Desire on 2026-03-07.
+
 //MARK: - My Heading
 
 import Foundation
@@ -11,7 +12,7 @@ import Combine
 enum AllBuildingsBlueprint: CaseIterable {
     
     case Clickers
-    
+    case Freelancers
     
 }
 
@@ -31,20 +32,27 @@ class GeneralGameData: ObservableObject {
     func setStartingData() {
         
         
-        // it creates a building attribute for each building
+        // it creates a building attribute for each building by looking at the enum
         for buildingCase in AllBuildingsBlueprint.allCases {
             
             var buildingCost: Decimal = 0
             var buildingIncrease: Decimal = 0
+            var costMultiplier: Decimal = 0
             
             switch buildingCase {
                 
                 case .Clickers:
                     buildingCost = 15
                     buildingIncrease = 1
+                costMultiplier = 1.1
+                
+            case .Freelancers:
+                buildingCost = 100
+                buildingIncrease = 5
+                costMultiplier = 5
             }
             
-            let newBuildingAttribute = BuildingAttributesBlueprint(Building: buildingCase, Cost: buildingCost, Increase: buildingIncrease)
+            let newBuildingAttribute = BuildingAttributesBlueprint(Building: buildingCase, amount: 1, costMultiplier: costMultiplier, Cost: buildingCost, Increase: buildingIncrease)
             allBuildingAttribites[buildingCase] = newBuildingAttribute
             
         }
@@ -55,11 +63,15 @@ class GeneralGameData: ObservableObject {
     struct BuildingAttributesBlueprint {
         
         var Building: AllBuildingsBlueprint
+        var amount: Int
+        var costMultiplier: Decimal
         var Cost: Decimal
         var Increase: Decimal
         
-        init(Building: AllBuildingsBlueprint, Cost: Decimal, Increase: Decimal) {
+        init(Building: AllBuildingsBlueprint, amount: Int, costMultiplier: Decimal, Cost: Decimal, Increase: Decimal) {
             self.Building = Building
+            self.amount = amount
+            self.costMultiplier = costMultiplier
             self.Cost = Cost
             self.Increase = Increase
         }

@@ -12,11 +12,12 @@ import SwiftUI
 
 class allGameMechanics: ObservableObject {
     
+    @EnvironmentObject var gameState: GeneralGameData
     
     ///Per Second
     func updateTotalClicks() {
         
-        @EnvironmentObject var gameState: GeneralGameData
+       
         
         var totalClickIncrease: Decimal = 0
 
@@ -26,7 +27,11 @@ class allGameMechanics: ObservableObject {
                 
             case .Clickers:
                 totalClickIncrease = gameState.allBuildingAttribites[.Clickers]?.Increase ?? 15
+                
+                
  
+            case .Freelancers:
+                totalClickIncrease = gameState.allBuildingAttribites[.Clickers]?.Increase ?? 150
             }
         }
         
@@ -35,11 +40,42 @@ class allGameMechanics: ObservableObject {
         gameState.totalClicks += totalClickIncrease
     }
     
+    
+    ///This just finds the building. It's helper func does the actual setting it is called
+    ///```swift
+    ///
+    ///print("")
+    ///```
     func updateCosts() {
         
         
+        ///defining the cost stuff
+        ///
+        ///
+        func setCosts(whatBuilding: AllBuildingsBlueprint) {
+            
+            var amountOfBuildings: Int = Int(gameState.allBuildingAttribites[whatBuilding]?.amount ?? 1)
+            
+            var costMultiplier: Decimal = gameState.allBuildingAttribites[whatBuilding]?.costMultiplier ?? 1.1
+            
+            var oldCost: Decimal = gameState.allBuildingAttribites[whatBuilding]?.Cost ?? 15
+            var newCost: Decimal = oldCost * Decimal(amountOfBuildings) * costMultiplier
+       
+       //setting hte new cost
+            gameState.allBuildingAttribites[whatBuilding]?.Cost = newCost
+            
+            
+        }//setting the costs end
         
-    }
+        //looking through the all the buildings
+        for (building, buildingAttributes) in gameState.allBuildingAttribites {
+                setCosts(whatBuilding: building)
+        }
+
+        
+    }// func update costs end
+    
+    
     
     
 }
