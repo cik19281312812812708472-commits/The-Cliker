@@ -52,7 +52,7 @@ class GeneralGameData: ObservableObject {
                 costMultiplier = 5
             }
             
-            let newBuildingAttribute = BuildingAttributesBlueprint(Building: buildingCase, amount: 1, costMultiplier: costMultiplier, Cost: buildingCost, Increase: buildingIncrease)
+            let newBuildingAttribute = BuildingAttributesBlueprint(Building: buildingCase, amount: 0, costMultiplier: costMultiplier, Cost: buildingCost, Increase: buildingIncrease)
             allBuildingAttribites[buildingCase] = newBuildingAttribute
             
         }

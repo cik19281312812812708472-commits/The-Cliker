@@ -121,11 +121,17 @@ class allGameMechanics: ObservableObject {
             
         } label: {
             
+            let Cost = self.gameState.allBuildingAttribites[whatBuilding]?.Cost
+            
             switch whatBuilding {
             case .Clickers:
-                Text("Buy a Clicker")
+                HStack {
+                Text("Buy a Cliker. For $\(Cost)")
+                Image("Cursor")
+            }
             case .Freelancers:
-                Text("Buy a Freelancer")
+                Text("Buy a Freelancer. For $\(Cost)")
+                
             }
 
         }//label end

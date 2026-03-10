@@ -23,7 +23,7 @@ struct ClickingView: View {
             ZStack {
                 
                 Text("Cliks:\(gameState.totalClicks)")
-                    .position(x:geometry.size.width/2, y:geometry.size.height/1.5)
+                    .position(x:geometry.size.width/2, y:geometry.size.height/2.5)
                 
                 VStack {
         
@@ -61,7 +61,7 @@ struct ClickingView: View {
                                 .padding()
                             
                             }
-                            .frame(width: geometry.size.height * 0.1, height: geometry.size.height * 0.99)// wrapps the scroll view
+                            .frame(width: geometry.size.height * 0.25, height: geometry.size.height * 0.99)// wrapps the scroll view
                             .background(.blue.opacity(0.2))// wraps the frame
                             .cornerRadius(500)//wraps the background
                             .offset(x: geometry.size.width * -0.1, y: 0)
