@@ -25,40 +25,53 @@ struct ClickingView: View {
                 Text("Cliks:\(gameState.totalClicks)")
                     .position(x:geometry.size.width/2, y:geometry.size.height/1.5)
                 
-                Button {
-                    gameState.totalClicks += 1
-                } label: {
-                    Image("Clik!")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 100, height: 100)
-                }
-                .position(x:geometry.size.width/2, y:geometry.size.height/2)
-                
-                
-                //all the builds in a scroll view
-                
-                ScrollView {
+                VStack {
+        
+                    HStack {
+                       
                     
-                    VStack { 
-                        
-                        
-                        let numOfBuildings = gameMechanics.findNumOfBuildings
-                        
-                        ForEach(Array(gameState.allBuildingAttribites), id: \.key) { building in
-         
-                            gameMechanics.createBuildingButton(whatBuilding: building.key)
-           
+                        Button {
+                            gameState.totalClicks += 1
+                        } label: {
+                            Image("Clik!")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 100, height: 100)
                         }
-    
-                    }
- 
+                        .position(x:geometry.size.width/2, y:geometry.size.height/2)
+                    
+                        
+                    
+                        //all the builds in a scroll view
+                   
+                            ScrollView {
+                            
+                                VStack {
+                                
+                                    Text("Upgrades:")
+                                    //let numOfBuildings = gameMechanics.findNumOfBuildings
+                                
+                                    ForEach(Array(gameState.allBuildingAttribites), id: \.key) { building in
+                                    
+                                        gameMechanics.createBuildingButton(whatBuilding: building.key)
+                                    
+                                    }
+                                
+                                }
+                                .padding()
+                            
+                            }
+                            .frame(width: geometry.size.height * 0.1, height: geometry.size.height * 0.99)// wrapps the scroll view
+                            .background(.blue.opacity(0.2))// wraps the frame
+                            .cornerRadius(500)//wraps the background
+                            .offset(x: geometry.size.width * -0.1, y: 0)
+                            
+                        
+                    }//HStack end
+                    
+                    
+                    
                 }
-                .position(x:geometry.size.width * 0.8, y:geometry.size.height/2)
-                
-                
-                
-                
             }
             
         } .onAppear() {
@@ -66,7 +79,7 @@ struct ClickingView: View {
             tick = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) {_ in 
                 gameMechanics.updateEverything()
             }
-            
+            gameState.setStartingData()
         }
         
         

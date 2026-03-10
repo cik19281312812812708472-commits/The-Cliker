@@ -22,7 +22,7 @@ class allGameMechanics: ObservableObject {
     func updateEverything() {
         
         updateTotalClicks()
-        
+        print("\(gameState.allBuildingAttribites)")
     }
     
     
