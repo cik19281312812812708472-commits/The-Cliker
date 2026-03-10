@@ -12,12 +12,27 @@ import SwiftUI
 
 class allGameMechanics: ObservableObject {
     
-    @EnvironmentObject var gameState: GeneralGameData
+   var gameState: GeneralGameData
+    
+    init(gameState: GeneralGameData) {
+        self.gameState = gameState
+    }
+    
+    
+    func updateEverything() {
+        
+        updateTotalClicks()
+        
+    }
+    
+    
+    
+    
+    
+    
     
     ///Per Second
     func updateTotalClicks() {
-        
-       
         
         var totalClickIncrease: Decimal = 0
 
@@ -76,6 +91,46 @@ class allGameMechanics: ObservableObject {
     }// func update costs end
     
     
+    //MARK: nonupdating funcs
+    
+    ///no nupdatin
+    func findNumOfBuildings() -> Int {
+        
+        let numOfBuildings = gameState.allBuildingAttribites.count
+        
+        return numOfBuildings
+    }
+    
+    // a view is needed to be returned
+    
+    ///non updating
+    func createBuildingButton(whatBuilding: AllBuildingsBlueprint) -> some View {
+        
+        Button {
+           
+            switch whatBuilding {
+                
+            case .Clickers:
+                self.gameState.allBuildingAttribites[.Clickers]?.amount += 1
+                
+            case .Freelancers:
+                self.gameState.allBuildingAttribites[.Freelancers]?.amount += 1
+                
+            }
+            
+            
+        } label: {
+            
+            switch whatBuilding {
+            case .Clickers:
+                Text("Buy a Clicker")
+            case .Freelancers:
+                Text("Buy a Freelancer")
+            }
+
+        }//label end
+        
+    }
     
     
 }

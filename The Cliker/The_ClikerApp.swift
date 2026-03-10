@@ -10,8 +10,17 @@ import SwiftUI
 @main
 struct The_ClikerApp: App {
     
-    @StateObject public var gameState_Blueprint = GeneralGameData()
-    @StateObject public var allGameMechanics_Blueprint = allGameMechanics()
+    @StateObject var gameState_Blueprint: GeneralGameData
+    @StateObject var allGameMechanics_Blueprint: allGameMechanics
+
+    init() {
+        let state = GeneralGameData()
+        _gameState_Blueprint = StateObject(wrappedValue: state)
+        _allGameMechanics_Blueprint = StateObject(
+            wrappedValue: allGameMechanics(gameState: state)
+        )
+    }
+    
     
     var body: some Scene {
         WindowGroup {

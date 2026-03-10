@@ -11,6 +11,10 @@ import SwiftUI
 struct ClickingView: View {
     
     @EnvironmentObject var gameState: GeneralGameData
+    @EnvironmentObject var gameMechanics: allGameMechanics
+    
+    @State private var tick: Timer?
+    
     
     var body: some View {
         
@@ -31,9 +35,41 @@ struct ClickingView: View {
                 }
                 .position(x:geometry.size.width/2, y:geometry.size.height/2)
                 
+                
+                //all the builds in a scroll view
+                
+                ScrollView {
+                    
+                    VStack { 
+                        
+                        
+                        let numOfBuildings = gameMechanics.findNumOfBuildings
+                        
+                        ForEach(Array(gameState.allBuildingAttribites), id: \.key) { building in
+         
+                            gameMechanics.createBuildingButton(whatBuilding: building.key)
+           
+                        }
+    
+                    }
+ 
+                }
+                .position(x:geometry.size.width * 0.8, y:geometry.size.height/2)
+                
+                
+                
+                
+            }
+            
+        } .onAppear() {
+            
+            tick = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) {_ in 
+                gameMechanics.updateEverything()
             }
             
         }
+        
+        
     }
     
     
