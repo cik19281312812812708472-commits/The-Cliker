@@ -17,7 +17,7 @@ enum AllBuildingsBlueprint: CaseIterable {
     case employees
     case OilRefinery
     case Manager
-    //add stock market stuff
+    //add stock market stufffefeffef
     
 }
 
