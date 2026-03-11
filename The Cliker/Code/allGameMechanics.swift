@@ -78,6 +78,9 @@ class allGameMechanics: ObservableObject {
         }
         
         
+        totalClickIncrease *= gameState.allUpgrades[.Efficiency]?.level ?? 0
+        
+        
         //increase the total clicks by the total click increase
         gameState.currentClicks += totalClickIncrease
         gameState.deltaClicks = totalClickIncrease
@@ -338,5 +341,185 @@ class allGameMechanics: ObservableObject {
         
     }
     
-    
+    func createUpgradeButton(whatBuilding: AllBuildingsBlueprint) -> some View {
+        
+        Button {
+                self.subtractClicks(whatBuilding: whatBuilding)
+            
+            
+            self.gameState.deltaClicks -= self.gameState.allBuildingAttribites[whatBuilding]?.Cost ?? 0
+            
+        } label: {
+            
+            let Cost = (self.gameState.allBuildingAttribites[whatBuilding]?.Cost ?? 0)
+            
+            switch whatBuilding {
+                
+            case .Clickers:
+                
+                HStack {
+                    
+                    Image("Cursor")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                     
+                    if gameState.currentClicks - Cost < gameState.deltaClicks * -2 {
+                        
+                        Text("$\(Cost) Buy a Cliker. ")
+                                    .padding()
+                                    .background(.red)
+                                    .cornerRadius(10)
+                        
+                    } else if gameState.currentClicks - Cost < 0 {
+                Text("$\(Cost) Buy a Cliker. ")
+                            .padding()
+                            .background(.yellow)
+                            .cornerRadius(10)
+                        
+                    } else {
+                Text("$\(Cost) Buy a Cliker. ")
+                        .padding()
+                                
+                    }
+            }
+                
+                
+            case .Freelancers:
+                
+                HStack {
+                    Image("Freelancer")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30, height: 30)
+                    
+                    if gameState.currentClicks - Cost < gameState.deltaClicks * -2 {
+                        
+                        Text("$\(Cost) Buy a Freelancer. ")
+                                    .padding()
+                                    .background(.red)
+                                    .cornerRadius(10)
+                        
+                    } else if gameState.currentClicks - Cost < 0 {
+                Text("$\(Cost) Buy a Freelancer. ")
+                            .padding()
+                            .background(.yellow)
+                            .cornerRadius(10)
+                        
+                    } else {
+                Text("$\(Cost) Buy a Freelancer. ")
+                        .padding()
+                                
+                    }
+                }
+            case .softwareDev:
+                HStack {
+                    Image("Software Developer")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30, height: 30)
+                    
+                    if gameState.currentClicks - Cost < gameState.deltaClicks * -2 {
+                        
+                        Text("$\(Cost) Buy a Software Developer.. ")
+                                    .padding()
+                                    .background(.red)
+                                    .cornerRadius(10)
+                        
+                    } else if gameState.currentClicks - Cost < 0 {
+                Text("$\(Cost) Buy a Software Developer. ")
+                            .padding()
+                            .background(.yellow)
+                            .cornerRadius(10)
+                        
+                    } else {
+                Text("$\(Cost) Buy a Software Developer. ")
+                        .padding()
+                                
+                    }
+                }
+            case .employees:
+                HStack {
+                    Image("Employee")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30, height: 30)
+                    
+                    if gameState.currentClicks - Cost < gameState.deltaClicks * -2 {
+                        
+                        Text("$\(Cost) Buy an Employee. ")
+                                    .padding()
+                                    .background(.red)
+                                    .cornerRadius(10)
+                        
+                    } else if gameState.currentClicks - Cost < 0 {
+                Text("$\(Cost) Buy an Employee. ")
+                            .padding()
+                            .background(.yellow)
+                            .cornerRadius(10)
+                    } else {
+                Text("$\(Cost) Buy an Employee. ")
+                        .padding()
+                                
+                    }
+                }
+            case .OilRefinery:
+                HStack {
+                    Image("Oil Refinery")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30, height: 30)
+                    
+                    if gameState.currentClicks - Cost < gameState.deltaClicks * -2 {
+                        
+                        Text("$\(Cost) Buy an Oil Refinery.")
+                                    .padding()
+                                    .background(.red)
+                                    .cornerRadius(10)
+                        
+                    } else if gameState.currentClicks - Cost < 0 {
+                Text("$\(Cost) Buy an Oil Refinery.")
+                        .padding()
+                        .background(.yellow)
+                        .cornerRadius(10)
+                        
+                    } else {
+                Text("$\(Cost) Buy an Oil Refinery.")
+                        .padding()
+                                
+                    }
+                }
+            case .Manager:
+                HStack {
+                    Image("Freelancer")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30, height: 30)
+                    
+                    if gameState.currentClicks - Cost < gameState.deltaClicks * -2 {
+                        
+                        Text("$\(Cost) Buy a Manager. ")
+                                    .padding()
+                                    .background(.red)
+                                    .cornerRadius(10)
+                        
+                    } else if gameState.currentClicks - Cost < 0 {
+                Text("$\(Cost) Buy a Manager.")
+                        .padding()
+                        .background(.yellow)
+                        .cornerRadius(10)
+                        
+                    } else {
+                Text("$\(Cost) Buy a Manager.")
+                        .padding()
+                                
+                    }
+                }
+            }
+
+        }//label end
+        .padding()
+        
+        
+    }
 }

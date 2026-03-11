@@ -72,7 +72,7 @@ struct ClickingView: View {
                             
                                 VStack {
                                 
-                                    Text("Upgrades:")
+                                    Text("Assets:")
                                     //let numOfBuildings = gameMechanics.findNumOfBuildings
                                 
                                     ForEach(Array(gameState.allBuildingAttribites), id: \.key) { building in

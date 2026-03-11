@@ -21,6 +21,13 @@ enum AllBuildingsBlueprint: CaseIterable {
     
 }
 
+enum AllUpgrades_Blueprint: CaseIterable {
+    
+    case Efficiency
+    
+    
+}
+
 //should only have func's for saving and storing data and initializing
 class GeneralGameData: ObservableObject {
    
@@ -28,6 +35,7 @@ class GeneralGameData: ObservableObject {
     @Published var deltaClicks: Decimal = 0
     @Published var currentClicks: Decimal = 0
     @Published var allBuildingAttribites: [AllBuildingsBlueprint:BuildingAttributesBlueprint] = [:]
+    @Published var allUpgrades: [AllUpgrades_Blueprint:Upgrade_Blueprint] = [:]
     //MARK: All the costs
     @Published var clickerCost: Decimal = 15
     
@@ -87,13 +95,35 @@ class GeneralGameData: ObservableObject {
                 costMultiplier = 1.01
                 increaseMultiplier = 1.0
                 rent = 10000
+                
+         
             }
             
             let newBuildingAttribute = BuildingAttributesBlueprint(Building: buildingCase, amount: 0, costMultiplier: costMultiplier, Cost: buildingCost, Increase: buildingIncrease, IncreaseMultiplier: increaseMultiplier, rent: rent)
+            //adds the building
             allBuildingAttribites[buildingCase] = newBuildingAttribute
             
         }
-  
+        
+        // it creates a building attribute for each building by looking at the enum
+        for upgradeCase in AllUpgrades_Blueprint.allCases {
+            
+          
+           
+            var upgradeCost: Decimal = 0
+            var upgradeCostMultiplier: Decimal = 0
+            
+            switch upgradeCase {
+                
+                case .Efficiency:
+                upgradeCost = 0
+                upgradeCostMultiplier = 0
+                
+            }
+            
+            let newUpgrade = Upgrade_Blueprint(upgrade: upgradeCase, level: 0, costMultiplier: upgradeCostMultiplier, Cost: upgradeCost)
+            allUpgrades[upgradeCase] = newUpgrade
+        }
     }
     
    
@@ -123,6 +153,32 @@ class GeneralGameData: ObservableObject {
         }
         
     }
+    
+    struct Upgrade_Blueprint {
+        
+        var upgrade: AllUpgrades_Blueprint
+        
+        
+        
+        
+        var level: Decimal = 0
+        
+        /// this is sopposed to be very large
+        var costMultiplier: Decimal
+        var Cost: Decimal
+        
+        
+        
+        init(upgrade: AllUpgrades_Blueprint, level: Decimal, costMultiplier: Decimal, Cost: Decimal) {
+            self.upgrade = upgrade
+            
+            self.level = level
+            self.costMultiplier = costMultiplier
+            self.Cost = Cost
+        }
+        
+    }
+    
     
     
     
