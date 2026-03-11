@@ -22,7 +22,16 @@ struct ClickingView: View {
             
             ZStack {
                 
-                Text("Cliks:\(gameState.totalClicks)")
+                if gameState.deltaClicks > 0 {
+                    Text("+\(gameState.deltaClicks)")
+                        .position(x:geometry.size.width/2, y:geometry.size.height/1.5)
+                } else {
+                    Text("\(gameState.deltaClicks)")
+                        .position(x:geometry.size.width/2, y:geometry.size.height/1.5)
+                }
+                
+                    
+                Text("Cliks:\(gameState.currentClicks)")
                     .position(x:geometry.size.width/2, y:geometry.size.height/2.5)
                 
                 VStack {
@@ -31,7 +40,7 @@ struct ClickingView: View {
                        
                     
                         Button {
-                            gameState.totalClicks += 1
+                            gameState.currentClicks += 1
                         } label: {
                             Image("Clik!")
                                 .resizable()
@@ -61,9 +70,9 @@ struct ClickingView: View {
                                 .padding()
                             
                             }
-                            .frame(width: geometry.size.height * 0.25, height: geometry.size.height * 0.99)// wrapps the scroll view
+                            .frame(width: geometry.size.height * 0.5, height: geometry.size.height * 0.99)// wrapps the scroll view
                             .background(.blue.opacity(0.2))// wraps the frame
-                            .cornerRadius(500)//wraps the background
+                            .cornerRadius(100)//wraps the background
                             .offset(x: geometry.size.width * -0.1, y: 0)
                             
                         

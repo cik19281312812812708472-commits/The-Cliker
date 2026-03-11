@@ -12,24 +12,31 @@ import SwiftUI
 
 class allGameMechanics: ObservableObject {
     
-   var gameState: GeneralGameData
     
-    init(gameState: GeneralGameData) {
+    var loanSharkMechanics: LoanSharkMechanics
+    
+    var gameState: GeneralGameData
+    
+    init(gameState: GeneralGameData, loanSharkMechanics: LoanSharkMechanics) {
         self.gameState = gameState
+        self.loanSharkMechanics = loanSharkMechanics
     }
     
     
     func updateEverything() {
         
+        updateInceaseMultiplier()
+        loanSharkMechanics.allLoanSharkMechanics()
         updateTotalClicks()
         print("\(gameState.allBuildingAttribites)")
     }
     
-    
-    
-    
-    
-    
+    func updateInceaseMultiplier() {
+        
+        //employees have a boost per employee
+        gameState.allBuildingAttribites[.employees]?.IncreaseMultiplier = Decimal(gameState.allBuildingAttribites[.employees]?.amount ?? 0)  * 0.5 + 1
+        
+    }
     
     ///Per Second
     func updateTotalClicks() {
@@ -37,54 +44,61 @@ class allGameMechanics: ObservableObject {
         var totalClickIncrease: Decimal = 0
 
         for (building, buildingAttributes) in gameState.allBuildingAttribites {
-            
-            switch building {
-                
-            case .Clickers:
-                totalClickIncrease = gameState.allBuildingAttribites[.Clickers]?.Increase ?? 15
-                
-                
+
+            totalClickIncrease += (buildingAttributes.Increase * Decimal(buildingAttributes.amount) * buildingAttributes.IncreaseMultiplier)
  
-            case .Freelancers:
-                totalClickIncrease = gameState.allBuildingAttribites[.Clickers]?.Increase ?? 150
-            }
         }
         
         
         //increase the total clicks by the total click increase
-        gameState.totalClicks += totalClickIncrease
+        gameState.currentClicks += totalClickIncrease
+        gameState.deltaClicks = totalClickIncrease
+       
     }
     
+    func setCost(whatBuilding: AllBuildingsBlueprint) {
+        
+        
+        var amountOfBuildings: Int = Int(gameState.allBuildingAttribites[whatBuilding]?.amount ?? 1)
+        
+        if amountOfBuildings > 0 {
+            
+            var costMultiplier: Decimal = gameState.allBuildingAttribites[whatBuilding]?.costMultiplier ?? 1.1
+            
+            var oldCost: Decimal = gameState.allBuildingAttribites[whatBuilding]?.Cost ?? 15
+            
+            var costValue = (oldCost * costMultiplier)
+            
+           
+            
+            var newCost = Decimal()
+            
+            NSDecimalRound(&newCost, &costValue, Int(gameState.roundLevel), .plain)
+            
+            
+            
+            //setting hte new cost
+            gameState.allBuildingAttribites[whatBuilding]?.Cost = newCost
+        }
+        
+    }//setting the costs end
     
     ///This just finds the building. It's helper func does the actual setting it is called
     ///```swift
     ///
     ///print("")
     ///```
-    func updateCosts() {
+    func updateCosts(whatBuilding: AllBuildingsBlueprint) {
         
         
         ///defining the cost stuff
         ///
         ///
-        func setCosts(whatBuilding: AllBuildingsBlueprint) {
-            
-            var amountOfBuildings: Int = Int(gameState.allBuildingAttribites[whatBuilding]?.amount ?? 1)
-            
-            var costMultiplier: Decimal = gameState.allBuildingAttribites[whatBuilding]?.costMultiplier ?? 1.1
-            
-            var oldCost: Decimal = gameState.allBuildingAttribites[whatBuilding]?.Cost ?? 15
-            var newCost: Decimal = oldCost * Decimal(amountOfBuildings) * costMultiplier
-       
-       //setting hte new cost
-            gameState.allBuildingAttribites[whatBuilding]?.Cost = newCost
-            
-            
-        }//setting the costs end
+        
         
         //looking through the all the buildings
         for (building, buildingAttributes) in gameState.allBuildingAttribites {
-                setCosts(whatBuilding: building)
+                setCost(whatBuilding: building)
         }
 
         
@@ -103,38 +117,78 @@ class allGameMechanics: ObservableObject {
     
     // a view is needed to be returned
     
+    func subtractClicks(whatBuilding: AllBuildingsBlueprint) {
+        
+        self.gameState.allBuildingAttribites[whatBuilding]?.amount += 1
+        
+        if let cost = self.gameState.allBuildingAttribites[whatBuilding]?.Cost {
+            self.gameState.currentClicks -= cost
+        }
+        self.setCost(whatBuilding: whatBuilding)
+    }
+    
     ///non updating
     func createBuildingButton(whatBuilding: AllBuildingsBlueprint) -> some View {
         
         Button {
-           
-            switch whatBuilding {
-                
-            case .Clickers:
-                self.gameState.allBuildingAttribites[.Clickers]?.amount += 1
-                
-            case .Freelancers:
-                self.gameState.allBuildingAttribites[.Freelancers]?.amount += 1
-                
-            }
-            
-            
+                self.subtractClicks(whatBuilding: whatBuilding)
         } label: {
             
-            let Cost = self.gameState.allBuildingAttribites[whatBuilding]?.Cost
+            let Cost = (self.gameState.allBuildingAttribites[whatBuilding]?.Cost ?? 0)
             
             switch whatBuilding {
-            case .Clickers:
-                HStack {
-                Text("Buy a Cliker. For $\(Cost)")
-                Image("Cursor")
-            }
-            case .Freelancers:
-                Text("Buy a Freelancer. For $\(Cost)")
                 
+            case .Clickers:
+                
+                HStack {
+                    
+                    Image("Cursor")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                     
+                    
+                Text("$\(Cost) Buy a Cliker. ")
+                        .padding()
+                
+            }
+                
+            case .Freelancers:
+                
+                HStack {
+                    Image("Freelancer")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30, height: 30)
+                    
+                    Text("$\(Cost) Buy a Freelancer.")
+                        .padding()
+                }
+            case .softwareDev:
+                HStack {
+                    Image("Freelancer")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30, height: 30)
+                    
+                    Text("$\(Cost) Buy a Software Developer.")
+                        .padding()
+                }
+            case .employees:
+                HStack {
+                    Image("Freelancer")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30, height: 30)
+                    
+                    Text("$\(Cost) Buy an employee.")
+                        .padding()
+                }
             }
 
         }//label end
+        .padding()
+        
         
     }
     
