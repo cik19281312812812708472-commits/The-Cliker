@@ -25,12 +25,18 @@ class allGameMechanics: ObservableObject {
     
     func updateEverything() {
         
-        
+        updateInceaseMultiplier()
         loanSharkMechanics.allLoanSharkMechanics()
         updateTotalClicks()
         print("\(gameState.allBuildingAttribites)")
     }
     
+    func updateInceaseMultiplier() {
+        
+        //employees have a boost per employee
+        gameState.allBuildingAttribites[.employees]?.IncreaseMultiplier = Decimal(gameState.allBuildingAttribites[.employees]?.amount ?? 0)  * 0.5 + 1
+        
+    }
     
     ///Per Second
     func updateTotalClicks() {
@@ -168,10 +174,21 @@ class allGameMechanics: ObservableObject {
                     Text("$\(Cost) Buy a Software Developer.")
                         .padding()
                 }
+            case .employees:
+                HStack {
+                    Image("Freelancer")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30, height: 30)
+                    
+                    Text("$\(Cost) Buy an employee.")
+                        .padding()
+                }
             }
 
         }//label end
         .padding()
+        
         
     }
     

@@ -14,6 +14,8 @@ enum AllBuildingsBlueprint: CaseIterable {
     case Clickers
     case Freelancers
     case softwareDev
+    case employees
+    //add stock market stuff
     
 }
 
@@ -60,6 +62,11 @@ class GeneralGameData: ObservableObject {
                 buildingCost = 1000
                 buildingIncrease = 115
                 costMultiplier = 1.05
+                increaseMultiplier = 1.0
+            case .employees:
+                buildingCost = 3000
+                buildingIncrease = 200
+                costMultiplier = 1.001
                 increaseMultiplier = 1.0
             }
             
