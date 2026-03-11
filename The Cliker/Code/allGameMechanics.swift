@@ -38,7 +38,7 @@ class allGameMechanics: ObservableObject {
         gameState.allBuildingAttribites[.employees]?.IncreaseMultiplier = Decimal(gameState.allBuildingAttribites[.employees]?.amount ?? 0)  * 0.1 + 1
         
         //manageres increase employee multiplyer by +200%
-        gameState.allBuildingAttribites[.employees]?.IncreaseMultiplier += Decimal(gameState.allBuildingAttribites[.Manager]?.amount ?? 0) * 2
+        gameState.allBuildingAttribites[.employees]?.IncreaseMultiplier += Decimal(gameState.allBuildingAttribites[.Manager]?.amount ?? 0) * 2 * Decimal(gameState.allBuildingAttribites[.employees]?.amount ?? 0)
     }
     
     
@@ -219,7 +219,7 @@ class allGameMechanics: ObservableObject {
                 }
             case .softwareDev:
                 HStack {
-                    Image("Freelancer")
+                    Image("Software Developer")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 30, height: 30)
@@ -245,7 +245,7 @@ class allGameMechanics: ObservableObject {
                 }
             case .employees:
                 HStack {
-                    Image("Freelancer")
+                    Image("Employee")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 30, height: 30)
@@ -270,7 +270,7 @@ class allGameMechanics: ObservableObject {
                 }
             case .OilRefinery:
                 HStack {
-                    Image("Freelancer")
+                    Image("Oil Refinery")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 30, height: 30)
