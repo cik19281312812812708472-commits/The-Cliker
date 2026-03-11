@@ -24,9 +24,24 @@ struct ClickingView: View {
                 
                 if gameState.deltaClicks > 0 {
                     Text("+\(gameState.deltaClicks)")
+                        .foregroundColor(.white)
+                        .padding(2)
+                        .background(.green)
+                        .cornerRadius(5)
+                        .position(x:geometry.size.width/2, y:geometry.size.height/1.5)
+                } else if gameState.deltaClicks < 0{
+                    Text("\(gameState.deltaClicks)")
+                        .foregroundColor(.white)
+                        .padding(2)
+                        .background(.red)
+                        .cornerRadius(5)
                         .position(x:geometry.size.width/2, y:geometry.size.height/1.5)
                 } else {
                     Text("\(gameState.deltaClicks)")
+                        .foregroundColor(.white)
+                        .padding(2)
+                        .background(.gray)
+                        .cornerRadius(5)
                         .position(x:geometry.size.width/2, y:geometry.size.height/1.5)
                 }
                 

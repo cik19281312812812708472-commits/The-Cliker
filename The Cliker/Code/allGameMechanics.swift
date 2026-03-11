@@ -35,10 +35,16 @@ class allGameMechanics: ObservableObject {
     func updateInceaseMultiplier() {
         
         //employees have a boost per employee
-        gameState.allBuildingAttribites[.employees]?.IncreaseMultiplier = Decimal(gameState.allBuildingAttribites[.employees]?.amount ?? 0)  * 0.1 + 1
+        gameState.allBuildingAttribites[.employees]?.IncreaseMultiplier = Decimal(gameState.allBuildingAttribites[.employees]?.amount ?? 0)  * 0.5 + 1
+        
+        gameState.allBuildingAttribites[.softwareDev]?.IncreaseMultiplier = Decimal(gameState.allBuildingAttribites[.softwareDev]?.amount ?? 0)  * 0.1 + 1
         
         //manageres increase employee multiplyer by +200%
-        gameState.allBuildingAttribites[.employees]?.IncreaseMultiplier += Decimal(gameState.allBuildingAttribites[.Manager]?.amount ?? 0) * 2 * Decimal(gameState.allBuildingAttribites[.employees]?.amount ?? 0)
+        gameState.allBuildingAttribites[.employees]?.IncreaseMultiplier += Decimal(gameState.allBuildingAttribites[.Manager]?.amount ?? 0) * 2 * Decimal(gameState.allBuildingAttribites[.employees]?.amount ?? 0) * Decimal(gameState.allBuildingAttribites[.Manager]?.amount ?? 0)
+        
+        //and they increase software dev miltiplier
+        gameState.allBuildingAttribites[.softwareDev]?.IncreaseMultiplier += Decimal(gameState.allBuildingAttribites[.Manager]?.amount ?? 0) * 2 * Decimal(gameState.allBuildingAttribites[.softwareDev]?.amount ?? 0) * Decimal(gameState.allBuildingAttribites[.Manager]?.amount ?? 0)
+        
     }
     
     
@@ -154,6 +160,10 @@ class allGameMechanics: ObservableObject {
         
         Button {
                 self.subtractClicks(whatBuilding: whatBuilding)
+            
+            
+            self.gameState.deltaClicks -= self.gameState.allBuildingAttribites[whatBuilding]?.Cost ?? 0
+            
         } label: {
             
             let Cost = (self.gameState.allBuildingAttribites[whatBuilding]?.Cost ?? 0)

@@ -51,16 +51,16 @@ class GeneralGameData: ObservableObject {
             switch buildingCase {
                 
                 case .Clickers:
-                    buildingCost = 15
+                    buildingCost = 30
                     buildingIncrease = 1
-                    costMultiplier = 1.01
+                    costMultiplier = 1.05
                     increaseMultiplier = 1
                     rent = 0
                 
             case .Freelancers:
-                buildingCost = 50
+                buildingCost = 200
                 buildingIncrease = 5
-                costMultiplier = 1.10
+                costMultiplier = 1.2
                 increaseMultiplier = 1.0
                 rent = 0
             case .softwareDev:
