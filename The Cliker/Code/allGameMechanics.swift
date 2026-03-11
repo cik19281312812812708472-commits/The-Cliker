@@ -25,6 +25,7 @@ class allGameMechanics: ObservableObject {
     
     func updateEverything() {
         
+        jobPayments()
         updateInceaseMultiplier()
         loanSharkMechanics.allLoanSharkMechanics()
         updateTotalClicks()
@@ -34,9 +35,30 @@ class allGameMechanics: ObservableObject {
     func updateInceaseMultiplier() {
         
         //employees have a boost per employee
-        gameState.allBuildingAttribites[.employees]?.IncreaseMultiplier = Decimal(gameState.allBuildingAttribites[.employees]?.amount ?? 0)  * 0.5 + 1
+        gameState.allBuildingAttribites[.employees]?.IncreaseMultiplier = Decimal(gameState.allBuildingAttribites[.employees]?.amount ?? 0)  * 0.1 + 1
+        
+        //manageres increase employee multiplyer by +200%
+        gameState.allBuildingAttribites[.employees]?.IncreaseMultiplier += Decimal(gameState.allBuildingAttribites[.Manager]?.amount ?? 0) * 2
+    }
+    
+    
+    func jobPayments() {
+        
+        var totalPayments: Decimal = 0
+
+        for (building, buildingAttributes) in gameState.allBuildingAttribites {
+
+            totalPayments += (buildingAttributes.rent * Decimal(buildingAttributes.amount))
+ 
+        }
+        
+        
+        //increase the total clicks by the total click increase
+        gameState.currentClicks -= totalPayments
+        gameState.deltaClicks -= totalPayments
         
     }
+    
     
     ///Per Second
     func updateTotalClicks() {
@@ -147,11 +169,26 @@ class allGameMechanics: ObservableObject {
                             .scaledToFit()
                             .frame(width: 30, height: 30)
                      
-                    
+                    if gameState.currentClicks - Cost < gameState.deltaClicks * -2 {
+                        
+                        Text("$\(Cost) Buy a Cliker. ")
+                                    .padding()
+                                    .background(.red)
+                                    .cornerRadius(10)
+                        
+                    } else if gameState.currentClicks - Cost < 0 {
+                Text("$\(Cost) Buy a Cliker. ")
+                            .padding()
+                            .background(.yellow)
+                            .cornerRadius(10)
+                        
+                    } else {
                 Text("$\(Cost) Buy a Cliker. ")
                         .padding()
-                
+                                
+                    }
             }
+                
                 
             case .Freelancers:
                 
@@ -161,8 +198,24 @@ class allGameMechanics: ObservableObject {
                         .scaledToFit()
                         .frame(width: 30, height: 30)
                     
-                    Text("$\(Cost) Buy a Freelancer.")
+                    if gameState.currentClicks - Cost < gameState.deltaClicks * -2 {
+                        
+                        Text("$\(Cost) Buy a Freelancer. ")
+                                    .padding()
+                                    .background(.red)
+                                    .cornerRadius(10)
+                        
+                    } else if gameState.currentClicks - Cost < 0 {
+                Text("$\(Cost) Buy a Freelancer. ")
+                            .padding()
+                            .background(.yellow)
+                            .cornerRadius(10)
+                        
+                    } else {
+                Text("$\(Cost) Buy a Freelancer. ")
                         .padding()
+                                
+                    }
                 }
             case .softwareDev:
                 HStack {
@@ -171,8 +224,24 @@ class allGameMechanics: ObservableObject {
                         .scaledToFit()
                         .frame(width: 30, height: 30)
                     
-                    Text("$\(Cost) Buy a Software Developer.")
+                    if gameState.currentClicks - Cost < gameState.deltaClicks * -2 {
+                        
+                        Text("$\(Cost) Buy a Software Developer.. ")
+                                    .padding()
+                                    .background(.red)
+                                    .cornerRadius(10)
+                        
+                    } else if gameState.currentClicks - Cost < 0 {
+                Text("$\(Cost) Buy a Software Developer. ")
+                            .padding()
+                            .background(.yellow)
+                            .cornerRadius(10)
+                        
+                    } else {
+                Text("$\(Cost) Buy a Software Developer. ")
                         .padding()
+                                
+                    }
                 }
             case .employees:
                 HStack {
@@ -181,8 +250,75 @@ class allGameMechanics: ObservableObject {
                         .scaledToFit()
                         .frame(width: 30, height: 30)
                     
-                    Text("$\(Cost) Buy an employee.")
+                    if gameState.currentClicks - Cost < gameState.deltaClicks * -2 {
+                        
+                        Text("$\(Cost) Buy an Employee. ")
+                                    .padding()
+                                    .background(.red)
+                                    .cornerRadius(10)
+                        
+                    } else if gameState.currentClicks - Cost < 0 {
+                Text("$\(Cost) Buy an Employee. ")
+                            .padding()
+                            .background(.yellow)
+                            .cornerRadius(10)
+                    } else {
+                Text("$\(Cost) Buy an Employee. ")
                         .padding()
+                                
+                    }
+                }
+            case .OilRefinery:
+                HStack {
+                    Image("Freelancer")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30, height: 30)
+                    
+                    if gameState.currentClicks - Cost < gameState.deltaClicks * -2 {
+                        
+                        Text("$\(Cost) Buy an Oil Refinery.")
+                                    .padding()
+                                    .background(.red)
+                                    .cornerRadius(10)
+                        
+                    } else if gameState.currentClicks - Cost < 0 {
+                Text("$\(Cost) Buy an Oil Refinery.")
+                        .padding()
+                        .background(.yellow)
+                        .cornerRadius(10)
+                        
+                    } else {
+                Text("$\(Cost) Buy an Oil Refinery.")
+                        .padding()
+                                
+                    }
+                }
+            case .Manager:
+                HStack {
+                    Image("Freelancer")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30, height: 30)
+                    
+                    if gameState.currentClicks - Cost < gameState.deltaClicks * -2 {
+                        
+                        Text("$\(Cost) Buy a Manager. ")
+                                    .padding()
+                                    .background(.red)
+                                    .cornerRadius(10)
+                        
+                    } else if gameState.currentClicks - Cost < 0 {
+                Text("$\(Cost) Buy a Manager.")
+                        .padding()
+                        .background(.yellow)
+                        .cornerRadius(10)
+                        
+                    } else {
+                Text("$\(Cost) Buy a Manager.")
+                        .padding()
+                                
+                    }
                 }
             }
 
