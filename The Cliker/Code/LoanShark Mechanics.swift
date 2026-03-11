@@ -30,7 +30,7 @@ class LoanSharkMechanics: ObservableObject {
         
         let ratio = abs(gameState.currentClicks / gameState.deltaClicks)
         
-        if ratio > 100 {
+        if ratio > 2 && gameState.currentClicks < 0  {
             getLoanSharks()
             findNumOfLoanSharks()
             seizeAssets()

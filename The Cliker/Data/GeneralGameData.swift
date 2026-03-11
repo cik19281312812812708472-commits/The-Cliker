@@ -15,6 +15,8 @@ enum AllBuildingsBlueprint: CaseIterable {
     case Freelancers
     case softwareDev
     case employees
+    case OilRefinery
+    case Manager
     //add stock market stuff
     
 }
@@ -44,6 +46,7 @@ class GeneralGameData: ObservableObject {
             var buildingIncrease: Decimal = 0
             var costMultiplier: Decimal = 0
             var increaseMultiplier: Decimal = 0
+            var rent: Decimal = 0
             
             switch buildingCase {
                 
@@ -52,25 +55,41 @@ class GeneralGameData: ObservableObject {
                     buildingIncrease = 1
                     costMultiplier = 1.01
                     increaseMultiplier = 1
+                    rent = 0
                 
             case .Freelancers:
                 buildingCost = 50
                 buildingIncrease = 5
                 costMultiplier = 1.10
                 increaseMultiplier = 1.0
+                rent = 0
             case .softwareDev:
                 buildingCost = 1000
                 buildingIncrease = 115
                 costMultiplier = 1.05
                 increaseMultiplier = 1.0
+                rent = 15
             case .employees:
                 buildingCost = 3000
                 buildingIncrease = 200
                 costMultiplier = 1.001
                 increaseMultiplier = 1.0
+                rent = 100
+            case .OilRefinery:
+                buildingCost = 1_156_767
+                buildingIncrease = 10000
+                costMultiplier = 1.01
+                increaseMultiplier = 1.0
+                rent = 1000
+            case .Manager:
+                buildingCost = 156767
+                buildingIncrease = 0
+                costMultiplier = 1.01
+                increaseMultiplier = 1.0
+                rent = 10000
             }
             
-            let newBuildingAttribute = BuildingAttributesBlueprint(Building: buildingCase, amount: 0, costMultiplier: costMultiplier, Cost: buildingCost, Increase: buildingIncrease, IncreaseMultiplier: increaseMultiplier)
+            let newBuildingAttribute = BuildingAttributesBlueprint(Building: buildingCase, amount: 0, costMultiplier: costMultiplier, Cost: buildingCost, Increase: buildingIncrease, IncreaseMultiplier: increaseMultiplier, rent: rent)
             allBuildingAttribites[buildingCase] = newBuildingAttribute
             
         }
@@ -82,18 +101,25 @@ class GeneralGameData: ObservableObject {
         
         var Building: AllBuildingsBlueprint
         var amount: Int
+        
         var costMultiplier: Decimal
         var Cost: Decimal
+        
         var Increase: Decimal
         var IncreaseMultiplier: Decimal
         
-        init(Building: AllBuildingsBlueprint, amount: Int, costMultiplier: Decimal, Cost: Decimal, Increase: Decimal, IncreaseMultiplier: Decimal) {
+        var rent: Decimal
+        
+        var stockMarketValue: Decimal = 0
+        
+        init(Building: AllBuildingsBlueprint, amount: Int, costMultiplier: Decimal, Cost: Decimal, Increase: Decimal, IncreaseMultiplier: Decimal, rent: Decimal) {
             self.Building = Building
             self.amount = amount
             self.costMultiplier = costMultiplier
             self.Cost = Cost
             self.Increase = Increase
             self.IncreaseMultiplier = IncreaseMultiplier
+            self.rent = rent
         }
         
     }
