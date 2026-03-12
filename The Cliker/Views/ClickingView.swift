@@ -49,20 +49,46 @@ struct ClickingView: View {
                 Text("Cliks:\(gameState.currentClicks)")
                     .position(x:geometry.size.width/2, y:geometry.size.height/2.5)
                 
+                
+                Button {
+                    gameState.currentClicks += 1
+                } label: {
+                    Image("Clik!")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 100, height: 100)
+                }
+               .position(x:geometry.size.width/2, y:geometry.size.height/2)
+                
+                
                 VStack {
         
                     HStack {
                        
-                    
-                        Button {
-                            gameState.currentClicks += 1
-                        } label: {
-                            Image("Clik!")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 100, height: 100)
+                        
+                        ScrollView {
+                        
+                            VStack {
+                            
+                                Text("Upgrades:")
+                                //let numOfBuildings = gameMechanics.findNumOfBuildings
+                            
+                                ForEach(Array(gameState.allUpgrades), id: \.key) { upgrades in
+                                
+                                    gameMechanics.createUpgradeButton(whatUpgrade: upgrades.key)
+                                
+                                }
+                            
+                            }
+                            .padding()
+                        
                         }
-                        .position(x:geometry.size.width/2, y:geometry.size.height/2)
+                        .frame(width: geometry.size.height * 0.3, height: geometry.size.height * 0.99)// wrapps the scroll view
+                        .background(.blue.opacity(0.2))// wraps the frame
+                        .cornerRadius(100)//wraps the background
+                        .offset(x: geometry.size.width * -0.1, y: 0)
+                    
+                        
                     
                         
                     
@@ -88,7 +114,7 @@ struct ClickingView: View {
                             .frame(width: geometry.size.height * 0.5, height: geometry.size.height * 0.99)// wrapps the scroll view
                             .background(.blue.opacity(0.2))// wraps the frame
                             .cornerRadius(100)//wraps the background
-                            .offset(x: geometry.size.width * -0.1, y: 0)
+                            .offset(x: geometry.size.width * 0.25, y: 0)
                             
                         
                     }//HStack end

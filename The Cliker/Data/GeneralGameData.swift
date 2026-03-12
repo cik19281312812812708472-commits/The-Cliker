@@ -116,8 +116,8 @@ class GeneralGameData: ObservableObject {
             switch upgradeCase {
                 
                 case .Efficiency:
-                upgradeCost = 0
-                upgradeCostMultiplier = 0
+                upgradeCost = 10000.67
+                upgradeCostMultiplier = 2.5
                 
             }
             

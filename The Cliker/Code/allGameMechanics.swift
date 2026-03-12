@@ -78,7 +78,7 @@ class allGameMechanics: ObservableObject {
         }
         
         
-        totalClickIncrease *= gameState.allUpgrades[.Efficiency]?.level ?? 0
+        totalClickIncrease *= (gameState.allUpgrades[.Efficiency]?.level ?? 0) + 1
         
         
         //increase the total clicks by the total click increase
@@ -87,30 +87,57 @@ class allGameMechanics: ObservableObject {
        
     }
     
-    func setCost(whatBuilding: AllBuildingsBlueprint) {
+    func setCost(whatBuilding: AllBuildingsBlueprint, UpgradeOrBuilding: Bool, whatUpgrade: AllUpgrades_Blueprint) {
         
         
-        var amountOfBuildings: Int = Int(gameState.allBuildingAttribites[whatBuilding]?.amount ?? 1)
-        
-        if amountOfBuildings > 0 {
+        if UpgradeOrBuilding == false {
+            var amountOfBuildings: Int = Int(gameState.allBuildingAttribites[whatBuilding]?.amount ?? 1)
             
-            var costMultiplier: Decimal = gameState.allBuildingAttribites[whatBuilding]?.costMultiplier ?? 1.1
+            if amountOfBuildings > 0 {
+                
+                var costMultiplier: Decimal = gameState.allBuildingAttribites[whatBuilding]?.costMultiplier ?? 1.1
+                
+                var oldCost: Decimal = gameState.allBuildingAttribites[whatBuilding]?.Cost ?? 15
+                
+                var costValue = (oldCost * costMultiplier)
+                
+                
+                
+                var newCost = Decimal()
+                
+                NSDecimalRound(&newCost, &costValue, Int(gameState.roundLevel), .plain)
+                
+                
+                
+                //setting hte new cost
+                gameState.allBuildingAttribites[whatBuilding]?.Cost = newCost
+            }
+        } else {
             
-            var oldCost: Decimal = gameState.allBuildingAttribites[whatBuilding]?.Cost ?? 15
+            var upgradeLevel: Decimal = gameState.allUpgrades[whatUpgrade]?.level ?? 0
             
-            var costValue = (oldCost * costMultiplier)
+            if upgradeLevel > 0 {
+                
+                var costMultiplier: Decimal = gameState.allUpgrades[whatUpgrade]?.costMultiplier ?? 1.1
+                
+                var oldCost: Decimal = gameState.allUpgrades[whatUpgrade]?.Cost ?? 15
+                
+                var costValue = (oldCost * costMultiplier)
+                
+                
+                
+                var newCost = Decimal()
+                
+                NSDecimalRound(&newCost, &costValue, Int(gameState.roundLevel), .plain)
+                
+                
+                
+                //setting hte new cost
+                gameState.allUpgrades[whatUpgrade]?.Cost = newCost
+            }
             
-           
-            
-            var newCost = Decimal()
-            
-            NSDecimalRound(&newCost, &costValue, Int(gameState.roundLevel), .plain)
-            
-            
-            
-            //setting hte new cost
-            gameState.allBuildingAttribites[whatBuilding]?.Cost = newCost
         }
+        
         
     }//setting the costs end
     
@@ -129,7 +156,7 @@ class allGameMechanics: ObservableObject {
         
         //looking through the all the buildings
         for (building, buildingAttributes) in gameState.allBuildingAttribites {
-                setCost(whatBuilding: building)
+            setCost(whatBuilding: building, UpgradeOrBuilding: false, whatUpgrade: .Efficiency)
         }
 
         
@@ -148,21 +175,40 @@ class allGameMechanics: ObservableObject {
     
     // a view is needed to be returned
     
-    func subtractClicks(whatBuilding: AllBuildingsBlueprint) {
+    ///Use .Efficiency for nil and .Clicker for nil
+    func subtractClicks(whatBuilding: AllBuildingsBlueprint, UpgradeOrBuilding: Bool, whatUpgrade: AllUpgrades_Blueprint) {
         
-        self.gameState.allBuildingAttribites[whatBuilding]?.amount += 1
         
-        if let cost = self.gameState.allBuildingAttribites[whatBuilding]?.Cost {
-            self.gameState.currentClicks -= cost
+        if UpgradeOrBuilding == false {
+            
+            self.gameState.allBuildingAttribites[whatBuilding]?.amount += 1
+            
+            if let cost = self.gameState.allBuildingAttribites[whatBuilding]?.Cost {
+                self.gameState.currentClicks -= cost
+            }
+            self.setCost(whatBuilding: whatBuilding, UpgradeOrBuilding: false, whatUpgrade: .Efficiency)
+            
+        } else {
+            
+            self.gameState.allUpgrades[whatUpgrade]?.level += 1
+            
+            if let cost = self.gameState.allUpgrades[whatUpgrade]?.Cost {
+                self.gameState.currentClicks -= cost
+            }
+            
+            //the .Clikers is a "nil" value
+            self.setCost(whatBuilding: .Clickers, UpgradeOrBuilding: true, whatUpgrade: whatUpgrade)
         }
-        self.setCost(whatBuilding: whatBuilding)
+        
+        
+        
     }
     
     ///non updating
     func createBuildingButton(whatBuilding: AllBuildingsBlueprint) -> some View {
         
         Button {
-                self.subtractClicks(whatBuilding: whatBuilding)
+            self.subtractClicks(whatBuilding: whatBuilding, UpgradeOrBuilding: false, whatUpgrade: .Efficiency)
             
             
             self.gameState.deltaClicks -= self.gameState.allBuildingAttribites[whatBuilding]?.Cost ?? 0
@@ -341,21 +387,25 @@ class allGameMechanics: ObservableObject {
         
     }
     
-    func createUpgradeButton(whatBuilding: AllBuildingsBlueprint) -> some View {
+    func createUpgradeButton(whatUpgrade: AllUpgrades_Blueprint) -> some View {
+        
+        
         
         Button {
-                self.subtractClicks(whatBuilding: whatBuilding)
+                
+            
+            self.subtractClicks(whatBuilding: .Clickers, UpgradeOrBuilding: true, whatUpgrade: whatUpgrade)
             
             
-            self.gameState.deltaClicks -= self.gameState.allBuildingAttribites[whatBuilding]?.Cost ?? 0
+            self.gameState.deltaClicks -= self.gameState.allUpgrades[whatUpgrade]?.Cost ?? 0
             
         } label: {
             
-            let Cost = (self.gameState.allBuildingAttribites[whatBuilding]?.Cost ?? 0)
+            let Cost = (self.gameState.allUpgrades[whatUpgrade]?.Cost ?? 0)
             
-            switch whatBuilding {
+            switch whatUpgrade {
                 
-            case .Clickers:
+            case .Efficiency:
                 
                 HStack {
                     
@@ -366,156 +416,25 @@ class allGameMechanics: ObservableObject {
                      
                     if gameState.currentClicks - Cost < gameState.deltaClicks * -2 {
                         
-                        Text("$\(Cost) Buy a Cliker. ")
+                        Text("$\(Cost) Upgrade Efficiency. ")
                                     .padding()
                                     .background(.red)
                                     .cornerRadius(10)
                         
                     } else if gameState.currentClicks - Cost < 0 {
-                Text("$\(Cost) Buy a Cliker. ")
+                Text("$\(Cost) Upgrade Efficiency. ")
                             .padding()
                             .background(.yellow)
                             .cornerRadius(10)
                         
                     } else {
-                Text("$\(Cost) Buy a Cliker. ")
+                Text("$\(Cost) Upgrade Efficiency. ")
                         .padding()
                                 
                     }
             }
                 
-                
-            case .Freelancers:
-                
-                HStack {
-                    Image("Freelancer")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 30, height: 30)
-                    
-                    if gameState.currentClicks - Cost < gameState.deltaClicks * -2 {
-                        
-                        Text("$\(Cost) Buy a Freelancer. ")
-                                    .padding()
-                                    .background(.red)
-                                    .cornerRadius(10)
-                        
-                    } else if gameState.currentClicks - Cost < 0 {
-                Text("$\(Cost) Buy a Freelancer. ")
-                            .padding()
-                            .background(.yellow)
-                            .cornerRadius(10)
-                        
-                    } else {
-                Text("$\(Cost) Buy a Freelancer. ")
-                        .padding()
-                                
-                    }
-                }
-            case .softwareDev:
-                HStack {
-                    Image("Software Developer")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 30, height: 30)
-                    
-                    if gameState.currentClicks - Cost < gameState.deltaClicks * -2 {
-                        
-                        Text("$\(Cost) Buy a Software Developer.. ")
-                                    .padding()
-                                    .background(.red)
-                                    .cornerRadius(10)
-                        
-                    } else if gameState.currentClicks - Cost < 0 {
-                Text("$\(Cost) Buy a Software Developer. ")
-                            .padding()
-                            .background(.yellow)
-                            .cornerRadius(10)
-                        
-                    } else {
-                Text("$\(Cost) Buy a Software Developer. ")
-                        .padding()
-                                
-                    }
-                }
-            case .employees:
-                HStack {
-                    Image("Employee")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 30, height: 30)
-                    
-                    if gameState.currentClicks - Cost < gameState.deltaClicks * -2 {
-                        
-                        Text("$\(Cost) Buy an Employee. ")
-                                    .padding()
-                                    .background(.red)
-                                    .cornerRadius(10)
-                        
-                    } else if gameState.currentClicks - Cost < 0 {
-                Text("$\(Cost) Buy an Employee. ")
-                            .padding()
-                            .background(.yellow)
-                            .cornerRadius(10)
-                    } else {
-                Text("$\(Cost) Buy an Employee. ")
-                        .padding()
-                                
-                    }
-                }
-            case .OilRefinery:
-                HStack {
-                    Image("Oil Refinery")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 30, height: 30)
-                    
-                    if gameState.currentClicks - Cost < gameState.deltaClicks * -2 {
-                        
-                        Text("$\(Cost) Buy an Oil Refinery.")
-                                    .padding()
-                                    .background(.red)
-                                    .cornerRadius(10)
-                        
-                    } else if gameState.currentClicks - Cost < 0 {
-                Text("$\(Cost) Buy an Oil Refinery.")
-                        .padding()
-                        .background(.yellow)
-                        .cornerRadius(10)
-                        
-                    } else {
-                Text("$\(Cost) Buy an Oil Refinery.")
-                        .padding()
-                                
-                    }
-                }
-            case .Manager:
-                HStack {
-                    Image("Freelancer")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 30, height: 30)
-                    
-                    if gameState.currentClicks - Cost < gameState.deltaClicks * -2 {
-                        
-                        Text("$\(Cost) Buy a Manager. ")
-                                    .padding()
-                                    .background(.red)
-                                    .cornerRadius(10)
-                        
-                    } else if gameState.currentClicks - Cost < 0 {
-                Text("$\(Cost) Buy a Manager.")
-                        .padding()
-                        .background(.yellow)
-                        .cornerRadius(10)
-                        
-                    } else {
-                Text("$\(Cost) Buy a Manager.")
-                        .padding()
-                                
-                    }
-                }
-            }
+            }//switch end
 
         }//label end
         .padding()
