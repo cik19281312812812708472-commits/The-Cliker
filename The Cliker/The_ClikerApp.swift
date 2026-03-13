@@ -16,6 +16,8 @@ struct The_ClikerApp: App {
     @StateObject var LoanSharkMechanics_Blueprint: LoanSharkMechanics
     @StateObject var LoanSharkData_Blueprint: LoanSharkData
     
+    @StateObject var Buttons_Blueprint: Buttons_Class
+    
     init() {
         let state = GeneralGameData()
         let loanSharkState = LoanSharkData()
@@ -34,6 +36,8 @@ struct The_ClikerApp: App {
         _LoanSharkMechanics_Blueprint = StateObject(
             wrappedValue: LoanSharkMechanics(gameState: state, loanSharkState: loanSharkState)
         )
+        
+        _Buttons_Blueprint = StateObject(wrappedValue: Buttons_Class(gameState: state))
     }
     
     

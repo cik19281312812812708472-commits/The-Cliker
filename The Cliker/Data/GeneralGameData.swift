@@ -11,13 +11,129 @@ import Combine
 
 enum AllBuildingsBlueprint: CaseIterable {
     
-    case Clickers
-    case Freelancers
+    case clickers
+    case freelancers
     case softwareDev
     case employees
-    case OilRefinery
-    case Manager
+    case oilRefinery
+    case manager
+    case minimumWageWorker
     //add stock market stufffefeffef
+    
+  
+    
+    
+    var stats: GeneralGameData.BuildingAttributesBlueprint {
+        
+        switch self {
+            
+        case .clickers:
+            
+            return .init (
+                Building: self,
+                amount: 0,
+                costMultiplier: 1.05,
+                Cost: 30,
+                Increase: 1,
+                IncreaseMultiplier: 1,
+                rent: 0
+            )
+            
+        case .freelancers:
+            
+            return .init(
+                Building: self,
+                amount: 0,
+                costMultiplier: 1.2,
+                Cost: 200,
+                Increase: 5,
+                IncreaseMultiplier: 1.0,
+                rent: 0
+            )
+            
+        case .softwareDev:
+            
+            return .init(
+                Building: self,
+                amount: 0,
+                costMultiplier: 1.05,
+                Cost: 1000,
+                Increase: 115,
+                IncreaseMultiplier: 1.0,
+                rent: 15
+            )
+        
+        case .employees:
+            
+            return .init(
+                Building: self,
+                amount: 0,
+                costMultiplier: 1.001,
+                Cost: 5000,
+                Increase: 200,
+                IncreaseMultiplier: 1.0,
+                rent: 100
+            )
+            
+        case .oilRefinery:
+            
+            return .init(
+                Building: self,
+                amount: 0,
+                costMultiplier: 1.01,
+                Cost: 1_156_767,
+                Increase: 10000,
+                IncreaseMultiplier: 1.0,
+                rent: 1000
+            )
+
+        case .manager:
+            
+            return .init(
+                Building: self,
+                amount: 0,
+                costMultiplier: 1.01,
+                Cost: 156767,
+                Increase: 0,
+                IncreaseMultiplier: 1.0,
+                rent: 10000 //MARK: make the manager be more rent the more employees 1 mannager has e.i: numOfEmployees/numOfManagers
+            )
+          
+        case .minimumWageWorker:
+            return .init(
+                Building: self,
+                amount: 0,
+                costMultiplier: 1.0,
+                Cost: 10000,
+                Increase: 10,
+                IncreaseMultiplier: 3.5,
+                rent: 15
+            )
+        }//switch end
+        
+    }
+    
+    var displayName: String {
+        
+        switch self {
+        case .clickers:
+            return "Buy a Cliker."
+        case .freelancers:
+            return "Hire a Freelancer"
+        case .softwareDev:
+            return "Hire a Software Developer"
+        case .employees:
+            return "Hire an Employee"
+        case .oilRefinery:
+            return "Buy an Oil Refinery"
+        case .manager:
+            return "Hire a Manager"
+        case .minimumWageWorker:
+            return "Hire a minimum wage worker"
+        }
+        
+        
+    }
     
 }
 
@@ -25,6 +141,27 @@ enum AllUpgrades_Blueprint: CaseIterable {
     
     case Efficiency
     
+    var stats: GeneralGameData.Upgrade_Blueprint {
+        
+        switch self {
+        case .Efficiency:
+            return .init(
+                upgrade: self,
+                level: 0,
+                costMultiplier: 2.5,
+                Cost: 10000
+            )
+        }
+        
+    }
+    
+    var displayName: String {
+        
+        switch self {
+        case .Efficiency:
+            return "Upgrade Efficiency."
+        }
+    }
     
 }
 
@@ -50,58 +187,8 @@ class GeneralGameData: ObservableObject {
         // it creates a building attribute for each building by looking at the enum
         for buildingCase in AllBuildingsBlueprint.allCases {
             
-            var buildingCost: Decimal = 0
-            var buildingIncrease: Decimal = 0
-            var costMultiplier: Decimal = 0
-            var increaseMultiplier: Decimal = 0
-            var rent: Decimal = 0
-            
-            switch buildingCase {
-                
-                case .Clickers:
-                    buildingCost = 30
-                    buildingIncrease = 1
-                    costMultiplier = 1.05
-                    increaseMultiplier = 1
-                    rent = 0
-                
-            case .Freelancers:
-                buildingCost = 200
-                buildingIncrease = 5
-                costMultiplier = 1.2
-                increaseMultiplier = 1.0
-                rent = 0
-            case .softwareDev:
-                buildingCost = 1000
-                buildingIncrease = 115
-                costMultiplier = 1.05
-                increaseMultiplier = 1.0
-                rent = 15
-            case .employees:
-                buildingCost = 3000
-                buildingIncrease = 200
-                costMultiplier = 1.001
-                increaseMultiplier = 1.0
-                rent = 100
-            case .OilRefinery:
-                buildingCost = 1_156_767
-                buildingIncrease = 10000
-                costMultiplier = 1.01
-                increaseMultiplier = 1.0
-                rent = 1000
-            case .Manager:
-                buildingCost = 156767
-                buildingIncrease = 0
-                costMultiplier = 1.01
-                increaseMultiplier = 1.0
-                rent = 10000
-                
-         
-            }
-            
-            let newBuildingAttribute = BuildingAttributesBlueprint(Building: buildingCase, amount: 0, costMultiplier: costMultiplier, Cost: buildingCost, Increase: buildingIncrease, IncreaseMultiplier: increaseMultiplier, rent: rent)
             //adds the building
-            allBuildingAttribites[buildingCase] = newBuildingAttribute
+            allBuildingAttribites[buildingCase] = buildingCase.stats
             
         }
         
@@ -116,7 +203,7 @@ class GeneralGameData: ObservableObject {
             switch upgradeCase {
                 
                 case .Efficiency:
-                upgradeCost = 10000.67
+                upgradeCost = 10000
                 upgradeCostMultiplier = 2.5
                 
             }

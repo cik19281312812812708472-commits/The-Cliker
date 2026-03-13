@@ -47,7 +47,7 @@ class LoanSharkMechanics: ObservableObject {
     func seizeAssets() {
         
         var highestIncrease: Decimal = 0
-        var buildingToDelete: AllBuildingsBlueprint = .Clickers //here for init and it will be changed later
+        var buildingToDelete: AllBuildingsBlueprint = .clickers //here for init and it will be changed later
         
         for (building, buildingAttributes) in gameState.allBuildingAttribites {
 

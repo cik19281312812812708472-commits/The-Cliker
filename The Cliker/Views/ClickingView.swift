@@ -12,9 +12,9 @@ struct ClickingView: View {
     
     @EnvironmentObject var gameState: GeneralGameData
     @EnvironmentObject var gameMechanics: allGameMechanics
+    @EnvironmentObject var BuildingButtonClass: Buttons_Class
     
     @State private var tick: Timer?
-    
     
     var body: some View {
         
@@ -75,7 +75,7 @@ struct ClickingView: View {
                             
                                 ForEach(Array(gameState.allUpgrades), id: \.key) { upgrades in
                                 
-                                    gameMechanics.createUpgradeButton(whatUpgrade: upgrades.key)
+                                    Buttons_Class.UI_UpgradeButton(whatUpgrade: upgrades.key)
                                 
                                 }
                             
@@ -103,7 +103,7 @@ struct ClickingView: View {
                                 
                                     ForEach(Array(gameState.allBuildingAttribites), id: \.key) { building in
                                     
-                                        gameMechanics.createBuildingButton(whatBuilding: building.key)
+                                        Buttons_Class.UI_BuildingButton(whatBuilding: building.key)
                                     
                                     }
                                 
