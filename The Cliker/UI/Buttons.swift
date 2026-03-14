@@ -29,7 +29,7 @@ class Buttons_Class: ObservableObject {
         
         @EnvironmentObject var gameState: GeneralGameData
         @EnvironmentObject var allGameMechanics: allGameMechanics
-        
+        @EnvironmentObject var UI_Functions: UI_Functions
         
         var whatBuilding: AllBuildingsBlueprint
         
@@ -70,7 +70,7 @@ class Buttons_Class: ObservableObject {
                             .scaledToFit()
                             .frame(width: 30, height: 30)
                             
-                            Text("$\(Cost) \(whatBuilding.displayName) ")
+                        Text("$\(UI_Functions.stateNumber(whatNumber: Cost)) \(whatBuilding.displayName) ")
                                 .padding()
                                 .background(getButtonColour(cost: Cost))
                                 .cornerRadius(10)
@@ -87,7 +87,7 @@ class Buttons_Class: ObservableObject {
                             .scaledToFit()
                             .frame(width: 30, height: 30)
                         
-                        Text("$\(Cost) \(whatBuilding.displayName) ")
+                        Text("$\(UI_Functions.stateNumber(whatNumber: Cost)) \(whatBuilding.displayName) ")
                             .padding()
                             .background(getButtonColour(cost: Cost))
                             .cornerRadius(10)
@@ -99,7 +99,7 @@ class Buttons_Class: ObservableObject {
                             .scaledToFit()
                             .frame(width: 30, height: 30)
                         
-                        Text("$\(Cost) \(whatBuilding.displayName) ")
+                        Text("$\(UI_Functions.stateNumber(whatNumber: Cost)) \(whatBuilding.displayName) ")
                             .padding()
                             .background(getButtonColour(cost: Cost))
                             .cornerRadius(10)
@@ -111,7 +111,7 @@ class Buttons_Class: ObservableObject {
                             .scaledToFit()
                             .frame(width: 30, height: 30)
                         
-                        Text("$\(Cost) \(whatBuilding.displayName) ")
+                        Text("$\(UI_Functions.stateNumber(whatNumber: Cost)) \(whatBuilding.displayName) ")
                             .padding()
                             .background(getButtonColour(cost: Cost))
                             .cornerRadius(10)
@@ -123,7 +123,7 @@ class Buttons_Class: ObservableObject {
                             .scaledToFit()
                             .frame(width: 30, height: 30)
                         
-                        Text("$\(Cost) \(whatBuilding.displayName) ")
+                        Text("$\(UI_Functions.stateNumber(whatNumber: Cost)) \(whatBuilding.displayName) ")
                             .padding()
                             .background(getButtonColour(cost: Cost))
                             .cornerRadius(10)
@@ -135,7 +135,7 @@ class Buttons_Class: ObservableObject {
                             .scaledToFit()
                             .frame(width: 30, height: 30)
                         
-                        Text("$\(Cost) \(whatBuilding.displayName) ")
+                        Text("$\(UI_Functions.stateNumber(whatNumber: Cost)) \(whatBuilding.displayName) ")
                             .padding()
                             .background(getButtonColour(cost: Cost))
                             .cornerRadius(10)
@@ -147,7 +147,7 @@ class Buttons_Class: ObservableObject {
                             .scaledToFit()
                             .frame(width: 30, height: 30)
                         
-                        Text("$\(Cost) \(whatBuilding.displayName) ")
+                        Text("$\(UI_Functions.stateNumber(whatNumber: Cost)) \(whatBuilding.displayName) ")
                             .padding()
                             .background(getButtonColour(cost: Cost))
                             .cornerRadius(10)
@@ -173,6 +173,7 @@ class Buttons_Class: ObservableObject {
         
         @EnvironmentObject var gameState: GeneralGameData
         @EnvironmentObject var allGameMechanics: allGameMechanics
+        @EnvironmentObject var UI_Functions: UI_Functions
         
         var whatUpgrade: AllUpgrades_Blueprint
         
@@ -216,7 +217,7 @@ class Buttons_Class: ObservableObject {
                                     .scaledToFit()
                                     .frame(width: 30, height: 30)
                                 
-                                Text("$\(Cost) \(whatUpgrade.displayName) ")
+                            Text("$\(UI_Functions.stateNumber(whatNumber: Cost)) \(whatUpgrade.displayName) ")
                                             .padding()
                                             .background(getButtonColour(cost: Cost))
                                             .cornerRadius(10)

@@ -18,10 +18,14 @@ struct The_ClikerApp: App {
     
     @StateObject var Buttons_Blueprint: Buttons_Class
     
+    @StateObject var UI_Functions_Blueprint: UI_Functions
+    
     init() {
         let state = GeneralGameData()
         let loanSharkState = LoanSharkData()
         let loanSharkMechanics = LoanSharkMechanics(gameState: state, loanSharkState: loanSharkState)
+      
+        _UI_Functions_Blueprint = StateObject(wrappedValue: UI_Functions())
         
         
         _gameState_Blueprint = StateObject(wrappedValue: state)
@@ -46,6 +50,7 @@ struct The_ClikerApp: App {
             ContentView()
                 .environmentObject(gameState_Blueprint)
                 .environmentObject(allGameMechanics_Blueprint)
+                .environmentObject(UI_Functions_Blueprint)
             
         }
     }

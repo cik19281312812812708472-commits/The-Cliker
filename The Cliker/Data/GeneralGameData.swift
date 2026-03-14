@@ -192,7 +192,7 @@ class GeneralGameData: ObservableObject {
             
         }
         
-        // it creates a building attribute for each building by looking at the enum
+        // it creates a building attribute for each building by looking at the enum MARK: change to work for an array
         for upgradeCase in AllUpgrades_Blueprint.allCases {
             
           

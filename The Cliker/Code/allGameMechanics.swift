@@ -12,7 +12,7 @@ import SwiftUI
 
 class allGameMechanics: ObservableObject {
     
-    
+    //MARK: add rounding upgrade
     var loanSharkMechanics: LoanSharkMechanics
     
     var gameState: GeneralGameData
@@ -24,12 +24,12 @@ class allGameMechanics: ObservableObject {
     
     
     func updateEverything() {
-        
+       
         jobPayments()
         updateInceaseMultiplier()
         loanSharkMechanics.allLoanSharkMechanics()
         updateTotalClicks()
-        print("\(gameState.allBuildingAttribites)")
+        //print("\(gameState.allBuildingAttribites)")
     }
     
     func updateInceaseMultiplier() {
@@ -79,7 +79,7 @@ class allGameMechanics: ObservableObject {
         
         
         totalClickIncrease *= ((gameState.allUpgrades[.Efficiency]?.level ?? 0) + 1)
-        print(gameState.allUpgrades[.Efficiency]?.level)
+       // print(gameState.allUpgrades[.Efficiency]?.level)
         
         //increase the total clicks by the total click increase
         gameState.currentClicks += totalClickIncrease

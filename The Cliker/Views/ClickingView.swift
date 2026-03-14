@@ -13,8 +13,11 @@ struct ClickingView: View {
     @EnvironmentObject var gameState: GeneralGameData
     @EnvironmentObject var gameMechanics: allGameMechanics
     @EnvironmentObject var BuildingButtonClass: Buttons_Class
+    @EnvironmentObject var UI_Functions: UI_Functions
     
     @State private var tick: Timer?
+    
+    
     
     var body: some View {
         
@@ -23,30 +26,33 @@ struct ClickingView: View {
             ZStack {
                 
                 if gameState.deltaClicks > 0 {
-                    Text("+\(gameState.deltaClicks)")
+                    Text("+\(UI_Functions.stateNumber(whatNumber: gameState.deltaClicks))")
                         .foregroundColor(.white)
                         .padding(2)
                         .background(.green)
                         .cornerRadius(5)
+                        .textSelection(.enabled)
                         .position(x:geometry.size.width/2, y:geometry.size.height/1.5)
                 } else if gameState.deltaClicks < 0{
-                    Text("\(gameState.deltaClicks)")
+                    Text("\(UI_Functions.stateNumber(whatNumber: gameState.deltaClicks))")
                         .foregroundColor(.white)
                         .padding(2)
                         .background(.red)
                         .cornerRadius(5)
+                        .textSelection(.enabled)
                         .position(x:geometry.size.width/2, y:geometry.size.height/1.5)
                 } else {
-                    Text("\(gameState.deltaClicks)")
+                    Text("\(UI_Functions.stateNumber(whatNumber: gameState.deltaClicks))")
                         .foregroundColor(.white)
                         .padding(2)
                         .background(.gray)
                         .cornerRadius(5)
+                        .textSelection(.enabled)
                         .position(x:geometry.size.width/2, y:geometry.size.height/1.5)
                 }
                 
                     
-                Text("Cliks:\(gameState.currentClicks)")
+                Text("Cliks: \(UI_Functions.stateNumber(whatNumber: gameState.currentClicks))")
                     .position(x:geometry.size.width/2, y:geometry.size.height/2.5)
                 
                 
@@ -76,7 +82,7 @@ struct ClickingView: View {
                                 ForEach(Array(gameState.allUpgrades), id: \.key) { upgrades in
                                 
                                     Buttons_Class.UI_UpgradeButton(whatUpgrade: upgrades.key)
-                                
+                                        .textSelection(.enabled)
                                 }
                             
                             }
@@ -136,6 +142,6 @@ struct ClickingView: View {
     }
     
     
-    
+   
 }
 
