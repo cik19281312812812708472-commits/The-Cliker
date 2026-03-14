@@ -11,14 +11,18 @@ import SwiftUI
 
 class UI_Functions: ObservableObject {
     
+    var gameState: GeneralGameData
     
+    init(gameState: GeneralGameData) {
+        self.gameState = gameState
+    }
     
     func stateNumber(whatNumber: Decimal) -> String {
         
-        var places: Int = 3
+        let places: Int = 3
         var newNumber: Decimal = whatNumber
         var originalNumber: Decimal = whatNumber
-        var suffixes: [String] = [" M", " B"]
+        let suffixes: [String] = gameState.allSuffixes
         
         var suffix: String = ""
         

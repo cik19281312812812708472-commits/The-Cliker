@@ -33,6 +33,17 @@ class Buttons_Class: ObservableObject {
         
         var whatBuilding: AllBuildingsBlueprint
         
+        var buildingAttributtes: GeneralGameData.BuildingAttributesBlueprint {
+            
+            guard let attributes = gameState.allBuildingAttribites[whatBuilding] else {
+               fatalError("what building isn't in the allbuilding attributes. Location: UI_BuildingButton, getBuildingAttributtes")
+            }
+            
+            return attributes
+        }
+        
+        
+        
         func getButtonColour(cost: Decimal) -> Color? {
             
             
@@ -152,11 +163,85 @@ class Buttons_Class: ObservableObject {
                             .background(getButtonColour(cost: Cost))
                             .cornerRadius(10)
                     }
+                case .office:
+                    HStack {
+                        Image("Freelancer")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                        
+                        Text("$\(UI_Functions.stateNumber(whatNumber: Cost)) \(whatBuilding.displayName) ")
+                            .padding()
+                            .background(getButtonColour(cost: Cost))
+                            .cornerRadius(10)
+                    }
+                case .nuclearSilo:
+                    HStack {
+                        Image("Freelancer")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                        
+                        Text("$\(UI_Functions.stateNumber(whatNumber: Cost)) \(whatBuilding.displayName) ")
+                            .padding()
+                            .background(getButtonColour(cost: Cost))
+                            .cornerRadius(10)
+                    }
+                case .steelMill:
+                    HStack {
+                        Image("Freelancer")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                        
+                        Text("$\(UI_Functions.stateNumber(whatNumber: Cost)) \(whatBuilding.displayName) ")
+                            .padding()
+                            .background(getButtonColour(cost: Cost))
+                            .cornerRadius(10)
+                    }
+                case .uraniumMine:
+                    HStack {
+                        Image("Freelancer")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                        
+                        Text("$\(UI_Functions.stateNumber(whatNumber: Cost)) \(whatBuilding.displayName) ")
+                            .padding()
+                            .background(getButtonColour(cost: Cost))
+                            .cornerRadius(10)
+                    }
+                case .uraniumMill:
+                    HStack {
+                        Image("Freelancer")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                        
+                        Text("$\(UI_Functions.stateNumber(whatNumber: Cost)) \(whatBuilding.displayName) ")
+                            .padding()
+                            .background(getButtonColour(cost: Cost))
+                            .cornerRadius(10)
+                    }
+                } //switch end
+           
+            }
+            .contextMenu {
+                
+                HStack {
+                    
+                    Text("Asset Info")
+                        .font(.system(size: 14, weight: .medium))
+                    Divider()
+                        .padding()
+                    
+                    Text("You have \(UI_Functions.stateNumber(whatNumber: Decimal(buildingAttributtes.amount))) of this asset")
+                    Text("This asset will give you \(UI_Functions.stateNumber(whatNumber: (buildingAttributtes.Increase * buildingAttributtes.IncreaseMultiplier) )) clicks")
+                        .foregroundColor(.black)
+                    
                 }
                 
-                
             }
-            
         }
         
         
@@ -165,6 +250,7 @@ class Buttons_Class: ObservableObject {
         
         init(whatBuilding: AllBuildingsBlueprint) {
             self.whatBuilding = whatBuilding
+         
         }
         
     }
@@ -176,6 +262,16 @@ class Buttons_Class: ObservableObject {
         @EnvironmentObject var UI_Functions: UI_Functions
         
         var whatUpgrade: AllUpgrades_Blueprint
+        
+        var upgradeAttributtes: GeneralGameData.Upgrade_Blueprint {
+           
+            
+            guard let attributes = gameState.allUpgrades[whatUpgrade] else {
+               fatalError("what upgrade isn't in the allbuilding attributes. Location: UI_BuildingButton, getBuildingAttributtes")
+            }
+            
+            return attributes
+        }
         
         func getButtonColour(cost: Decimal) -> Color? {
             
@@ -192,7 +288,8 @@ class Buttons_Class: ObservableObject {
         }
         
         var body: some View {
-                
+            
+            
                 
                 Button {
                         
@@ -203,37 +300,50 @@ class Buttons_Class: ObservableObject {
                     allGameMechanics.gameState.deltaClicks -= self.gameState.allUpgrades[whatUpgrade]?.Cost ?? 0
                     
                 } label: {
-                    
-                    let Cost = (self.gameState.allUpgrades[whatUpgrade]?.Cost ?? 0)
-                    
-                    switch whatUpgrade {
+                    let Cost = upgradeAttributtes.Cost
+                    HStack {
                         
-                    case .Efficiency:
+                        Image("Cursor")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
                         
-                        HStack {
-                            
-                            Image("Cursor")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 30, height: 30)
-                                
-                            Text("$\(UI_Functions.stateNumber(whatNumber: Cost)) \(whatUpgrade.displayName) ")
-                                            .padding()
-                                            .background(getButtonColour(cost: Cost))
-                                            .cornerRadius(10)
-                          
+                        Text("$\(UI_Functions.stateNumber(whatNumber: Cost)) \(whatUpgrade.displayName) ")
+                            .padding()
+                            .background(getButtonColour(cost: Cost))
+                            .cornerRadius(10)
+                        
                     }
-                        
-                    }//switch end
 
                 }//label end
-                .padding()
+                .contextMenu {
+            
+                    VStack {
+                        Text("Upgrade Info")
+                            .font(.system(size: 14, weight: .medium))
+                        Divider()
+                        
+                        
+                        Text("You have \(UI_Functions.stateNumber(whatNumber: upgradeAttributtes.level)) of this asset")
+                            .foregroundColor(.black)
+                        Text("This upgrade will multiply your clicks by \(UI_Functions.stateNumber(whatNumber: upgradeAttributtes.clickMultiplier ))")
+                          //  .foregroundColor(.yellow)
+                    }
+                }
+                
                 
                 
             
             
             
         }
+        
+        init(whatUpgrade: AllUpgrades_Blueprint) {
+            self.whatUpgrade = whatUpgrade
+         
+        }
+        
+        
     }
     
     

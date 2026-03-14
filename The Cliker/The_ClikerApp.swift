@@ -25,7 +25,7 @@ struct The_ClikerApp: App {
         let loanSharkState = LoanSharkData()
         let loanSharkMechanics = LoanSharkMechanics(gameState: state, loanSharkState: loanSharkState)
       
-        _UI_Functions_Blueprint = StateObject(wrappedValue: UI_Functions())
+        _UI_Functions_Blueprint = StateObject(wrappedValue: UI_Functions(gameState: state))
         
         
         _gameState_Blueprint = StateObject(wrappedValue: state)

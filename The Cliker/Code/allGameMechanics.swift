@@ -66,6 +66,14 @@ class allGameMechanics: ObservableObject {
     }
     
     
+    func employBuildings() {
+        
+        
+        
+        
+        
+    }
+    
     ///Per Second
     func updateTotalClicks() {
         

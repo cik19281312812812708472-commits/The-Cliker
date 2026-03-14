@@ -18,6 +18,11 @@ enum AllBuildingsBlueprint: CaseIterable {
     case oilRefinery
     case manager
     case minimumWageWorker
+    case office
+    case nuclearSilo
+    case steelMill
+    case uraniumMine
+    case uraniumMill
     //add stock market stufffefeffef
     
   
@@ -36,7 +41,8 @@ enum AllBuildingsBlueprint: CaseIterable {
                 Cost: 30,
                 Increase: 1,
                 IncreaseMultiplier: 1,
-                rent: 0
+                rent: 0,
+                buildingType: [.gainers]
             )
             
         case .freelancers:
@@ -48,7 +54,8 @@ enum AllBuildingsBlueprint: CaseIterable {
                 Cost: 200,
                 Increase: 5,
                 IncreaseMultiplier: 1.0,
-                rent: 0
+                rent: 0,
+                buildingType: [.employee]
             )
             
         case .softwareDev:
@@ -57,10 +64,11 @@ enum AllBuildingsBlueprint: CaseIterable {
                 Building: self,
                 amount: 0,
                 costMultiplier: 1.05,
-                Cost: 1000,
-                Increase: 115,
+                Cost: 500,
+                Increase: 15,
                 IncreaseMultiplier: 1.0,
-                rent: 15
+                rent: 15,
+                buildingType: [.employee]
             )
         
         case .employees:
@@ -69,10 +77,11 @@ enum AllBuildingsBlueprint: CaseIterable {
                 Building: self,
                 amount: 0,
                 costMultiplier: 1.001,
-                Cost: 5000,
-                Increase: 200,
+                Cost: 2000,
+                Increase: 20,
                 IncreaseMultiplier: 1.0,
-                rent: 100
+                rent: 100,
+                buildingType: [.employee]
             )
             
         case .oilRefinery:
@@ -81,10 +90,11 @@ enum AllBuildingsBlueprint: CaseIterable {
                 Building: self,
                 amount: 0,
                 costMultiplier: 1.01,
-                Cost: 1_156_767,
+                Cost: 1_156_76700,
                 Increase: 10000,
                 IncreaseMultiplier: 1.0,
-                rent: 1000
+                rent: 1000,
+                buildingType: [.building]
             )
 
         case .manager:
@@ -96,7 +106,8 @@ enum AllBuildingsBlueprint: CaseIterable {
                 Cost: 156767,
                 Increase: 0,
                 IncreaseMultiplier: 1.0,
-                rent: 10000 //MARK: make the manager be more rent the more employees 1 mannager has e.i: numOfEmployees/numOfManagers
+                rent: 10000,
+                buildingType: [.manager] //MARK: make the manager be more rent the more employees 1 mannager has e.i: numOfEmployees/numOfManagers
             )
           
         case .minimumWageWorker:
@@ -105,9 +116,66 @@ enum AllBuildingsBlueprint: CaseIterable {
                 amount: 0,
                 costMultiplier: 1.0,
                 Cost: 10000,
-                Increase: 10,
+                Increase: 30,
                 IncreaseMultiplier: 3.5,
-                rent: 15
+                rent: 15,
+                buildingType: [.employee]
+            )
+        case .office:
+            return .init(
+                Building: self,
+                amount: 0,
+                costMultiplier: 1.0,
+                Cost: 10000,
+                Increase: 30,
+                IncreaseMultiplier: 3.5,
+                rent: 15,
+                buildingType: [.building]
+            )
+        case .nuclearSilo:
+            return .init(
+                Building: self,
+                amount: 0,
+                costMultiplier: 1.0,
+                Cost: GeneralGameData().TranslateNum(100.121, suffix: " T"),
+                Increase: GeneralGameData().TranslateNum(10, suffix: " B"),
+                IncreaseMultiplier: 3.5,
+                rent: 15,
+                buildingType: [.building]//increases the less employees
+            )
+            
+        case .steelMill:
+            return .init(
+                Building: self,
+                amount: 0,
+                costMultiplier: 1.0,
+                Cost: GeneralGameData().TranslateNum(1.121, suffix: " B"),
+                Increase: GeneralGameData().TranslateNum(10, suffix: " M"),
+                IncreaseMultiplier: 3.5,
+                rent: 15,
+                buildingType: [.building] //incre
+            )
+        case .uraniumMine:
+            return .init(
+                Building: self,
+                amount: 0,
+                costMultiplier: 1.0,
+                Cost: GeneralGameData().TranslateNum(200.121, suffix: " B"),
+                Increase: GeneralGameData().TranslateNum(100, suffix: " M"),
+                IncreaseMultiplier: 3.5,
+                rent: 15,
+                buildingType: [.building] //incre
+            )
+        case .uraniumMill:
+            return .init(
+                Building: self,
+                amount: 0,
+                costMultiplier: 1.0,
+                Cost: GeneralGameData().TranslateNum(500.121, suffix: " B"),
+                Increase: GeneralGameData().TranslateNum(200, suffix: " M"),
+                IncreaseMultiplier: 3.5,
+                rent: 15,
+                buildingType: [.building] //incre
             )
         }//switch end
         
@@ -130,6 +198,16 @@ enum AllBuildingsBlueprint: CaseIterable {
             return "Hire a Manager"
         case .minimumWageWorker:
             return "Hire a minimum wage worker"
+        case .office:
+            return "Buy an office"
+        case .nuclearSilo:
+            return "Buy a Nuclear Silo"
+        case .steelMill:
+            return "Buy a Steel Mill"
+        case .uraniumMine:
+            return "Buy a Uranium Mine"
+        case .uraniumMill:
+            return "Buy a Uranium Mill"
         }
         
         
@@ -137,9 +215,20 @@ enum AllBuildingsBlueprint: CaseIterable {
     
 }
 
+
+enum allBuildingTypes {
+    
+    case employee
+    case building
+    case manager
+    case gainers
+    
+}
+
 enum AllUpgrades_Blueprint: CaseIterable {
     
     case Efficiency
+    case rounding
     
     var stats: GeneralGameData.Upgrade_Blueprint {
         
@@ -149,7 +238,17 @@ enum AllUpgrades_Blueprint: CaseIterable {
                 upgrade: self,
                 level: 0,
                 costMultiplier: 2.5,
-                Cost: 10000
+                Cost: 10000,
+                clickMultiplier: 0.0
+            )
+            
+        case .rounding:
+            return .init (
+                upgrade: self,
+                level: 0,
+                costMultiplier: 2.5,
+                Cost: 100000,
+                clickMultiplier: 1.5
             )
         }
         
@@ -160,6 +259,8 @@ enum AllUpgrades_Blueprint: CaseIterable {
         switch self {
         case .Efficiency:
             return "Upgrade Efficiency."
+        case .rounding:
+            return "Rounding"
         }
     }
     
@@ -176,6 +277,8 @@ class GeneralGameData: ObservableObject {
     //MARK: All the costs
     @Published var clickerCost: Decimal = 15
     
+    
+    @Published var allSuffixes: [String] = [" M", " B", " T", " Quadrillion", " Quintillion", " Sextillion", " Septillion", " Octillion", " Nonillion", " Decillion", " Undecillion", " Duodecillion", " Tredecillion", " Quattuordecillion", " Quindecillion", " Sexdecillion", " Septendecillion", " Octodecillion", " Novemdecillion", " Vigintillion", " Unvigintillion", " Duovigintillion", " Tresvigintillion", " Quattuorvigintillion", " Quinvigintillion", " Sexvigintillion", " Septenvigintillion", " Octovigintillion", " Novemvigintillion", " Trigintillion", " Untrigintillion", " Duotrigintillion", "Googol * 100" ]
     
     //MARK: all the increases 
     //@Published var clickerIncrease: Decimal = 1
@@ -195,21 +298,7 @@ class GeneralGameData: ObservableObject {
         // it creates a building attribute for each building by looking at the enum MARK: change to work for an array
         for upgradeCase in AllUpgrades_Blueprint.allCases {
             
-          
-           
-            var upgradeCost: Decimal = 0
-            var upgradeCostMultiplier: Decimal = 0
-            
-            switch upgradeCase {
-                
-                case .Efficiency:
-                upgradeCost = 10000
-                upgradeCostMultiplier = 2.5
-                
-            }
-            
-            let newUpgrade = Upgrade_Blueprint(upgrade: upgradeCase, level: 0, costMultiplier: upgradeCostMultiplier, Cost: upgradeCost)
-            allUpgrades[upgradeCase] = newUpgrade
+            allUpgrades[upgradeCase] = upgradeCase.stats
         }
     }
     
@@ -229,7 +318,9 @@ class GeneralGameData: ObservableObject {
         
         var stockMarketValue: Decimal = 0
         
-        init(Building: AllBuildingsBlueprint, amount: Int, costMultiplier: Decimal, Cost: Decimal, Increase: Decimal, IncreaseMultiplier: Decimal, rent: Decimal) {
+        var buildingType: [allBuildingTypes]
+        
+        init(Building: AllBuildingsBlueprint, amount: Int, costMultiplier: Decimal, Cost: Decimal, Increase: Decimal, IncreaseMultiplier: Decimal, rent: Decimal, buildingType: [allBuildingTypes]) {
             self.Building = Building
             self.amount = amount
             self.costMultiplier = costMultiplier
@@ -237,6 +328,7 @@ class GeneralGameData: ObservableObject {
             self.Increase = Increase
             self.IncreaseMultiplier = IncreaseMultiplier
             self.rent = rent
+            self.buildingType = buildingType
         }
         
     }
@@ -254,20 +346,45 @@ class GeneralGameData: ObservableObject {
         var costMultiplier: Decimal
         var Cost: Decimal
         
+        var clickMultiplier: Decimal
         
         
-        init(upgrade: AllUpgrades_Blueprint, level: Decimal, costMultiplier: Decimal, Cost: Decimal) {
+        init(upgrade: AllUpgrades_Blueprint, level: Decimal, costMultiplier: Decimal, Cost: Decimal, clickMultiplier: Decimal) {
             self.upgrade = upgrade
             
             self.level = level
             self.costMultiplier = costMultiplier
             self.Cost = Cost
+            
+            self.clickMultiplier = clickMultiplier
         }
         
     }
     
     
-    
+    func TranslateNum(_ whatNumber: Decimal, suffix: String) -> Decimal {
+        
+       
+        
+        
+        var testSuffix: String = ""
+        var index: Int = -1
+        
+        while testSuffix != suffix {
+            index += 1
+         
+            testSuffix = allSuffixes[index]
+        }
+        
+        
+        guard let correctIndex = Int("\(index)") else { return 0 }
+        
+        // it is +1 to get the actual item #, *3 for it's place[million, billion] and +3 as there is no thousands
+        let exponent = ((correctIndex + 1) * 3) + 3
+        let result: Decimal = whatNumber * pow(10, exponent)
+       // print("result: \(result)")
+        return result
+    }
     
     
     
