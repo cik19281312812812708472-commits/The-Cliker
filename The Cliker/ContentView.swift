@@ -7,27 +7,23 @@
 
 import SwiftUI
 
-enum gameConditionBlueprint {
-    
-    case startedGame
-    case playingGame
-    
-}
+
 
 
 struct ContentView: View {
     
-    @State private var gameCondition: gameConditionBlueprint = .startedGame
+    @EnvironmentObject var gameState: GeneralGameData
     
     var body: some View {
         
-        switch gameCondition {
+        switch gameState.gameCondition {
 
         case .startedGame:
+            
             VStack{
                 Button {
                     
-                    gameCondition = .playingGame
+                    gameState.gameCondition = .loadingData
                     
                 } label: {
                     
@@ -41,6 +37,12 @@ struct ContentView: View {
             ClickingView()
       
         
+        case .savingData:
+            ClickingView()
+        case .loadingData:
+            LoadingData_View()
+        case .gameOver:
+            ClickingView()
         }
         
         

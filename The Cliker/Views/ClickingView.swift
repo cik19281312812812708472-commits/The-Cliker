@@ -66,6 +66,27 @@ struct ClickingView: View {
                 }
                .position(x:geometry.size.width/2, y:geometry.size.height/2)
                 
+                if gameState.worldNotFound == true {
+                    Text("The world loaded wasn't found")
+                        .foregroundColor(.black)
+                        .padding(2)
+                        .background(.yellow)
+                        .cornerRadius(5)
+                        .textSelection(.enabled)
+                        .position(x:geometry.size.width/2, y:geometry.size.height * 0.1)
+                }
+                
+                Button {
+                    
+                } label: {
+                    Text("Save Game")
+                        .foregroundColor(.black)
+                        .padding(2)
+                        .background(.gray)
+                        .cornerRadius(5)
+                        .textSelection(.enabled)
+                }
+                .position(x:geometry.size.width/2, y:geometry.size.height * 0.9)
                 
                 VStack {
         
@@ -135,7 +156,7 @@ struct ClickingView: View {
             tick = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) {_ in 
                 gameMechanics.updateEverything()
             }
-            gameState.setStartingData()
+            gameState.loadData(worldName: gameState.worldBeingLoaded)
         }
         
         

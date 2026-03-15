@@ -14,7 +14,7 @@ class allGameMechanics: ObservableObject {
     
     //MARK: add rounding upgrade
     var loanSharkMechanics: LoanSharkMechanics
-    
+
     var gameState: GeneralGameData
     
     init(gameState: GeneralGameData, loanSharkMechanics: LoanSharkMechanics) {
@@ -26,6 +26,7 @@ class allGameMechanics: ObservableObject {
     func updateEverything() {
         //print("Uranium mine cost: \(gameState.allBuildingAttribites[.uraniumMill])")
        // gameState.currentClicks *= 9000000000000000
+        gameState.worldNotFound = false
         jobPayments()
         updateInceaseMultiplier()
         loanSharkMechanics.allLoanSharkMechanics()
@@ -74,8 +75,8 @@ class allGameMechanics: ObservableObject {
             
             if building.buildingType.contains(.building) {
                 
-              gameState.allBuildingAttribites[buildingCase]?.IncreaseMultiplier = numOfEmployees / (numOfEmployeesNeeded + 1)
-                print("Increase multipler \(gameState.allBuildingAttribites[buildingCase]?.IncreaseMultiplier), num of employees: \(numOfEmployees), num of employees needed: \(numOfEmployeesNeeded), btw it is not + 1")
+              gameState.allBuildingAttribites[buildingCase]?.IncreaseMultiplier = (numOfEmployees * 10) / (numOfEmployeesNeeded + 1)
+                //print("Increase multipler \(gameState.allBuildingAttribites[buildingCase]?.IncreaseMultiplier), num of employees: \(numOfEmployees), num of employees needed: \(numOfEmployeesNeeded), btw it is not + 1")
             }
         }
         
@@ -121,7 +122,7 @@ class allGameMechanics: ObservableObject {
         }
         
         
-        totalClickIncrease *= ((gameState.allUpgrades[.Efficiency]?.level ?? 0) + 1)
+        totalClickIncrease *= pow(((gameState.allUpgrades[.Efficiency]?.level ?? 0) + 1) , Int("\((gameState.allUpgrades[.Efficiency]?.level ?? 0) + 1)") ?? 0 )
        // print(gameState.allUpgrades[.Efficiency]?.level)
         
         //increase the total clicks by the total click increase

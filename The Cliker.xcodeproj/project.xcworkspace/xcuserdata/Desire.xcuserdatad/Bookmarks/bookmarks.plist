@@ -128,7 +128,7 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>enum allBuildingTypes {
+				<string>enum allBuildingTypes: Codable {
 </string>
 				<key>leading</key>
 				<string>
@@ -175,7 +175,7 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>enum AllBuildingsBlueprint: CaseIterable {
+				<string>enum AllBuildingsBlueprint: CaseIterable, Codable {
 </string>
 				<key>leading</key>
 				<string>import Combine

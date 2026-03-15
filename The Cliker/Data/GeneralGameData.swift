@@ -9,7 +9,7 @@
 import Foundation
 import Combine
 
-enum AllBuildingsBlueprint: CaseIterable {
+enum AllBuildingsBlueprint: CaseIterable, Codable {
     
     case clickers
     case freelancers
@@ -143,7 +143,7 @@ enum AllBuildingsBlueprint: CaseIterable {
                 Cost: GeneralGameData().TranslateNum(100.121, suffix: " T"),
                 Increase: GeneralGameData().TranslateNum(10, suffix: " B"),
                 IncreaseMultiplier: 3.5,
-                rent: 15,
+                rent: 30,
                 buildingType: [.building]//increases the less employees
             )
             
@@ -155,7 +155,7 @@ enum AllBuildingsBlueprint: CaseIterable {
                 Cost: GeneralGameData().TranslateNum(1.121, suffix: " B"),
                 Increase: GeneralGameData().TranslateNum(10, suffix: " M"),
                 IncreaseMultiplier: 3.5,
-                rent: 15,
+                rent: 6000,
                 buildingType: [.building] //incre
             )
         case .uraniumMine:
@@ -166,7 +166,7 @@ enum AllBuildingsBlueprint: CaseIterable {
                 Cost: GeneralGameData().TranslateNum(200.121, suffix: " B"),
                 Increase: GeneralGameData().TranslateNum(100, suffix: " M"),
                 IncreaseMultiplier: 3.5,
-                rent: 15,
+                rent: 1500,
                 buildingType: [.building] //incre
             )
         case .uraniumMill:
@@ -177,7 +177,7 @@ enum AllBuildingsBlueprint: CaseIterable {
                 Cost: GeneralGameData().TranslateNum(500.121, suffix: " B"),
                 Increase: GeneralGameData().TranslateNum(200, suffix: " M"),
                 IncreaseMultiplier: 3.5,
-                rent: 15,
+                rent: 1500,
                 buildingType: [.building] //incre
             )
         case .factory:
@@ -188,7 +188,7 @@ enum AllBuildingsBlueprint: CaseIterable {
                 Cost: GeneralGameData().TranslateNum(500.121, suffix: " Quadrillion"),
                 Increase: GeneralGameData().TranslateNum(20, suffix: " T"),
                 IncreaseMultiplier: 3.5,
-                rent: 15,
+                rent: 2500,
                 buildingType: [.building] //incre
             )
         
@@ -200,7 +200,7 @@ enum AllBuildingsBlueprint: CaseIterable {
                 Cost: GeneralGameData().TranslateNum(767.121, suffix: " Quadrillion"),
                 Increase: GeneralGameData().TranslateNum(120, suffix: " T"),
                 IncreaseMultiplier: 3.5,
-                rent: 15,
+                rent: 200,
                 buildingType: [.building] //incre
             )
         }//switch end
@@ -246,7 +246,7 @@ enum AllBuildingsBlueprint: CaseIterable {
 }
 
 
-enum allBuildingTypes {
+enum allBuildingTypes: Codable {
     
     case employee
     case building
@@ -255,7 +255,7 @@ enum allBuildingTypes {
     
 }
 
-enum AllUpgrades_Blueprint: CaseIterable {
+enum AllUpgrades_Blueprint: CaseIterable, Codable {
     
     case Efficiency
     case rounding
@@ -297,6 +297,20 @@ enum AllUpgrades_Blueprint: CaseIterable {
 }
 
 //should only have func's for saving and storing data and initializing
+
+// for the geo sim add a persona for each ideal
+
+enum gameConditionBlueprint {
+    
+    case startedGame
+    case playingGame
+    case savingData
+    case loadingData
+    case gameOver
+    
+}
+
+
 class GeneralGameData: ObservableObject {
    
     @Published var roundLevel: Int = 3
@@ -304,15 +318,31 @@ class GeneralGameData: ObservableObject {
     @Published var currentClicks: Decimal = 0
     @Published var allBuildingAttribites: [AllBuildingsBlueprint:BuildingAttributesBlueprint] = [:]
     @Published var allUpgrades: [AllUpgrades_Blueprint:Upgrade_Blueprint] = [:]
-    //MARK: All the costs
-    @Published var clickerCost: Decimal = 15
-    
+
     
     @Published var allSuffixes: [String] = [" M", " B", " T", " Quadrillion", " Quintillion", " Sextillion", " Septillion", " Octillion", " Nonillion", " Decillion", " Undecillion", " Duodecillion", " Tredecillion", " Quattuordecillion", " Quindecillion", " Sexdecillion", " Septendecillion", " Octodecillion", " Novemdecillion", " Vigintillion", " Unvigintillion", " Duovigintillion", " Tresvigintillion", " Quattuorvigintillion", " Quinvigintillion", " Sexvigintillion", " Septenvigintillion", " Octovigintillion", " Novemvigintillion", " Trigintillion", " Untrigintillion", " Duotrigintillion", "Googol * 100" ]
+
+    @Published var gameCondition: gameConditionBlueprint = .startedGame
+    @Published var worldBeingLoaded: String = ""
     
-    //MARK: all the increases 
-    //@Published var clickerIncrease: Decimal = 1
+    @Published var worldNotFound: Bool = false
+    @Published var worldsSaved: [String] = []
+    @Published var currentWorld: String = ""
+    
+    //MARK: saving Data
+    struct gameState_ForSavingData: Codable {
         
+        var roundLevel: Int = 3
+        var deltaClicks: Decimal = 0
+        var currentClicks: Decimal = 0
+        var allBuildingAttribites: [AllBuildingsBlueprint:BuildingAttributesBlueprint] = [:]
+        var allUpgrades: [AllUpgrades_Blueprint:Upgrade_Blueprint] = [:]
+
+        var allSuffixes: [String] = []
+        var time = Date()
+       
+        
+    }
     
     func setStartingData() {
         
@@ -330,10 +360,73 @@ class GeneralGameData: ObservableObject {
             
             allUpgrades[upgradeCase] = upgradeCase.stats
         }
+        
+        
     }
     
+    
    
-    struct BuildingAttributesBlueprint {
+    func saveData(worldName: String) {
+       
+        let tempGameState = gameState_ForSavingData(roundLevel: roundLevel, deltaClicks: deltaClicks, currentClicks: currentClicks, allBuildingAttribites: allBuildingAttribites, allUpgrades: allUpgrades, allSuffixes: allSuffixes, time: Date())
+        
+        do {
+            let data = try JSONEncoder().encode(tempGameState)
+            UserDefaults.standard.set(data, forKey: "GameState \(worldName)")
+        } catch {
+            print("Failed To Save", error)
+        }
+    
+        
+        UserDefaults.standard.set(worldsSaved, forKey: "worldsSaved")
+    }
+    
+    
+    func loadData(worldName: String) {
+        
+        if let data = UserDefaults.standard.data(forKey: "GameState \(worldName)") {
+            
+            do {
+               
+                let loadedState = try JSONDecoder().decode(gameState_ForSavingData.self, from: data)
+                
+                roundLevel = loadedState.roundLevel
+                deltaClicks = loadedState.deltaClicks
+                currentClicks = loadedState.currentClicks
+                allBuildingAttribites = loadedState.allBuildingAttribites
+                allUpgrades = loadedState.allUpgrades
+                allSuffixes = loadedState.allSuffixes
+                
+                //finding the time diff.
+                let timeElapsed = Date().timeIntervalSince(loadedState.time)
+                
+                currentClicks += deltaClicks * Decimal(timeElapsed)
+                
+                
+            } catch {
+                print("failed to load data:", error)
+            }
+            
+        } else {
+            //if it cant find the data it sets it up.
+            worldNotFound = true 
+            setStartingData()
+        }
+        
+        UserDefaults.standard.set(worldsSaved, forKey: "worldsSaved")
+    }
+    
+    func deleteData(worldName: String) {
+        
+        UserDefaults.standard.removeObject(forKey: "GameState \(worldName)")
+        
+        
+        worldsSaved.removeAll { $0 == worldName }
+
+        UserDefaults.standard.set(worldsSaved, forKey: "worldsSaved")
+    }
+    
+    struct BuildingAttributesBlueprint: Codable {
         
         var Building: AllBuildingsBlueprint
         var amount: Int
@@ -343,7 +436,7 @@ class GeneralGameData: ObservableObject {
         
         var Increase: Decimal
         var IncreaseMultiplier: Decimal
-        
+        ///for buildings this is the amount of employees needed
         var rent: Decimal
         
         var stockMarketValue: Decimal = 0
@@ -363,7 +456,7 @@ class GeneralGameData: ObservableObject {
         
     }
     
-    struct Upgrade_Blueprint {
+    struct Upgrade_Blueprint: Codable {
         
         var upgrade: AllUpgrades_Blueprint
         
@@ -391,7 +484,6 @@ class GeneralGameData: ObservableObject {
         
     }
     
-    
     func TranslateNum(_ whatNumber: Decimal, suffix: String) -> Decimal {
         
        
@@ -415,8 +507,5 @@ class GeneralGameData: ObservableObject {
        // print("result: \(result)")
         return result
     }
-    
-    
-    
-    
+   
 }
