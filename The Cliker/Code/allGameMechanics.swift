@@ -24,7 +24,8 @@ class allGameMechanics: ObservableObject {
     
     
     func updateEverything() {
-       
+        //print("Uranium mine cost: \(gameState.allBuildingAttribites[.uraniumMill])")
+       // gameState.currentClicks *= 9000000000000000
         jobPayments()
         updateInceaseMultiplier()
         loanSharkMechanics.allLoanSharkMechanics()
@@ -39,12 +40,46 @@ class allGameMechanics: ObservableObject {
         
         gameState.allBuildingAttribites[.softwareDev]?.IncreaseMultiplier = Decimal(gameState.allBuildingAttribites[.softwareDev]?.amount ?? 0)  * 0.1 + 1
         
-        //manageres increase employee multiplyer by +200%
-        gameState.allBuildingAttribites[.employees]?.IncreaseMultiplier += Decimal(gameState.allBuildingAttribites[.manager]?.amount ?? 0) * 2 * Decimal(gameState.allBuildingAttribites[.employees]?.amount ?? 0) * Decimal(gameState.allBuildingAttribites[.manager]?.amount ?? 0)
+        var numOfEmployees: Decimal = 0
+        for (buildingCase, building) in gameState.allBuildingAttribites {
+     
+            if building.buildingType.contains(.employee) {
+                numOfEmployees += Decimal(building.amount)
+                for (managerCase, manager) in gameState.allBuildingAttribites {
+                    
+                    if manager.buildingType.contains(.manager) {
+                        gameState.allBuildingAttribites[buildingCase]?.IncreaseMultiplier += Decimal(manager.amount) * 2 *  Decimal(building.amount) * Decimal(manager.amount)
+                    }
+                    
+                }
+            }
+        }
+         
         
-        //and they increase software dev miltiplier
-        gameState.allBuildingAttribites[.softwareDev]?.IncreaseMultiplier += Decimal(gameState.allBuildingAttribites[.manager]?.amount ?? 0) * 2 * Decimal(gameState.allBuildingAttribites[.softwareDev]?.amount ?? 0) * Decimal(gameState.allBuildingAttribites[.manager]?.amount ?? 0)
+     
+        var numOfEmployeesNeeded: Decimal = 0
         
+        for (buildingCase, building) in gameState.allBuildingAttribites {
+            
+            if building.buildingType.contains(.building) {
+                numOfEmployeesNeeded += Decimal(building.amount) * building.rent
+            }
+            
+        }
+        
+         
+        
+        
+        for (buildingCase, building) in gameState.allBuildingAttribites {
+            
+            if building.buildingType.contains(.building) {
+                
+              gameState.allBuildingAttribites[buildingCase]?.IncreaseMultiplier = numOfEmployees / (numOfEmployeesNeeded + 1)
+                print("Increase multipler \(gameState.allBuildingAttribites[buildingCase]?.IncreaseMultiplier), num of employees: \(numOfEmployees), num of employees needed: \(numOfEmployeesNeeded), btw it is not + 1")
+            }
+        }
+        
+      
     }
     
     

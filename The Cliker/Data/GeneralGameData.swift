@@ -23,6 +23,9 @@ enum AllBuildingsBlueprint: CaseIterable {
     case steelMill
     case uraniumMine
     case uraniumMill
+    case factory
+    case mine
+    
     //add stock market stufffefeffef
     
   
@@ -128,7 +131,7 @@ enum AllBuildingsBlueprint: CaseIterable {
                 costMultiplier: 1.0,
                 Cost: 10000,
                 Increase: 30,
-                IncreaseMultiplier: 3.5,
+                IncreaseMultiplier: 100,
                 rent: 15,
                 buildingType: [.building]
             )
@@ -177,6 +180,29 @@ enum AllBuildingsBlueprint: CaseIterable {
                 rent: 15,
                 buildingType: [.building] //incre
             )
+        case .factory:
+            return .init(
+                Building: self,
+                amount: 0,
+                costMultiplier: 1.2,
+                Cost: GeneralGameData().TranslateNum(500.121, suffix: " Quadrillion"),
+                Increase: GeneralGameData().TranslateNum(20, suffix: " T"),
+                IncreaseMultiplier: 3.5,
+                rent: 15,
+                buildingType: [.building] //incre
+            )
+        
+        case .mine:
+            return .init(
+                Building: self,
+                amount: 0,
+                costMultiplier: 1.2,
+                Cost: GeneralGameData().TranslateNum(767.121, suffix: " Quadrillion"),
+                Increase: GeneralGameData().TranslateNum(120, suffix: " T"),
+                IncreaseMultiplier: 3.5,
+                rent: 15,
+                buildingType: [.building] //incre
+            )
         }//switch end
         
     }
@@ -208,6 +234,10 @@ enum AllBuildingsBlueprint: CaseIterable {
             return "Buy a Uranium Mine"
         case .uraniumMill:
             return "Buy a Uranium Mill"
+        case .factory:
+            return "Buy a Factory"
+        case .mine:
+            return "Buy a Mine"
         }
         
         

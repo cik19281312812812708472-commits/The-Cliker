@@ -223,6 +223,30 @@ class Buttons_Class: ObservableObject {
                             .background(getButtonColour(cost: Cost))
                             .cornerRadius(10)
                     }
+                case .factory:
+                    HStack {
+                        Image("Freelancer")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                        
+                        Text("$\(UI_Functions.stateNumber(whatNumber: Cost)) \(whatBuilding.displayName) ")
+                            .padding()
+                            .background(getButtonColour(cost: Cost))
+                            .cornerRadius(10)
+                    }
+                case .mine:
+                    HStack {
+                        Image("Freelancer")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                        
+                        Text("$\(UI_Functions.stateNumber(whatNumber: Cost)) \(whatBuilding.displayName) ")
+                            .padding()
+                            .background(getButtonColour(cost: Cost))
+                            .cornerRadius(10)
+                    }
                 } //switch end
            
             }
@@ -236,7 +260,7 @@ class Buttons_Class: ObservableObject {
                         .padding()
                     
                     Text("You have \(UI_Functions.stateNumber(whatNumber: Decimal(buildingAttributtes.amount))) of this asset")
-                    Text("This asset will give you \(UI_Functions.stateNumber(whatNumber: (buildingAttributtes.Increase * buildingAttributtes.IncreaseMultiplier) )) clicks")
+                    Text("This asset should give you \(UI_Functions.stateNumber(whatNumber: (buildingAttributtes.Increase * buildingAttributtes.IncreaseMultiplier) )) clicks")
                         .foregroundColor(.black)
                     
                 }
@@ -326,7 +350,7 @@ class Buttons_Class: ObservableObject {
                         
                         Text("You have \(UI_Functions.stateNumber(whatNumber: upgradeAttributtes.level)) of this asset")
                             .foregroundColor(.black)
-                        Text("This upgrade will multiply your clicks by \(UI_Functions.stateNumber(whatNumber: upgradeAttributtes.clickMultiplier ))")
+                        Text("This upgrade should multiply your clicks by \(UI_Functions.stateNumber(whatNumber: upgradeAttributtes.clickMultiplier ))")
                           //  .foregroundColor(.yellow)
                     }
                 }
