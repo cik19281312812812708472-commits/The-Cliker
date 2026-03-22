@@ -24,7 +24,7 @@ struct ContentView: View {
                 Button {
                     
                     gameState.lastView = .startedGame
-                    
+                    gameState.loadWorldsSaved()
                     if gameState.worldsSaved.count != 0 {
                         gameState.loadingWorld = true 
                         gameState.gameCondition = .loadingData

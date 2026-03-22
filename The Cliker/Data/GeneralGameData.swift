@@ -391,6 +391,9 @@ class GeneralGameData: ObservableObject {
         UserDefaults.standard.set(worldsSaved, forKey: "worldsSaved")
     }
     
+    func loadWorldsSaved() {
+        worldsSaved = UserDefaults.standard.object(forKey: "worldsSaved") as! [String]
+    }
     
     func loadData(worldName: String) {
         
