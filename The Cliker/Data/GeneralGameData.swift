@@ -329,6 +329,13 @@ class GeneralGameData: ObservableObject {
     @Published var worldsSaved: [String] = []
     @Published var currentWorld: String = ""
     
+    @Published var lastView: gameConditionBlueprint = .loadingData
+    
+    ///This should be used to avoid reloading hte world when you switch views
+    @Published var loadingWorld = false
+    
+    
+    
     //MARK: saving Data
     struct gameState_ForSavingData: Codable {
         
@@ -377,6 +384,9 @@ class GeneralGameData: ObservableObject {
             print("Failed To Save", error)
         }
     
+        if worldsSaved.contains(worldName) == false {
+            worldsSaved.append(worldName)
+        }
         
         UserDefaults.standard.set(worldsSaved, forKey: "worldsSaved")
     }
@@ -413,7 +423,11 @@ class GeneralGameData: ObservableObject {
             setStartingData()
         }
         
+        if worldsSaved.contains(worldName) == false {
+            worldsSaved.append(worldName)
+        }
         UserDefaults.standard.set(worldsSaved, forKey: "worldsSaved")
+        currentWorld = worldName
     }
     
     func deleteData(worldName: String) {

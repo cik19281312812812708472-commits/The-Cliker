@@ -23,7 +23,16 @@ struct ContentView: View {
             VStack{
                 Button {
                     
-                    gameState.gameCondition = .loadingData
+                    gameState.lastView = .startedGame
+                    
+                    if gameState.worldsSaved.count != 0 {
+                        gameState.loadingWorld = true 
+                        gameState.gameCondition = .loadingData
+                    } else {
+                        gameState.loadingWorld = true
+                        gameState.worldBeingLoaded = "World 1"
+                        gameState.gameCondition = .playingGame
+                    }
                     
                 } label: {
                     
@@ -38,7 +47,7 @@ struct ContentView: View {
       
         
         case .savingData:
-            ClickingView()
+            SavingData_View()
         case .loadingData:
             LoadingData_View()
         case .gameOver:

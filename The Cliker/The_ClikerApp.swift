@@ -20,6 +20,7 @@ struct The_ClikerApp: App {
     
     @StateObject var UI_Functions_Blueprint: UI_Functions
     
+    
     init() {
         let state = GeneralGameData()
         let loanSharkState = LoanSharkData()

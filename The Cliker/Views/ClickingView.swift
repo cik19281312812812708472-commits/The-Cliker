@@ -25,6 +25,9 @@ struct ClickingView: View {
             
             ZStack {
                 
+                
+                
+                
                 if gameState.deltaClicks > 0 {
                     Text("+\(UI_Functions.stateNumber(whatNumber: gameState.deltaClicks))")
                         .foregroundColor(.white)
@@ -76,16 +79,38 @@ struct ClickingView: View {
                         .position(x:geometry.size.width/2, y:geometry.size.height * 0.1)
                 }
                 
-                Button {
+                ScrollView {
+                    Text("Saves")
                     
-                } label: {
-                    Text("Save Game")
-                        .foregroundColor(.black)
-                        .padding(2)
-                        .background(.gray)
-                        .cornerRadius(5)
-                        .textSelection(.enabled)
+                    Divider()
+                    Button {
+                        gameState.lastView = gameState.gameCondition
+                        gameState.gameCondition = .savingData
+                        
+                    } label: {
+                        Text("Save Game")
+                            .foregroundColor(.black)
+                            .padding(2)
+                            //.background(.gray)
+                            .cornerRadius(5)
+                            .textSelection(.enabled)
+                    }
+                    
+                    Button {
+                        gameState.lastView = gameState.gameCondition
+                        gameState.gameCondition = .loadingData
+                        
+                    } label: {
+                        Text("Load Game")
+                            .foregroundColor(.black)
+                            .padding(2)
+                            //.background(.gray)
+                            .cornerRadius(5)
+                            .textSelection(.enabled)
+                    }
+                    
                 }
+                .frame(width: geometry.size.width * 0.1, height:  geometry.size.height * 0.1)
                 .position(x:geometry.size.width/2, y:geometry.size.height * 0.9)
                 
                 VStack {
@@ -156,7 +181,10 @@ struct ClickingView: View {
             tick = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) {_ in 
                 gameMechanics.updateEverything()
             }
-            gameState.loadData(worldName: gameState.worldBeingLoaded)
+            if gameState.loadingWorld == true {
+                gameState.loadData(worldName: gameState.worldBeingLoaded)
+                gameState.loadingWorld = false
+            }
         }
         
         
