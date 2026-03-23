@@ -60,7 +60,7 @@ struct ClickingView: View {
                 
                 //the clickign button
                 Button {
-                    gameState.currentClicks += 1
+                    gameMechanics.click()
                 } label: {
                     ZStack {
                         

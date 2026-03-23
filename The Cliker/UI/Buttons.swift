@@ -291,6 +291,9 @@ class Buttons_Class: ObservableObject {
            
             
             guard let attributes = gameState.allUpgrades[whatUpgrade] else {
+                print("Upgrade: ", whatUpgrade)
+                print("keys: ", gameState.allUpgrades.keys)
+                print("All upgrades: ", gameState.allUpgrades)
                fatalError("what upgrade isn't in the allbuilding attributes. Location: UI_BuildingButton, getBuildingAttributtes")
             }
             
@@ -353,6 +356,13 @@ class Buttons_Class: ObservableObject {
                         Text("This upgrade should multiply your clicks by \(UI_Functions.stateNumber(whatNumber: upgradeAttributtes.clickMultiplier ))")
                           //  .foregroundColor(.yellow)
                         
+                        if whatUpgrade == .clicking {
+                            Text("Your clicking will gain by 10% of your Clicks per second")
+                        }
+                        
+                        if whatUpgrade == .employeers {
+                            Text("This will automatically buy employees every second. So long as you have at least a trillion.")
+                        }
                         
                     }
                 }

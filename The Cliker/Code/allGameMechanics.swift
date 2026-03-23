@@ -31,6 +31,7 @@ class allGameMechanics: ObservableObject {
         updateInceaseMultiplier()
         loanSharkMechanics.allLoanSharkMechanics()
         updateTotalClicks()
+        employ()
         print("gameState.worldssave = ", gameState.worldsSaved)
         
         if gameState.autoSaving == true && gameState.gameCondition == .playingGame {
@@ -92,11 +93,16 @@ class allGameMechanics: ObservableObject {
     func click() {
         
         let clickLevel: Decimal = gameState.allUpgrades[.clicking]?.level ?? 0
+        
+        var clickIncrease: Decimal = 0
         if clickLevel >= Decimal(1) {
-            gameState.currentClicks += 1 + (clickLevel * 0.1 * gameState.deltaClicks)//10%
+            clickIncrease += 1 + (clickLevel * 0.1 * gameState.deltaClicks)//10%
         } else {
-            gameState.currentClicks += 1
+            clickIncrease += 1
         }
+        
+        gameState.currentClicks += clickIncrease
+        gameState.deltaClicks += clickIncrease
         
     }
     
@@ -118,8 +124,17 @@ class allGameMechanics: ObservableObject {
     }
     
     
-    func employBuildings() {
+    func employ() {
         
+        let level = gameState.allUpgrades[.employeers]?.level ?? 0
+        
+        if level >= 1 {
+            
+            if gameState.currentClicks >= gameState.TranslateNum(1.07, suffix: " T") {
+                gameState.allBuildingAttribites[.employees]?.amount += NSDecimalNumber(decimal: level).intValue
+                setCost(whatBuilding: .employees, UpgradeOrBuilding: false, whatUpgrade: .employeers)
+            }
+        }
         
         
         
@@ -138,7 +153,7 @@ class allGameMechanics: ObservableObject {
         }
         
         
-        totalClickIncrease *= pow(((gameState.allUpgrades[.Efficiency]?.level ?? 0) + 1) , Int("\((gameState.allUpgrades[.Efficiency]?.level ?? 0) + 1)") ?? 0 )
+        totalClickIncrease *= pow(1.2, Int("\((gameState.allUpgrades[.Efficiency]?.level ?? 0) + 1)") ?? 0 )
        // print(gameState.allUpgrades[.Efficiency]?.level)
         
         //increase the total clicks by the total click increase

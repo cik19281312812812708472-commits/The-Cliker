@@ -30,17 +30,21 @@ struct CreateWorld_View: View {
                 Button {
                     
                     // make sure the other views know that a world is being loaded:
-                    gameState.loadingWorld = true
-                    //creating the new world via saving
-                   
-                    gameState.saveData(worldName: worldName)
-                    
                     //saving the old world
                     gameState.deleteData(worldName: gameState.currentWorld)
                     gameState.saveData(worldName: gameState.currentWorld)
                     
-                    //setting the current world to the new world
+                   
+                    //creating the new world via saving
                     gameState.currentWorld = worldName
+                    gameState.worldBeingLoaded = worldName
+                   // gameState.setStartingData()
+                    gameState.saveData(worldName: worldName)
+                    gameState.loadData(worldName: worldName)
+                    
+                    //setting the current world to the new world
+                    
+                    
                     gameState.gameCondition = .playingGame
                 } label: {
                     Text("Create World")

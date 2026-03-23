@@ -260,6 +260,7 @@ enum AllUpgrades_Blueprint: CaseIterable, Codable {
     case Efficiency
     case rounding
     case clicking
+    case employeers
     
     var stats: GeneralGameData.Upgrade_Blueprint {
         
@@ -268,7 +269,7 @@ enum AllUpgrades_Blueprint: CaseIterable, Codable {
             return .init(
                 upgrade: self,
                 level: 0,
-                costMultiplier: 2.5,
+                costMultiplier: 10,
                 Cost: 10000,
                 clickMultiplier: 0.0
             )
@@ -286,8 +287,16 @@ enum AllUpgrades_Blueprint: CaseIterable, Codable {
                 upgrade: self,
                 level: 0,
                 costMultiplier: 2.5,
-                Cost: 100_000,
+                Cost: 1000_000,
                 clickMultiplier: 5.0
+            )
+        case .employeers:
+            return .init(
+                upgrade: self,
+                level: 0,
+                costMultiplier: 1.1,
+                Cost: GeneralGameData().TranslateNum(167, suffix: " T"),
+                clickMultiplier: 12.0
             )
         }
         
@@ -302,6 +311,8 @@ enum AllUpgrades_Blueprint: CaseIterable, Codable {
             return "Rounding"
         case .clicking:
             return "Clicking"
+        case .employeers:
+            return "Recruiter"
         }
     }
     
@@ -384,6 +395,42 @@ class GeneralGameData: ObservableObject {
     }
     
     
+    
+    func updateBuildingsandUpgrades(timeElapsed: TimeInterval) {
+        
+        
+        
+        for buildingCase in AllBuildingsBlueprint.allCases {
+            
+            //adds the building
+            
+            if allBuildingAttribites[buildingCase] == nil {
+                allBuildingAttribites[buildingCase] = buildingCase.stats
+            }
+            
+        }
+        
+        // it creates a building attribute for each building by looking at the enum MARK: change to work for an array
+        for upgradeCase in AllUpgrades_Blueprint.allCases {
+            
+            if allUpgrades[upgradeCase] == nil {
+                allUpgrades[upgradeCase] = upgradeCase.stats
+            }
+        }
+       
+        let loanSharkState = LoanSharkData()
+        let loanShark = LoanSharkMechanics(gameState: self, loanSharkState: loanSharkState)
+        allGameMechanics(gameState: self, loanSharkMechanics: loanShark).updateEverything()
+        
+        var tempTime = timeElapsed
+        while tempTime >= 1 {
+            allGameMechanics(gameState: self, loanSharkMechanics: loanShark).employ()
+            tempTime -= 1
+        }
+                
+        
+        
+    }
    
     func saveData(worldName: String) {
        print("Saving Data")
@@ -427,6 +474,7 @@ class GeneralGameData: ObservableObject {
                 let timeElapsed = Date().timeIntervalSince(loadedState.time)
                 
                 currentClicks += deltaClicks * Decimal(timeElapsed)
+                updateBuildingsandUpgrades(timeElapsed: timeElapsed)
                 
                 
             } catch {
@@ -444,6 +492,7 @@ class GeneralGameData: ObservableObject {
         }
         UserDefaults.standard.set(worldsSaved, forKey: "worldsSaved")
         currentWorld = worldName
+        
     }
     
     func deleteData(worldName: String) {
