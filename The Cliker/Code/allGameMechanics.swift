@@ -2,7 +2,7 @@
 //  Click Mechanics.swift
 //  The Cliker
 //
-//  Created by Desire on 2026-03-07.
+//  
 //
 
 import Foundation
@@ -31,6 +31,12 @@ class allGameMechanics: ObservableObject {
         updateInceaseMultiplier()
         loanSharkMechanics.allLoanSharkMechanics()
         updateTotalClicks()
+        print("gameState.worldssave = ", gameState.worldsSaved)
+        
+        if gameState.autoSaving == true && gameState.gameCondition == .playingGame {
+            gameState.deleteData(worldName: gameState.currentWorld)
+            gameState.saveData(worldName: gameState.currentWorld)
+        }
         //print("\(gameState.allBuildingAttribites)")
     }
     
@@ -83,6 +89,16 @@ class allGameMechanics: ObservableObject {
       
     }
     
+    func click() {
+        
+        let clickLevel: Decimal = gameState.allUpgrades[.clicking]?.level ?? 0
+        if clickLevel >= Decimal(1) {
+            gameState.currentClicks += 1 + (clickLevel * 0.1 * gameState.deltaClicks)//10%
+        } else {
+            gameState.currentClicks += 1
+        }
+        
+    }
     
     func jobPayments() {
         

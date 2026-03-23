@@ -2,7 +2,7 @@
 //  BuildingButton.swift
 //  The Cliker
 //
-//  Created by Desire on 2026-03-13.
+//  .
 //
 
 
@@ -352,6 +352,8 @@ class Buttons_Class: ObservableObject {
                             .foregroundColor(.black)
                         Text("This upgrade should multiply your clicks by \(UI_Functions.stateNumber(whatNumber: upgradeAttributtes.clickMultiplier ))")
                           //  .foregroundColor(.yellow)
+                        
+                        
                     }
                 }
                 

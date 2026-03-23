@@ -2,7 +2,7 @@
 //  StarterView.swift
 //  The Cliker
 //
-//  Created by Desire on 2026-03-07.
+//  
 //
 
 import SwiftUI
@@ -58,17 +58,27 @@ struct ClickingView: View {
                 Text("Cliks: \(UI_Functions.stateNumber(whatNumber: gameState.currentClicks))")
                     .position(x:geometry.size.width/2, y:geometry.size.height/2.5)
                 
-                
+                //the clickign button
                 Button {
                     gameState.currentClicks += 1
                 } label: {
-                    Image("Clik!")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 100, height: 100)
+                    ZStack {
+                        
+                        Rectangle()
+                            .fill(Color.gray.opacity(0.2))
+                            .frame(width: geometry.size.width * 0.1, height: geometry.size.height * 0.17)
+                            .cornerRadius(20)
+                        
+                        Image("Clik!")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 100, height: 100)
+                        
+                    }
                 }
+                .buttonStyle(ShrinkingButton())
                .position(x:geometry.size.width/2, y:geometry.size.height/2)
-                
+               
                 if gameState.worldNotFound == true {
                     Text("The world loaded wasn't found")
                         .foregroundColor(.black)
@@ -78,11 +88,13 @@ struct ClickingView: View {
                         .textSelection(.enabled)
                         .position(x:geometry.size.width/2, y:geometry.size.height * 0.1)
                 }
-                
+                //MARK: Settings
                 ScrollView {
-                    Text("Saves")
+                    Text("Settings")
+                        .fontWeight(.black)
                     
                     Divider()
+                    
                     Button {
                         gameState.lastView = gameState.gameCondition
                         gameState.gameCondition = .savingData
@@ -96,6 +108,12 @@ struct ClickingView: View {
                             .textSelection(.enabled)
                     }
                     
+                    Toggle("Auto Save", isOn: $gameState.autoSaving)
+                        .contextMenu {
+                            Text("This will auto save your game every second. If you are playing.")
+                        }
+                        .toggleStyle(.checkbox)
+                    
                     Button {
                         gameState.lastView = gameState.gameCondition
                         gameState.gameCondition = .loadingData
@@ -108,6 +126,20 @@ struct ClickingView: View {
                             .cornerRadius(5)
                             .textSelection(.enabled)
                     }
+                    
+                    Button {
+                        gameState.lastView = gameState.gameCondition
+                        gameState.gameCondition = .creatingWorld
+                    } label: {
+                        Text("Create World")
+                            .foregroundColor(.black)
+                            .padding(2)
+                            //.background(.gray)
+                            .cornerRadius(5)
+                            .textSelection(.enabled)
+                    }
+                    
+                        
                     
                 }
                 .frame(width: geometry.size.width * 0.1, height:  geometry.size.height * 0.1)
@@ -192,5 +224,19 @@ struct ClickingView: View {
     
     
    
+}
+
+
+struct ShrinkingButton: ButtonStyle {
+    
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.5 : 1.0)
+            .animation(.spring(response: 0.5, dampingFraction: 0.6), value: configuration.isPressed)
+            .opacity(configuration.isPressed ? 0.5 : 1.0)
+    }
+    
+    
+    
 }
 

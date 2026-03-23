@@ -2,7 +2,7 @@
 //  Game Over Screen.swift
 //  The Cliker
 //
-//  Created by Desire on 2026-03-21.
+//  
 //
 
 import SwiftUI

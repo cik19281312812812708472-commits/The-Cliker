@@ -2,7 +2,7 @@
 //  The_ClikerUITests.swift
 //  The ClikerUITests
 //
-//  Created by Desire on 2026-03-07.
+//  
 //
 
 import XCTest

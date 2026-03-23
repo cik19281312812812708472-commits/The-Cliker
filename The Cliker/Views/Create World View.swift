@@ -1,18 +1,20 @@
 //
-//  SavingData View.swift
+//  Create World.swift
 //  The Cliker
 //
 //  
 //
 
+
 import SwiftUI
 
 
-struct SavingData_View: View {
+struct CreateWorld_View: View {
+    
     
     @EnvironmentObject var gameState: GeneralGameData
-    @State private var worldName: String = ""
     
+    @State private var worldName: String = ""
     
     var body: some View {
         
@@ -21,17 +23,27 @@ struct SavingData_View: View {
         GeometryReader { geo in
             ZStack {
                 
-                Text("What are you going to call your world?")
+                Text("What are you going to call your new world?")
                     .font(.largeTitle)
                     .position(x: geo.size.width * 0.5, y: geo.size.height * 0.2)
                 
                 Button {
                     
-                    gameState.deleteData(worldName: gameState.currentWorld)
+                    // make sure the other views know that a world is being loaded:
+                    gameState.loadingWorld = true
+                    //creating the new world via saving
+                   
                     gameState.saveData(worldName: worldName)
+                    
+                    //saving the old world
+                    gameState.deleteData(worldName: gameState.currentWorld)
+                    gameState.saveData(worldName: gameState.currentWorld)
+                    
+                    //setting the current world to the new world
                     gameState.currentWorld = worldName
+                    gameState.gameCondition = .playingGame
                 } label: {
-                    Text("Save World")
+                    Text("Create World")
                         .font(.largeTitle)
                         .fontWeight(.black)
                         .foregroundStyle(Color(.black))
@@ -41,25 +53,19 @@ struct SavingData_View: View {
                        
                 }
                 .contextMenu {
-                    Text("This will save the current state of this world.")
+                    Text("This will create and load the new world, and will save the current one.")
+                    Divider()
+                    Text("If the world already exists the world will just be loaded.")
                 }
                 .buttonStyle(.plain)
                 .position(x: geo.size.width * 0.5, y: geo.size.height * 0.6)
                 
-                Button {
-                    gameState.deleteData(worldName: gameState.currentWorld)
-                } label: {
-                    Text("Delete World")
-                }
-                .contextMenu {
-                    Text("This will delete the world, but you can still play it for now...")
-                }
-                .position(x: geo.size.width * 0.5, y: geo.size.height * 0.7)
+                
                 
                 Text("World Name:")
                     .position(x: geo.size.width * 0.5, y: geo.size.height * 0.4)
                 
-                TextField("worldName", text: $worldName)
+                TextField("What is the world's name?", text: $worldName)
                     .frame(width: geo.size.width * 0.6, height: geo.size.height * 0.1)
                     .foregroundStyle(Color(.blue))
                     .position(x: geo.size.width * 0.5, y: geo.size.height * 0.5)
@@ -74,7 +80,8 @@ struct SavingData_View: View {
                 
             }
         } .onAppear {
-            worldName = gameState.currentWorld
+            
+            
         }
         
         
@@ -82,9 +89,4 @@ struct SavingData_View: View {
         
     }
     
-}
-
-
-#Preview {
-    SavingData_View()
 }

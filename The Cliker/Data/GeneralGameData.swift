@@ -2,7 +2,7 @@
 //  GameData.swift
 //  The Cliker
 //
-//  Created by Desire on 2026-03-07.
+//
 
 //MARK: - My Heading
 
@@ -259,6 +259,7 @@ enum AllUpgrades_Blueprint: CaseIterable, Codable {
     
     case Efficiency
     case rounding
+    case clicking
     
     var stats: GeneralGameData.Upgrade_Blueprint {
         
@@ -280,6 +281,14 @@ enum AllUpgrades_Blueprint: CaseIterable, Codable {
                 Cost: 100000,
                 clickMultiplier: 1.5
             )
+        case .clicking:
+            return .init(
+                upgrade: self,
+                level: 0,
+                costMultiplier: 2.5,
+                Cost: 100_000,
+                clickMultiplier: 5.0
+            )
         }
         
     }
@@ -291,6 +300,8 @@ enum AllUpgrades_Blueprint: CaseIterable, Codable {
             return "Upgrade Efficiency."
         case .rounding:
             return "Rounding"
+        case .clicking:
+            return "Clicking"
         }
     }
     
@@ -306,6 +317,7 @@ enum gameConditionBlueprint {
     case playingGame
     case savingData
     case loadingData
+    case creatingWorld
     case gameOver
     
 }
@@ -333,7 +345,7 @@ class GeneralGameData: ObservableObject {
     
     ///This should be used to avoid reloading hte world when you switch views
     @Published var loadingWorld = false
-    
+    @Published var autoSaving = false 
     
     
     //MARK: saving Data
@@ -374,7 +386,7 @@ class GeneralGameData: ObservableObject {
     
    
     func saveData(worldName: String) {
-       
+       print("Saving Data")
         let tempGameState = gameState_ForSavingData(roundLevel: roundLevel, deltaClicks: deltaClicks, currentClicks: currentClicks, allBuildingAttribites: allBuildingAttribites, allUpgrades: allUpgrades, allSuffixes: allSuffixes, time: Date())
         
         do {
@@ -393,6 +405,7 @@ class GeneralGameData: ObservableObject {
     
     func loadWorldsSaved() {
         worldsSaved = UserDefaults.standard.object(forKey: "worldsSaved") as! [String]
+        print(worldsSaved)
     }
     
     func loadData(worldName: String) {
