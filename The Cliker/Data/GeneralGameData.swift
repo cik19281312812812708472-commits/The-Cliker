@@ -25,6 +25,7 @@ enum AllBuildingsBlueprint: CaseIterable, Codable {
     case uraniumMill
     case factory
     case mine
+    case epstein
     
     //add stock market stufffefeffef
     
@@ -203,6 +204,17 @@ enum AllBuildingsBlueprint: CaseIterable, Codable {
                 rent: 200,
                 buildingType: [.building] //incre
             )
+        case .epstein:
+            return .init(
+                Building: self,
+                amount: 0,
+                costMultiplier: 1000000000000000,
+                Cost: GeneralGameData().TranslateNum(767.121, suffix: " Duovigintillion"),
+                Increase: GeneralGameData().TranslateNum(1, suffix: " Octillion"),
+                IncreaseMultiplier: 1000,
+                rent: 0,
+                buildingType: [.employee] //incre
+            )
         }//switch end
         
     }
@@ -238,6 +250,8 @@ enum AllBuildingsBlueprint: CaseIterable, Codable {
             return "Buy a Factory"
         case .mine:
             return "Buy a Mine"
+        case .epstein:
+            return "Hire Epstien"
         }
         
         
@@ -318,7 +332,6 @@ enum AllUpgrades_Blueprint: CaseIterable, Codable {
     
 }
 
-//should only have func's for saving and storing data and initializing
 
 // for the geo sim add a persona for each ideal
 
@@ -328,12 +341,23 @@ enum gameConditionBlueprint {
     case playingGame
     case savingData
     case loadingData
+    case deletingData
     case creatingWorld
     case gameOver
     
 }
 
+enum importantHeadings {
+    
+    case nothing
+    case worldNotLoaded
+    case worldDeleted
+    case worldCreated
+    
+    
+}
 
+///should only have func's for saving and storing data and initializing
 class GeneralGameData: ObservableObject {
    
     @Published var roundLevel: Int = 3
@@ -343,12 +367,14 @@ class GeneralGameData: ObservableObject {
     @Published var allUpgrades: [AllUpgrades_Blueprint:Upgrade_Blueprint] = [:]
 
     
+    
+    //MARK: NON GAME DATA
     @Published var allSuffixes: [String] = [" M", " B", " T", " Quadrillion", " Quintillion", " Sextillion", " Septillion", " Octillion", " Nonillion", " Decillion", " Undecillion", " Duodecillion", " Tredecillion", " Quattuordecillion", " Quindecillion", " Sexdecillion", " Septendecillion", " Octodecillion", " Novemdecillion", " Vigintillion", " Unvigintillion", " Duovigintillion", " Tresvigintillion", " Quattuorvigintillion", " Quinvigintillion", " Sexvigintillion", " Septenvigintillion", " Octovigintillion", " Novemvigintillion", " Trigintillion", " Untrigintillion", " Duotrigintillion", "Googol * 100" ]
 
     @Published var gameCondition: gameConditionBlueprint = .startedGame
     @Published var worldBeingLoaded: String = ""
     
-    @Published var worldNotFound: Bool = false
+    @Published var importantInfo: importantHeadings = .nothing
     @Published var worldsSaved: [String] = []
     @Published var currentWorld: String = ""
     
@@ -394,6 +420,15 @@ class GeneralGameData: ObservableObject {
         
     }
     
+    func resetData() {
+        
+        allBuildingAttribites = [:]
+        allUpgrades = [:]
+        currentClicks = 0
+        deltaClicks = 0
+        
+        setStartingData()
+    }
     
     
     func updateBuildingsandUpgrades(timeElapsed: TimeInterval) {
@@ -483,7 +518,7 @@ class GeneralGameData: ObservableObject {
             
         } else {
             //if it cant find the data it sets it up.
-            worldNotFound = true 
+            importantInfo = .worldNotLoaded
             setStartingData()
         }
         

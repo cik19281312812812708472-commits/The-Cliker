@@ -57,6 +57,8 @@ struct ContentView: View {
                 ClickingView()
             case .creatingWorld:
                 CreateWorld_View()
+            case .deletingData:
+                DeleteWorld_View()
             }
         }
         

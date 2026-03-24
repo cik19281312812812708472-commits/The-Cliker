@@ -38,7 +38,7 @@ struct CreateWorld_View: View {
                     //creating the new world via saving
                     gameState.currentWorld = worldName
                     gameState.worldBeingLoaded = worldName
-                   // gameState.setStartingData()
+                    gameState.resetData()
                     gameState.saveData(worldName: worldName)
                     gameState.loadData(worldName: worldName)
                     
@@ -46,6 +46,7 @@ struct CreateWorld_View: View {
                     
                     
                     gameState.gameCondition = .playingGame
+                    gameState.importantInfo = .worldCreated
                 } label: {
                     Text("Create World")
                         .font(.largeTitle)

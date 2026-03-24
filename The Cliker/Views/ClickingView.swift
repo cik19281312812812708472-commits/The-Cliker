@@ -25,6 +25,15 @@ struct ClickingView: View {
             
             ZStack {
                 
+                Text(gameState.currentWorld)
+                    .font(.title)
+                    .fontWeight(.black)
+                    .padding(5)
+                    .background(.yellow.opacity(0.2))
+                    .cornerRadius(5)
+                    .textSelection(.enabled)
+                    .position(x:geometry.size.width/2, y:geometry.size.height * 0.1)
+                
                 
                 
                 
@@ -77,9 +86,14 @@ struct ClickingView: View {
                     }
                 }
                 .buttonStyle(ShrinkingButton())
-               .position(x:geometry.size.width/2, y:geometry.size.height/2)
+                .position(x:geometry.size.width/2, y:geometry.size.height/2)
                
-                if gameState.worldNotFound == true {
+                switch gameState.importantInfo {
+                case .nothing:
+                    #if os(macOS)
+                    
+                    #endif
+                case .worldNotLoaded:
                     Text("The world loaded wasn't found")
                         .foregroundColor(.black)
                         .padding(2)
@@ -87,7 +101,26 @@ struct ClickingView: View {
                         .cornerRadius(5)
                         .textSelection(.enabled)
                         .position(x:geometry.size.width/2, y:geometry.size.height * 0.1)
+                case .worldDeleted:
+                    Text("The world was Deleted")
+                        .foregroundColor(.black)
+                        .padding(2)
+                        .background(.yellow)
+                        .cornerRadius(5)
+                        .textSelection(.enabled)
+                        .position(x:geometry.size.width/2, y:geometry.size.height * 0.1)
+                case .worldCreated:
+                    Text("The world was created")
+                        .foregroundColor(.black)
+                        .padding(2)
+                        .background(.yellow)
+                        .cornerRadius(5)
+                        .textSelection(.enabled)
+                        .position(x:geometry.size.width/2, y:geometry.size.height * 0.1)
                 }
+                
+               
+                
                 //MARK: Settings
                 ScrollView {
                     Text("Settings")
@@ -101,7 +134,7 @@ struct ClickingView: View {
                         
                     } label: {
                         Text("Save Game")
-                            .foregroundColor(.black)
+                           
                             .padding(2)
                             //.background(.gray)
                             .cornerRadius(5)
@@ -119,8 +152,8 @@ struct ClickingView: View {
                         gameState.gameCondition = .loadingData
                         
                     } label: {
-                        Text("Load Game")
-                            .foregroundColor(.black)
+                        Text("Load a World")
+                            
                             .padding(2)
                             //.background(.gray)
                             .cornerRadius(5)
@@ -131,13 +164,26 @@ struct ClickingView: View {
                         gameState.lastView = gameState.gameCondition
                         gameState.gameCondition = .creatingWorld
                     } label: {
-                        Text("Create World")
-                            .foregroundColor(.black)
+                        Text("Create a World")
+                           
                             .padding(2)
                             //.background(.gray)
                             .cornerRadius(5)
                             .textSelection(.enabled)
                     }
+                    
+                    Button {
+                        gameState.lastView = gameState.gameCondition
+                        gameState.gameCondition = .deletingData
+                    } label: {
+                        Text("Delete a World")
+                        
+                            .padding(2)
+                            //.background(.gray)
+                            .cornerRadius(5)
+                            .textSelection(.enabled)
+                    }
+                    
                     
                         
                     

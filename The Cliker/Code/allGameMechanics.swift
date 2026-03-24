@@ -26,7 +26,7 @@ class allGameMechanics: ObservableObject {
     func updateEverything() {
         //print("Uranium mine cost: \(gameState.allBuildingAttribites[.uraniumMill])")
        // gameState.currentClicks *= 9000000000000000
-        gameState.worldNotFound = false
+        gameState.importantInfo = .nothing
         jobPayments()
         updateInceaseMultiplier()
         loanSharkMechanics.allLoanSharkMechanics()
@@ -130,10 +130,14 @@ class allGameMechanics: ObservableObject {
         
         if level >= 1 {
             
-            if gameState.currentClicks >= gameState.TranslateNum(1.07, suffix: " T") {
-                gameState.allBuildingAttribites[.employees]?.amount += NSDecimalNumber(decimal: level).intValue
-                setCost(whatBuilding: .employees, UpgradeOrBuilding: false, whatUpgrade: .employeers)
+            if let amountOfEmployees = gameState.allBuildingAttribites[.employees]?.amount {
+                if gameState.currentClicks >=  Decimal(amountOfEmployees * 1000){
+                    gameState.allBuildingAttribites[.employees]?.amount += NSDecimalNumber(decimal: level).intValue
+                    setCost(whatBuilding: .employees, UpgradeOrBuilding: false, whatUpgrade: .employeers)
+                }
             }
+            
+            
         }
         
         

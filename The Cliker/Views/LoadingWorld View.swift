@@ -19,7 +19,7 @@ enum worldLookingState_Blueprint {
 struct LoadingData_View: View {
     
     @EnvironmentObject var gameState: GeneralGameData
-    @State var worldLookingState: worldLookingState_Blueprint = .keyBoard
+    @State var worldLookingState: worldLookingState_Blueprint = .worldList
     var body: some View {
         
         GeometryReader { geometry in
@@ -68,7 +68,13 @@ struct LoadingData_View: View {
                     ScrollView {
                         
                         Text("Worlds:")
-                            .font(.headline)
+                            .font(.title3)
+                            .fontWeight(.black)
+                        
+                        RoundedRectangle(cornerRadius: geometry.size.width * 0.00001)
+                            .frame(width: geometry.size.width * 0.12, height: geometry.size.height * 0.002)
+                            .fixedSize()
+                           
                         
                         ForEach(gameState.worldsSaved, id: \.self) { world in
                             
@@ -88,7 +94,7 @@ struct LoadingData_View: View {
                         }
                         
                     }
-                    .frame(height: geometry.size.height * 0.3)
+                    .frame(width: geometry.size.height * 0.25, height: geometry.size.height * 0.3)
                     .background(Color.cyan.opacity(0.2))
                     .cornerRadius(10)
                     .position(x: geometry.size.width * 0.5, y: geometry.size.height * 0.7 )

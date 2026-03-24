@@ -247,6 +247,18 @@ class Buttons_Class: ObservableObject {
                             .background(getButtonColour(cost: Cost))
                             .cornerRadius(10)
                     }
+                case .epstein:
+                    HStack {
+                        Image("Jeffrey_Epstein_mug_shot")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                        
+                        Text("$\(UI_Functions.stateNumber(whatNumber: Cost)) \(whatBuilding.displayName) ")
+                            .padding()
+                            .background(getButtonColour(cost: Cost))
+                            .cornerRadius(10)
+                    }
                 } //switch end
            
             }
@@ -255,13 +267,20 @@ class Buttons_Class: ObservableObject {
                 HStack {
                     
                     Text("Asset Info")
+                        .fontWeight(.black)
                         .font(.system(size: 14, weight: .medium))
                     Divider()
                         .padding()
                     
+                    Text("\(whatBuilding.displayName)")
+                        .fontWeight(.black)
+                    Divider()
+                        .padding()
+                    
                     Text("You have \(UI_Functions.stateNumber(whatNumber: Decimal(buildingAttributtes.amount))) of this asset")
+                        .fontWeight(.black)
                     Text("This asset should give you \(UI_Functions.stateNumber(whatNumber: (buildingAttributtes.Increase * buildingAttributtes.IncreaseMultiplier) )) clicks")
-                        .foregroundColor(.black)
+                        .fontWeight(.black)
                     
                 }
                 
@@ -348,20 +367,34 @@ class Buttons_Class: ObservableObject {
                     VStack {
                         Text("Upgrade Info")
                             .font(.system(size: 14, weight: .medium))
-                        Divider()
+                            .fontWeight(.black)
                         
+                        Divider()
+                            
+                            .padding()
+                        
+                        Text("\(whatUpgrade.displayName)")
+                            .fontWeight(.black)
+                        
+                        Divider()
+                            .fontWeight(.black)
+                            .padding()
                         
                         Text("You have \(UI_Functions.stateNumber(whatNumber: upgradeAttributtes.level)) of this asset")
-                            .foregroundColor(.black)
+                            .fontWeight(.black)
+                        
                         Text("This upgrade should multiply your clicks by \(UI_Functions.stateNumber(whatNumber: upgradeAttributtes.clickMultiplier ))")
-                          //  .foregroundColor(.yellow)
+                            .fontWeight(.black)
+                        
                         
                         if whatUpgrade == .clicking {
                             Text("Your clicking will gain by 10% of your Clicks per second")
+                                .fontWeight(.black)
                         }
                         
                         if whatUpgrade == .employeers {
                             Text("This will automatically buy employees every second. So long as you have at least a trillion.")
+                                .fontWeight(.black)
                         }
                         
                     }
