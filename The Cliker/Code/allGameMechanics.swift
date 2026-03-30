@@ -161,8 +161,8 @@ class allGameMechanics: ObservableObject {
  
         }
         
-        
-        totalClickIncrease *= pow(1.2, Int("\((gameState.allUpgrades[.Efficiency]?.level ?? 0) + 1)") ?? 0 )
+        //30%
+        totalClickIncrease *= pow(1.3, Int("\((gameState.allUpgrades[.Efficiency]?.level ?? 0) + 1)") ?? 0 )
        // print(gameState.allUpgrades[.Efficiency]?.level)
         
         //increase the total clicks by the total click increase
