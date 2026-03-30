@@ -15,7 +15,6 @@ class Buttons_Class: ObservableObject {
     
     
     
-    
     var gameState: GeneralGameData
     
     init(gameState: GeneralGameData) {
@@ -23,7 +22,6 @@ class Buttons_Class: ObservableObject {
     }
     
     
-   
     
     struct UI_BuildingButton: View {
         
@@ -282,6 +280,39 @@ class Buttons_Class: ObservableObject {
                     Text("This asset should give you \(UI_Functions.stateNumber(whatNumber: (buildingAttributtes.Increase * buildingAttributtes.IncreaseMultiplier) )) clicks")
                         .fontWeight(.black)
                     
+                    if let building = gameState.allBuildingAttribites[whatBuilding] {
+                        
+                        var percentage = (Decimal(building.amount) * building.Increase * building.IncreaseMultiplier * 100 * pow(1.2, Int("\((gameState.allUpgrades[.Efficiency]?.level ?? 0) + 1)") ?? 0 ))/gameState.deltaClicks
+                        var newNumber: Decimal = {
+                            var x: Decimal = 0
+                            NSDecimalRound(&x, &percentage, 3, .plain)
+                            return x
+                        }()
+                        
+                            Text("This asset gives ~\(newNumber)% of all your cliks")
+                        
+                       
+                    }
+                    
+                    
+                    
+                    
+                    Divider()
+                    
+                    if (gameState.allBuildingAttribites[whatBuilding]?.buildingType.contains(.employee) ?? false) {
+                        Text("This is an employee type asset.")
+                            .fontWeight(.black)
+                    } else if (gameState.allBuildingAttribites[whatBuilding]?.buildingType.contains(.building) ?? false) {
+                        Text("This is a building type asset.")
+                            .fontWeight(.black)
+                    } else if (gameState.allBuildingAttribites[whatBuilding]?.buildingType.contains(.manager) ?? false) {
+                        Text("This is a manager type asset.")
+                            .fontWeight(.black)
+                    } else if (gameState.allBuildingAttribites[whatBuilding]?.buildingType.contains(.gainers) ?? false) {
+                        Text("This is a cliker type asset.")
+                            .fontWeight(.black)
+                    }
+                    
                 }
                 
             }
@@ -387,13 +418,14 @@ class Buttons_Class: ObservableObject {
                             .fontWeight(.black)
                         
                         
+                       
                         if whatUpgrade == .clicking {
                             Text("Your clicking will gain by 10% of your Clicks per second")
                                 .fontWeight(.black)
                         }
                         
                         if whatUpgrade == .employeers {
-                            Text("This will automatically buy employees every second. So long as you have at least a trillion.")
+                            Text("This will automatically buy employees every second. So long as you have at least 1000x as much money as it costs to buy an employee.")
                                 .fontWeight(.black)
                         }
                         
@@ -418,3 +450,4 @@ class Buttons_Class: ObservableObject {
     
     
 }
+

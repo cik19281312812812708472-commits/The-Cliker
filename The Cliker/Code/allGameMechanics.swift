@@ -16,10 +16,12 @@ class allGameMechanics: ObservableObject {
     var loanSharkMechanics: LoanSharkMechanics
 
     var gameState: GeneralGameData
+    var soundManager: SoundManager
     
-    init(gameState: GeneralGameData, loanSharkMechanics: LoanSharkMechanics) {
+    init(gameState: GeneralGameData, loanSharkMechanics: LoanSharkMechanics, soundManager: SoundManager) {
         self.gameState = gameState
         self.loanSharkMechanics = loanSharkMechanics
+        self.soundManager = soundManager
     }
     
     
@@ -103,6 +105,7 @@ class allGameMechanics: ObservableObject {
         
         gameState.currentClicks += clickIncrease
         gameState.deltaClicks += clickIncrease
+        soundManager.clickingSound()
         
     }
     
@@ -130,10 +133,12 @@ class allGameMechanics: ObservableObject {
         
         if level >= 1 {
             
-            if let amountOfEmployees = gameState.allBuildingAttribites[.employees]?.amount {
-                if gameState.currentClicks >=  Decimal(amountOfEmployees * 1000){
+            if let Employees = gameState.allBuildingAttribites[.employees] {
+                if gameState.currentClicks >=  Employees.Cost * 1000 {
                     gameState.allBuildingAttribites[.employees]?.amount += NSDecimalNumber(decimal: level).intValue
+                    gameState.currentClicks -= Employees.Cost
                     setCost(whatBuilding: .employees, UpgradeOrBuilding: false, whatUpgrade: .employeers)
+                    gameState.allUpgrades[.Efficiency]?.Cost += 1
                 }
             }
             

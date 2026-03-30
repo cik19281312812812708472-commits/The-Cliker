@@ -59,6 +59,8 @@ struct ContentView: View {
                 CreateWorld_View()
             case .deletingData:
                 DeleteWorld_View()
+            case .guide:
+                Guide_View()
             }
         }
         

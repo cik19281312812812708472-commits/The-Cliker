@@ -251,7 +251,7 @@ enum AllBuildingsBlueprint: CaseIterable, Codable {
         case .mine:
             return "Buy a Mine"
         case .epstein:
-            return "Hire Epstien"
+            return "Hire Epstein"
         }
         
         
@@ -284,7 +284,7 @@ enum AllUpgrades_Blueprint: CaseIterable, Codable {
                 upgrade: self,
                 level: 0,
                 costMultiplier: 10,
-                Cost: 10000,
+                Cost: 10001,
                 clickMultiplier: 0.0
             )
             
@@ -344,6 +344,7 @@ enum gameConditionBlueprint {
     case deletingData
     case creatingWorld
     case gameOver
+    case guide
     
 }
 
@@ -371,6 +372,7 @@ class GeneralGameData: ObservableObject {
     //MARK: NON GAME DATA
     @Published var allSuffixes: [String] = [" M", " B", " T", " Quadrillion", " Quintillion", " Sextillion", " Septillion", " Octillion", " Nonillion", " Decillion", " Undecillion", " Duodecillion", " Tredecillion", " Quattuordecillion", " Quindecillion", " Sexdecillion", " Septendecillion", " Octodecillion", " Novemdecillion", " Vigintillion", " Unvigintillion", " Duovigintillion", " Tresvigintillion", " Quattuorvigintillion", " Quinvigintillion", " Sexvigintillion", " Septenvigintillion", " Octovigintillion", " Novemvigintillion", " Trigintillion", " Untrigintillion", " Duotrigintillion", "Googol * 100" ]
 
+    
     @Published var gameCondition: gameConditionBlueprint = .startedGame
     @Published var worldBeingLoaded: String = ""
     
@@ -403,6 +405,44 @@ class GeneralGameData: ObservableObject {
     func setStartingData() {
         
         
+        var allBuildings_in_Ran: [AllBuildingsBlueprint] = []
+        
+        for buildingCase in AllBuildingsBlueprint.allCases {
+            allBuildings_in_Ran.append(buildingCase)
+        }
+        
+        var allBuildings_in_Reverse: [AllBuildingsBlueprint] = []
+        var index = 0
+        var highestBuildingCost: Decimal = AllBuildingsBlueprint.epstein.stats.Cost
+        
+        while allBuildings_in_Reverse.count < allBuildings_in_Ran.count {
+            
+            
+            
+            if allBuildings_in_Ran[index].stats.Cost > highestBuildingCost {
+                allBuildings_in_Reverse.append(allBuildings_in_Ran[index])
+                highestBuildingCost = allBuildings_in_Ran[index].stats.Cost
+            }
+            
+            
+            
+            if index > allBuildings_in_Ran.count - 1 {
+                index = 0
+            }
+            
+            
+            
+        }
+        
+        for i in 0..<allBuildings_in_Reverse.count {
+            
+            allBuildingAttribites[allBuildings_in_Reverse[i]] = allBuildings_in_Reverse[i].stats
+            
+        }
+       
+        
+        
+        /*
         // it creates a building attribute for each building by looking at the enum
         for buildingCase in AllBuildingsBlueprint.allCases {
             
@@ -410,7 +450,7 @@ class GeneralGameData: ObservableObject {
             allBuildingAttribites[buildingCase] = buildingCase.stats
             
         }
-        
+        */
         // it creates a building attribute for each building by looking at the enum MARK: change to work for an array
         for upgradeCase in AllUpgrades_Blueprint.allCases {
             
@@ -455,11 +495,12 @@ class GeneralGameData: ObservableObject {
        
         let loanSharkState = LoanSharkData()
         let loanShark = LoanSharkMechanics(gameState: self, loanSharkState: loanSharkState)
-        allGameMechanics(gameState: self, loanSharkMechanics: loanShark).updateEverything()
+    
+        allGameMechanics(gameState: self, loanSharkMechanics: loanShark, soundManager: SoundManager()).updateEverything()
         
         var tempTime = timeElapsed
         while tempTime >= 1 {
-            allGameMechanics(gameState: self, loanSharkMechanics: loanShark).employ()
+            allGameMechanics(gameState: self, loanSharkMechanics: loanShark, soundManager: SoundManager()).employ()
             tempTime -= 1
         }
                 
@@ -486,7 +527,12 @@ class GeneralGameData: ObservableObject {
     }
     
     func loadWorldsSaved() {
-        worldsSaved = UserDefaults.standard.object(forKey: "worldsSaved") as! [String]
+        
+        if let tempWorldsSaved = UserDefaults.standard.object(forKey: "worldsSaved") as? [String] {
+            worldsSaved = tempWorldsSaved
+        } else {
+            worldsSaved = []
+        }
         print(worldsSaved)
     }
     
@@ -508,7 +554,7 @@ class GeneralGameData: ObservableObject {
                 //finding the time diff.
                 let timeElapsed = Date().timeIntervalSince(loadedState.time)
                 
-                currentClicks += deltaClicks * Decimal(timeElapsed)
+                currentClicks += deltaClicks/10 * Decimal(timeElapsed)
                 updateBuildingsandUpgrades(timeElapsed: timeElapsed)
                 
                 

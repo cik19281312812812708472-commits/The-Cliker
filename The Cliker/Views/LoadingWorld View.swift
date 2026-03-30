@@ -130,6 +130,25 @@ struct LoadingData_View: View {
                 }
                 .position(x: geometry.size.width * 0.1, y: geometry.size.height * 0.9)
                
+                
+                
+                
+                
+                Button {
+                    gameState.lastView = gameState.gameCondition
+                    gameState.gameCondition = .creatingWorld
+                } label: {
+                    Text("Create a World")
+                       
+                        .padding(2)
+                        //.background(.gray)
+                        .cornerRadius(5)
+                        .textSelection(.enabled)
+                }
+                .position(x: geometry.size.width * 0.9, y: geometry.size.height * 0.9)
+                
+                
+                
             } //ZStack end
         }//geometry reader end
     }

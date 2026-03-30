@@ -128,6 +128,21 @@ struct ClickingView: View {
                     
                     Divider()
                     
+                    
+                    Button {
+                        gameState.lastView = gameState.gameCondition
+                        gameState.gameCondition = .guide
+                        
+                    } label: {
+                        Text("Game Guide")
+                           
+                            .padding(2)
+                            //.background(.gray)
+                            .cornerRadius(5)
+                            .textSelection(.enabled)
+                    }
+                    
+                    
                     Button {
                         gameState.lastView = gameState.gameCondition
                         gameState.gameCondition = .savingData
