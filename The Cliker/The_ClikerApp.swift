@@ -22,12 +22,15 @@ struct The_ClikerApp: App {
     
     @StateObject var soundManager: SoundManager
     
+    @StateObject var appData: AppData
     
     init() {
+        let appdata = AppData()
         let state = GeneralGameData()
         let loanSharkState = LoanSharkData()
         let loanSharkMechanics = LoanSharkMechanics(gameState: state, loanSharkState: loanSharkState)
-        let soundManager = SoundManager()
+        let soundManager = SoundManager(appData: appdata)
+        
       
         _UI_Functions_Blueprint = StateObject(wrappedValue: UI_Functions(gameState: state))
         
@@ -48,6 +51,9 @@ struct The_ClikerApp: App {
         _Buttons_Blueprint = StateObject(wrappedValue: Buttons_Class(gameState: state))
         
         _soundManager = StateObject(wrappedValue: soundManager)
+        
+        
+        _appData = StateObject(wrappedValue: appdata)
     }
     
     
@@ -57,6 +63,8 @@ struct The_ClikerApp: App {
                 .environmentObject(gameState_Blueprint)
                 .environmentObject(allGameMechanics_Blueprint)
                 .environmentObject(UI_Functions_Blueprint)
+                .environmentObject(appData)
+                .environmentObject(soundManager)
             
         }
     }

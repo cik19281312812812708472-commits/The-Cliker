@@ -257,6 +257,30 @@ class Buttons_Class: ObservableObject {
                             .background(getButtonColour(cost: Cost))
                             .cornerRadius(10)
                     }
+                case .airPlane:
+                    HStack {
+                        Image("First Plane")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 60, height: 60)
+                        
+                        Text("$\(UI_Functions.stateNumber(whatNumber: Cost)) \(whatBuilding.displayName) ")
+                            .padding()
+                            .background(getButtonColour(cost: Cost))
+                            .cornerRadius(10)
+                    }
+                case .car:
+                    HStack {
+                        Image("First Car")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 60, height: 60)
+                        
+                        Text("$\(UI_Functions.stateNumber(whatNumber: Cost)) \(whatBuilding.displayName) ")
+                            .padding()
+                            .background(getButtonColour(cost: Cost))
+                            .cornerRadius(10)
+                    }
                 } //switch end
            
             }

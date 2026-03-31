@@ -34,6 +34,7 @@ class allGameMechanics: ObservableObject {
         loanSharkMechanics.allLoanSharkMechanics()
         updateTotalClicks()
         employ()
+        
         print("gameState.worldssave = ", gameState.worldsSaved)
         
         if gameState.autoSaving == true && gameState.gameCondition == .playingGame {

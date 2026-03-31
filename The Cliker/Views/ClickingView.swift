@@ -14,9 +14,12 @@ struct ClickingView: View {
     @EnvironmentObject var gameMechanics: allGameMechanics
     @EnvironmentObject var BuildingButtonClass: Buttons_Class
     @EnvironmentObject var UI_Functions: UI_Functions
+    @EnvironmentObject var appData: AppData
+    @EnvironmentObject var soundManager: SoundManager
     
     @State private var tick: Timer?
     
+    @State private var fastTick: Timer?
     
     
     var body: some View {
@@ -34,6 +37,9 @@ struct ClickingView: View {
                     .textSelection(.enabled)
                     .position(x:geometry.size.width/2, y:geometry.size.height * 0.1)
                 
+                Text("v \(latestVersion.description)")
+                    .font(.subheadline)
+                    .position(x: geometry.size.width/2, y: geometry.size.height * 0.122)
                 
                 
                 
@@ -88,6 +94,7 @@ struct ClickingView: View {
                 .buttonStyle(ShrinkingButton())
                 .position(x:geometry.size.width/2, y:geometry.size.height/2)
                
+                //MARK: NOTIFICATIONS
                 switch gameState.importantInfo {
                 case .nothing:
                     #if os(macOS)
@@ -124,6 +131,7 @@ struct ClickingView: View {
                 //MARK: Settings
                 ScrollView {
                     Text("Settings")
+                        .font(.system(size: 20))
                         .fontWeight(.black)
                     
                     Divider()
@@ -156,11 +164,26 @@ struct ClickingView: View {
                             .textSelection(.enabled)
                     }
                     
+                    Divider()
                     Toggle("Auto Save", isOn: $gameState.autoSaving)
                         .contextMenu {
                             Text("This will auto save your game every second. If you are playing.")
                         }
                         .toggleStyle(.checkbox)
+                    
+                    Divider()
+                    VStack {
+                        
+                        Text("Volume")
+                            .bold()
+                        Slider(value: $appData.appVolume, in: 0...1)
+                            .frame(width: geometry.size.width * 0.1)
+                            
+                    }
+                    Divider()
+                    
+                    
+                    
                     
                     Button {
                         gameState.lastView = gameState.gameCondition
@@ -256,6 +279,7 @@ struct ClickingView: View {
                                 .padding()
                             
                             }
+                            .scrollIndicators(.hidden)
                             .frame(width: geometry.size.height * 0.5, height: geometry.size.height * 0.99)// wrapps the scroll view
                             .background(.blue.opacity(0.2))// wraps the frame
                             .cornerRadius(100)//wraps the background
@@ -263,6 +287,8 @@ struct ClickingView: View {
                             
                         
                     }//HStack end
+                    
+                    
                     
                     
                     
@@ -274,6 +300,11 @@ struct ClickingView: View {
             tick = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) {_ in 
                 gameMechanics.updateEverything()
             }
+            
+            fastTick = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) {_ in
+                soundManager.updateVolume()
+            }
+            
             if gameState.loadingWorld == true {
                 gameState.loadData(worldName: gameState.worldBeingLoaded)
                 gameState.loadingWorld = false

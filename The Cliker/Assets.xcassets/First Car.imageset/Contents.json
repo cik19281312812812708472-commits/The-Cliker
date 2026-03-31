@@ -1,0 +1,15 @@
+{
+  "images" : [
+    {
+      "filename" : "benz-patent-motorwagen-w1680xh945-cutout.jpeg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  },
+  "properties" : {
+    "preserves-vector-representation" : true
+  }
+}

@@ -12,13 +12,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>35</string>
+					<string>11</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>34</string>
+					<string>11</string>
 					<key>Timestamp</key>
-					<string>796081764.671711</string>
+					<string>796682057.743312</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -34,16 +34,15 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>    var stats: GeneralGameData.BuildingAttributesBlueprint {
-</string>
+				<string></string>
 				<key>leading</key>
-				<string>    
-    
+				<string>import Combine
+
 </string>
 				<key>trailing</key>
-				<string>        
-        switch self {
-            
+				<string>
+///should only have func's for saving and storing data and initializing
+class GeneralGameData: ObservableObject {
 </string>
 			</dict>
 			<key>title</key>
@@ -59,13 +58,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>222</string>
+					<string>11</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>221</string>
+					<string>11</string>
 					<key>Timestamp</key>
-					<string>796081780.833011</string>
+					<string>796682057.743273</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -81,16 +80,15 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>    var displayName: String {
-</string>
+				<string></string>
 				<key>leading</key>
-				<string>    }
-    
+				<string>import Combine
+
 </string>
 				<key>trailing</key>
-				<string>        
-        switch self {
-        case .clickers:
+				<string>
+///should only have func's for saving and storing data and initializing
+class GeneralGameData: ObservableObject {
 </string>
 			</dict>
 			<key>title</key>
@@ -106,13 +104,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>263</string>
+					<string>11</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
-					<string>262</string>
+					<string>11</string>
 					<key>Timestamp</key>
-					<string>796081780.832992</string>
+					<string>796682057.743294</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -128,16 +126,15 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>enum allBuildingTypes: Codable {
-</string>
+				<string></string>
 				<key>leading</key>
-				<string>
+				<string>import Combine
 
 </string>
 				<key>trailing</key>
-				<string>    
-    case employee
-    case building
+				<string>
+///should only have func's for saving and storing data and initializing
+class GeneralGameData: ObservableObject {
 </string>
 			</dict>
 			<key>title</key>
@@ -153,13 +150,13 @@
 					<key>EndingColumnNumber</key>
 					<string>0</string>
 					<key>EndingLineNumber</key>
-					<string>12</string>
+					<string>11</string>
 					<key>StartingColumnNumber</key>
 					<string>0</string>
 					<key>StartingLineNumber</key>
 					<string>11</string>
 					<key>Timestamp</key>
-					<string>795223807.298128</string>
+					<string>796682057.743304</string>
 				</dict>
 				<key>rebasable-url</key>
 				<dict>
@@ -175,16 +172,15 @@
 			<key>text-context</key>
 			<dict>
 				<key>focused</key>
-				<string>enum AllBuildingsBlueprint: CaseIterable, Codable {
-</string>
+				<string></string>
 				<key>leading</key>
 				<string>import Combine
 
 </string>
 				<key>trailing</key>
-				<string>    
-    case clickers
-    case freelancers
+				<string>
+///should only have func's for saving and storing data and initializing
+class GeneralGameData: ObservableObject {
 </string>
 			</dict>
 			<key>title</key>

@@ -21,6 +21,12 @@ import AVFoundation
 
 class SoundManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
     
+    var appData: AppData
+    
+    init(appData: AppData) {
+        self.appData = appData
+    }
+    
     var audioManager: [AVAudioPlayer] = []
     
     
@@ -34,26 +40,27 @@ class SoundManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
                 audioManager.append(soundPlayer)
                 soundPlayer.play()
                 
-                
-                
-                
-                //HOW MUCH DOES EACH GIVeE?
-                
-                
-                
-                
-                
-                
             }
             
-            
         }
-        
+    }
+    
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+            
+        print("Sound Finished")
+        if let index = audioManager.firstIndex(of: player) {
+            audioManager.remove(at: index)
+        }
         
     }
     
-    
-    
+    func updateVolume() {
+        
+        for player in audioManager {
+            player.volume = appData.appVolume
+        }
+        
+    }
     
     
     
