@@ -20,6 +20,7 @@ class GeneralGameData: ObservableObject {
     @Published var allUpgrades: [AllUpgrades_Blueprint:Upgrade_Blueprint] = [:]
     
     
+    @Published var clickRate: Decimal = 0
     
     
     
@@ -255,6 +256,42 @@ class GeneralGameData: ObservableObject {
                 allBuildingAttribites = tempAllBuildingAttr
                 
                 
+                var tempAllUpgrades: [AllUpgrades_Blueprint:Upgrade_Blueprint] = [:]
+                
+                for upgradeAttribute in loadedState.allUpgrades {
+                    
+                    
+                    var tempUpgradeAttribute = upgradeAttribute.value
+                    var upgradeToAdd: Upgrade_Blueprint
+                    var upgradeName = upgradeAttribute.key
+                    let upgradeVersion = upgradeAttribute.value.version
+                    
+                    
+                    
+                    if upgradeVersion != nil {
+                        
+                        
+                        switch upgradeVersion {
+                            
+                        case versionData_Type(Major: 1, Minor: 0, Patch: 0):
+                            upgradeToAdd = Upgrade_Blueprint(version: latestUpgradeVersion, upgrade: upgradeName, level: tempUpgradeAttribute.level, costMultiplier: tempUpgradeAttribute.costMultiplier, Cost: tempUpgradeAttribute.Cost, clickMultiplier: tempUpgradeAttribute.clickMultiplier, buildingRecruiting: tempUpgradeAttribute.buildingRecruiting)
+                            
+                        default:
+                            fatalError("An upgrade, with a version, that can't be handled, is trying to be loaded. It's version is: \(upgradeVersion), and the upgrade is \(upgradeAttribute)")
+                        }
+                        
+                    } else {
+                        upgradeToAdd = Upgrade_Blueprint(version: latestUpgradeVersion, upgrade: upgradeName, level: tempUpgradeAttribute.level, costMultiplier: tempUpgradeAttribute.costMultiplier, Cost: tempUpgradeAttribute.Cost, clickMultiplier: tempUpgradeAttribute.clickMultiplier, buildingRecruiting: tempUpgradeAttribute.buildingRecruiting)
+                    }
+                    
+                    tempAllUpgrades[upgradeName] = upgradeToAdd
+                    
+                }
+                
+                allUpgrades = tempAllUpgrades
+                
+                
+                
                 allUpgrades = loadedState.allUpgrades
                 allSuffixes = loadedState.allSuffixes
                 
@@ -282,6 +319,25 @@ class GeneralGameData: ObservableObject {
         currentWorld = worldName
         
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     func deleteData(worldName: String) {
         
@@ -314,6 +370,13 @@ class GeneralGameData: ObservableObject {
         
         var buildingType: [allBuildingTypes]
         
+        
+        
+        
+        
+        
+        
+        
         init(version: versionData_Type, Building: AllBuildingsBlueprint, amount: Int, costMultiplier: Decimal, Cost: Decimal, Increase: Decimal, IncreaseMultiplier: Decimal, rent: Decimal, buildingType: [allBuildingTypes]) {
             self.version = version
             self.Building = Building
@@ -330,6 +393,9 @@ class GeneralGameData: ObservableObject {
     
     struct Upgrade_Blueprint: Codable {
         
+        var version: versionData_Type?
+        
+        
         var upgrade: AllUpgrades_Blueprint
         
         
@@ -344,17 +410,27 @@ class GeneralGameData: ObservableObject {
         var clickMultiplier: Decimal
         
         
-        var buildingRectruiting: AllUpgrades_Blueprint?
+        
+        ///This is specifically for the recrutier upgrade.
+        var buildingRecruiting: AllBuildingsBlueprint?
         
         
-        init(upgrade: AllUpgrades_Blueprint, level: Decimal, costMultiplier: Decimal, Cost: Decimal, clickMultiplier: Decimal) {
+        init(version: versionData_Type, upgrade: AllUpgrades_Blueprint, level: Decimal, costMultiplier: Decimal, Cost: Decimal, clickMultiplier: Decimal, buildingRecruiting: AllBuildingsBlueprint? = nil) {
+            
+            self.version = version
+            
             self.upgrade = upgrade
             
             self.level = level
+            
             self.costMultiplier = costMultiplier
             self.Cost = Cost
-            
             self.clickMultiplier = clickMultiplier
+            
+            self.buildingRecruiting = buildingRecruiting
+            
+            
+            
         }
         
     }

@@ -300,6 +300,49 @@ enum AllBuildingsBlueprint: CaseIterable, Codable {
         
     }
     
+    
+    
+    
+    var name: String {
+        switch self {
+        case .clickers:
+            return "Clicker"
+        case .freelancers:
+            return "Freelancer"
+        case .softwareDev:
+            return "Softwar Developer"
+        case .employees:
+            return "Employee"
+        case .oilRefinery:
+            return "Oil Refinery"
+        case .manager:
+            return "Manager"
+        case .minimumWageWorker:
+            return "Minimum Wage Worker"
+        case .office:
+            return "Office"
+        case .nuclearSilo:
+            return "Nuclear Silo"
+        case .steelMill:
+            return "Steel Mill"
+        case .uraniumMine:
+            return "Uranium Mine"
+        case .uraniumMill:
+            return "Uranium Mill"
+        case .factory:
+            return "Factory"
+        case .mine:
+            return "Mine"
+        case .epstein:
+            return "Epstien"
+        case .airPlane:
+            return "Airplane"
+        case .car:
+            return "Car"
+        }
+    }
+    
+    
 }
 
 
@@ -324,6 +367,7 @@ enum AllUpgrades_Blueprint: CaseIterable, Codable {
         switch self {
         case .Efficiency:
             return .init(
+                version: latestUpgradeVersion,
                 upgrade: self,
                 level: 0,
                 costMultiplier: 10,
@@ -333,6 +377,7 @@ enum AllUpgrades_Blueprint: CaseIterable, Codable {
             
         case .rounding:
             return .init (
+                version: latestUpgradeVersion,
                 upgrade: self,
                 level: 0,
                 costMultiplier: 2.5,
@@ -341,6 +386,7 @@ enum AllUpgrades_Blueprint: CaseIterable, Codable {
             )
         case .clicking:
             return .init(
+                version: latestUpgradeVersion,
                 upgrade: self,
                 level: 0,
                 costMultiplier: 2.5,
@@ -349,11 +395,13 @@ enum AllUpgrades_Blueprint: CaseIterable, Codable {
             )
         case .employeers:
             return .init(
+                version: latestUpgradeVersion,
                 upgrade: self,
                 level: 0,
                 costMultiplier: 1.1,
                 Cost: GeneralGameData().TranslateNum(167, suffix: " T"),
-                clickMultiplier: 12.0
+                clickMultiplier: 12.0,
+                buildingRecruiting: .employees
             )
         }
         

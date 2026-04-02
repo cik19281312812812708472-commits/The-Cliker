@@ -39,6 +39,7 @@ class SoundManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
                 soundPlayer.delegate = self
                 audioManager.append(soundPlayer)
                 soundPlayer.play()
+                updateVolume()
                 
             }
             

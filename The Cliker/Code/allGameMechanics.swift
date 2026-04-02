@@ -35,6 +35,10 @@ class allGameMechanics: ObservableObject {
         updateTotalClicks()
         employ()
         
+        
+        addClickBoost()
+      
+        
         print("gameState.worldssave = ", gameState.worldsSaved)
         
         if gameState.autoSaving == true && gameState.gameCondition == .playingGame {
@@ -44,6 +48,19 @@ class allGameMechanics: ObservableObject {
         //print("\(gameState.allBuildingAttribites)")
     }
     
+    func addClickBoost() {
+        
+        let tempClickRate = gameState.clickRate
+        if tempClickRate != 15 {
+            let boostAmount = gameState.deltaClicks * pow(1.1, Int("\(tempClickRate)") ?? 0)
+            //fix the recruter
+            print("Boost ammount: \(boostAmount)")
+            gameState.deltaClicks += boostAmount
+            gameState.currentClicks += boostAmount
+            gameState.clickRate -= tempClickRate
+        }
+        
+    }
     func updateInceaseMultiplier() {
         
         //employees have a boost per employee
@@ -106,6 +123,7 @@ class allGameMechanics: ObservableObject {
         
         gameState.currentClicks += clickIncrease
         gameState.deltaClicks += clickIncrease
+        gameState.clickRate += 1
         soundManager.clickingSound()
         
     }
@@ -130,15 +148,16 @@ class allGameMechanics: ObservableObject {
     
     func employ() {
         
+        guard let employTarget = gameState.allUpgrades[.employeers]?.buildingRecruiting else { return }
         let level = gameState.allUpgrades[.employeers]?.level ?? 0
         
         if level >= 1 {
             
-            if let Employees = gameState.allBuildingAttribites[.employees] {
-                if gameState.currentClicks >=  Employees.Cost * 1000 {
-                    gameState.allBuildingAttribites[.employees]?.amount += NSDecimalNumber(decimal: level).intValue
-                    gameState.currentClicks -= Employees.Cost
-                    setCost(whatBuilding: .employees, UpgradeOrBuilding: false, whatUpgrade: .employeers)
+            if let target = gameState.allBuildingAttribites[employTarget] {
+                if gameState.currentClicks >=  target.Cost * 1000 {
+                    gameState.allBuildingAttribites[employTarget]?.amount += NSDecimalNumber(decimal: level).intValue
+                    gameState.currentClicks -= target.Cost
+                    setCost(whatBuilding: employTarget, UpgradeOrBuilding: false, whatUpgrade: .employeers)
                     gameState.allUpgrades[.Efficiency]?.Cost += 1
                 }
             }

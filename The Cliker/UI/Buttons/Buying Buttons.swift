@@ -31,10 +31,12 @@ class Buttons_Class: ObservableObject {
         
         var whatBuilding: AllBuildingsBlueprint
         
+        
+        
         var buildingAttributtes: GeneralGameData.BuildingAttributesBlueprint {
             
             guard let attributes = gameState.allBuildingAttribites[whatBuilding] else {
-               fatalError("what building isn't in the allbuilding attributes. Location: UI_BuildingButton, getBuildingAttributtes")
+               fatalError("variable whatBuilding isn't in the allbuilding attributes. whatBuilding = \(whatBuilding)")
             }
             
             return attributes
@@ -361,6 +363,9 @@ class Buttons_Class: ObservableObject {
         
         var whatUpgrade: AllUpgrades_Blueprint
         
+        @State private var showRecruterInfo = false
+        
+        
         var upgradeAttributtes: GeneralGameData.Upgrade_Blueprint {
            
             
@@ -449,13 +454,55 @@ class Buttons_Class: ObservableObject {
                         }
                         
                         if whatUpgrade == .employeers {
-                            Text("This will automatically buy employees every second. So long as you have at least 1000x as much money as it costs to buy an employee.")
-                                .fontWeight(.black)
+                            
+                          
+                           
+                                    Text("This will automatically buy the selected asset every second. So long as you have at least 1000x as much money as it costs to buy the asset.")
+                                        .fontWeight(.black)
+                                    
+                                    Divider()
+                            Button("Select what to recruit") {
+                                showRecruterInfo = true
+                                print(showRecruterInfo)
+                            }
+                            .background(Color.black)
+                    }
+                        
+                }
+                    
+                }
+                .sheet(isPresented: $showRecruterInfo) {
+                    VStack {
+                        
+                        HStack {
+                            Text("Select What to recruit")
+                            
+                            
+                            Button {
+                                showRecruterInfo = false
+                            } label: {
+                                Image(systemName: "xmark.circle")
+                            }
+                            .buttonStyle(.plain)
                         }
                         
+                        ScrollView {
+                            VStack {
+                                
+                                ForEach(Array(gameState.allBuildingAttribites), id: \.key) { building in
+                                    
+                                    RecruiterSelection_Button(whatBuilding: building.key)
+                                    
+                                }
+                                
+                             Spacer()
+                            }
+                        }
+                        .frame(width: 260, height: 260)
+                        .fixedSize()
+                     
                     }
                 }
-                
                 
                 
             
