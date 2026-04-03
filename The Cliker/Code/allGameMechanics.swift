@@ -170,6 +170,25 @@ class allGameMechanics: ObservableObject {
         
     }
     
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     ///Per Second
     func updateTotalClicks() {
         
@@ -184,6 +203,15 @@ class allGameMechanics: ObservableObject {
         //30%
         totalClickIncrease *= pow(1.3, Int("\((gameState.allUpgrades[.Efficiency]?.level ?? 0) + 1)") ?? 0 )
        // print(gameState.allUpgrades[.Efficiency]?.level)
+        
+        
+        let investorUpgrade = gameState.allUpgrades[.investors]
+        let investorLevel = NSDecimalNumber(decimal: investorUpgrade?.level ?? 0).doubleValue
+        totalClickIncrease += gameState.currentClicks/100 * (Decimal(Double.random(in: (investorLevel/2)...(investorLevel * 10)))/100000000 + 1)
+        
+        print("Invested and gained: \( gameState.currentClicks/100 * (Decimal(Double.random(in: (investorLevel/2)...(investorLevel * 10)))/100000000 + 1))") 
+        
+        
         
         //increase the total clicks by the total click increase
         gameState.currentClicks += totalClickIncrease

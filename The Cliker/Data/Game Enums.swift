@@ -25,6 +25,10 @@ enum AllBuildingsBlueprint: CaseIterable, Codable {
     case epstein
     case airPlane
     case car
+    case dc10
+    case dc3
+    case boeing737
+    case boeing757
     
     //add stock market stufffefeffef
     
@@ -224,7 +228,7 @@ enum AllBuildingsBlueprint: CaseIterable, Codable {
                 amount: 0,
                 costMultiplier: 1000000000000000,
                 Cost: GeneralGameData().TranslateNum(767.121, suffix: " Duovigintillion"),
-                Increase: GeneralGameData().TranslateNum(1, suffix: " Tredecillion"),
+                Increase: GeneralGameData().TranslateNum(39132132, suffix: " Tresvigintillion"),
                 IncreaseMultiplier: 1000,
                 rent: 0,
                 buildingType: [.employee] //incre
@@ -248,12 +252,60 @@ enum AllBuildingsBlueprint: CaseIterable, Codable {
                 amount: 0,
                 costMultiplier: 1.5,
                 Cost: GeneralGameData().TranslateNum(64, suffix: " T"),
-                Increase: 100000,
+                Increase: 1000000000000,
                 IncreaseMultiplier: 10,
                 rent: 0,
                 buildingType: [.building]
             )
         
+        case .dc10:
+            return .init(
+                version: buildingLatestVersion,
+                Building: self,
+                amount: 0,
+                costMultiplier: 1.5,
+                Cost: GeneralGameData().TranslateNum(43, suffix: " Quindecillion"),
+                Increase: GeneralGameData().TranslateNum(6.4171044, suffix: " Quindecillion"),
+                IncreaseMultiplier: 10,
+                rent: 3,
+                buildingType: [.building]
+            )
+        case .dc3:
+            return .init(
+                version: buildingLatestVersion,
+                Building: self,
+                amount: 0,
+                costMultiplier: 1.5,
+                Cost: GeneralGameData().TranslateNum(43, suffix: " Duodecillion"),
+                Increase: GeneralGameData().TranslateNum(0.54171044, suffix: " Duodecillion"),
+                IncreaseMultiplier: 10,
+                rent: 4,
+                buildingType: [.building]
+            )
+        case .boeing737:
+            return .init(
+                version: buildingLatestVersion,
+                Building: self,
+                amount: 0,
+                costMultiplier: 1.5,
+                Cost: GeneralGameData().TranslateNum(43, suffix: " Tredecillion"),
+                Increase: GeneralGameData().TranslateNum(0.67171044, suffix: " Tredecillion"),
+                IncreaseMultiplier: 10,
+                rent: 3,
+                buildingType: [.building]
+            )
+        case .boeing757:
+            return .init(
+                version: buildingLatestVersion,
+                Building: self,
+                amount: 0,
+                costMultiplier: 1.5,
+                Cost: GeneralGameData().TranslateNum(43, suffix: " Sexdecillion"),
+                Increase: GeneralGameData().TranslateNum(1.67171044, suffix: " Sexdecillion"),
+                IncreaseMultiplier: 10,
+                rent: 3,
+                buildingType: [.building]
+            )
         }//switch end
         
     }
@@ -295,6 +347,14 @@ enum AllBuildingsBlueprint: CaseIterable, Codable {
             return "Buy an AirPlane"
         case .car:
             return "Buy a Car"
+        case .dc10:
+            return "Buy a DC-10 Aircraft"
+        case .dc3:
+            return "Buy a DC-3 Aircraft"
+        case .boeing737:
+            return "Buy a Boeing 737 Aircraft"
+        case .boeing757:
+            return "Buy a Boeing 757 Aircraft"
         }
         
         
@@ -339,6 +399,14 @@ enum AllBuildingsBlueprint: CaseIterable, Codable {
             return "Airplane"
         case .car:
             return "Car"
+        case .dc10:
+            return "DC-10"
+        case .dc3:
+            return "DC-3"
+        case .boeing737:
+            return "Boeing 737-100"
+        case .boeing757:
+            return "Boeing 757"
         }
     }
     
@@ -346,7 +414,7 @@ enum AllBuildingsBlueprint: CaseIterable, Codable {
 }
 
 
-enum allBuildingTypes: Codable {
+enum allBuildingTypes: Codable, CaseIterable {
     
     case employee
     case building
@@ -361,6 +429,8 @@ enum AllUpgrades_Blueprint: CaseIterable, Codable {
     case rounding
     case clicking
     case employeers
+    case investors
+    
     
     var stats: GeneralGameData.Upgrade_Blueprint {
         
@@ -403,6 +473,16 @@ enum AllUpgrades_Blueprint: CaseIterable, Codable {
                 clickMultiplier: 12.0,
                 buildingRecruiting: .employees
             )
+        case .investors:
+            return .init(
+                version: latestUpgradeVersion,
+                upgrade: self,
+                level: 0,
+                costMultiplier: 1.5,
+                Cost: GeneralGameData().TranslateNum(127.12373912, suffix: " Vigintillion"),
+                clickMultiplier: 20,
+                buildingRecruiting: .manager
+            )
         }
         
     }
@@ -418,6 +498,8 @@ enum AllUpgrades_Blueprint: CaseIterable, Codable {
             return "Clicking"
         case .employeers:
             return "Recruiter"
+        case .investors:
+            return "Investor"
         }
     }
     

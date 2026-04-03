@@ -283,6 +283,54 @@ class Buttons_Class: ObservableObject {
                             .background(getButtonColour(cost: Cost))
                             .cornerRadius(10)
                     }
+                case .dc10:
+                    HStack {
+                        Image("DC-10")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 60, height: 60)
+                        
+                        Text("$\(UI_Functions.stateNumber(whatNumber: Cost)) \(whatBuilding.displayName) ")
+                            .padding()
+                            .background(getButtonColour(cost: Cost))
+                            .cornerRadius(10)
+                    }
+                case .dc3:
+                    HStack {
+                        Image("DC-3")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 60, height: 60)
+                        
+                        Text("$\(UI_Functions.stateNumber(whatNumber: Cost)) \(whatBuilding.displayName) ")
+                            .padding()
+                            .background(getButtonColour(cost: Cost))
+                            .cornerRadius(10)
+                    }
+                case .boeing737:
+                    HStack {
+                        Image("737-100")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 60, height: 60)
+                        
+                        Text("$\(UI_Functions.stateNumber(whatNumber: Cost)) \(whatBuilding.displayName) ")
+                            .padding()
+                            .background(getButtonColour(cost: Cost))
+                            .cornerRadius(10)
+                    }
+                case .boeing757:
+                    HStack {
+                        Image("757-200")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 60, height: 60)
+                        
+                        Text("$\(UI_Functions.stateNumber(whatNumber: Cost)) \(whatBuilding.displayName) ")
+                            .padding()
+                            .background(getButtonColour(cost: Cost))
+                            .cornerRadius(10)
+                    }
                 } //switch end
            
             }
@@ -308,14 +356,49 @@ class Buttons_Class: ObservableObject {
                     
                     if let building = gameState.allBuildingAttribites[whatBuilding] {
                         
-                        var percentage = (Decimal(building.amount) * building.Increase * building.IncreaseMultiplier * 100 * pow(1.2, Int("\((gameState.allUpgrades[.Efficiency]?.level ?? 0) + 1)") ?? 0 ))/gameState.deltaClicks
-                        var newNumber: Decimal = {
-                            var x: Decimal = 0
-                            NSDecimalRound(&x, &percentage, 3, .plain)
-                            return x
-                        }()
                         
+                       
+                        
+                        
+                        if building.buildingType.contains(.building) == true {
+                            
+                            var numOfEmployees: Decimal = {
+                                var x: Decimal = 0
+                                for (buildingCase, building) in gameState.allBuildingAttribites {
+                                    if building.buildingType.contains(.employee) {
+                                        x +=  Decimal(building.amount)
+                                    }
+                                }
+                                
+                                return x
+                            }()
+                            
+                            var percentage = ((Decimal(building.amount) * building.Increase * building.IncreaseMultiplier * 100 * pow(1.2, Int("\((gameState.allUpgrades[.Efficiency]?.level ?? 0) + 1)") ?? 0 )))/gameState.deltaClicks
+                            
+                            
+                            var newNumber: Decimal = {
+                                var x: Decimal = 0
+                                NSDecimalRound(&x, &percentage, 4, .plain)
+                                return x
+                            }()
+                            
+                            
                             Text("This asset gives ~\(newNumber)% of all your cliks")
+                        } else {
+                            var percentage = (Decimal(building.amount) * building.Increase * building.IncreaseMultiplier * 100 * pow(1.2, Int("\((gameState.allUpgrades[.Efficiency]?.level ?? 0) + 1)") ?? 0 ))/gameState.deltaClicks
+                            
+                            
+                            var newNumber: Decimal = {
+                                var x: Decimal = 0
+                                NSDecimalRound(&x, &percentage, 4, .plain)
+                                return x
+                            }()
+                            
+                            Text("This asset gives ~\(newNumber)% of all your cliks")
+                        }
+                       
+                        
+                           
                         
                        
                     }

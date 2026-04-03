@@ -67,44 +67,11 @@ class GeneralGameData: ObservableObject {
     func setStartingData() {
         
         
-        var allBuildings_in_Ran: [AllBuildingsBlueprint] = []
-        
-        for buildingCase in AllBuildingsBlueprint.allCases {
-            allBuildings_in_Ran.append(buildingCase)
-        }
-        
-        var allBuildings_in_Reverse: [AllBuildingsBlueprint] = []
-        var index = 0
-        var highestBuildingCost: Decimal = AllBuildingsBlueprint.epstein.stats.Cost
-        
-        while allBuildings_in_Reverse.count < allBuildings_in_Ran.count {
-            
-            
-            
-            if allBuildings_in_Ran[index].stats.Cost > highestBuildingCost {
-                allBuildings_in_Reverse.append(allBuildings_in_Ran[index])
-                highestBuildingCost = allBuildings_in_Ran[index].stats.Cost
-            }
-            
-            
-            
-            if index > allBuildings_in_Ran.count - 1 {
-                index = 0
-            }
-            
-            
-            
-        }
-        
-        for i in 0..<allBuildings_in_Reverse.count {
-            
-            allBuildingAttribites[allBuildings_in_Reverse[i]] = allBuildings_in_Reverse[i].stats
-            
-        }
+   
        
         
         
-        /*
+        
         // it creates a building attribute for each building by looking at the enum
         for buildingCase in AllBuildingsBlueprint.allCases {
             
@@ -112,7 +79,7 @@ class GeneralGameData: ObservableObject {
             allBuildingAttribites[buildingCase] = buildingCase.stats
             
         }
-        */
+        
         // it creates a building attribute for each building by looking at the enum MARK: change to work for an array
         for upgradeCase in AllUpgrades_Blueprint.allCases {
             
