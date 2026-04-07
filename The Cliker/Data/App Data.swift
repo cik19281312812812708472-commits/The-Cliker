@@ -7,7 +7,7 @@
 import Foundation
 import Combine
 
-var latestVersion: versionData_Type = versionData_Type(Major: 1, Minor: 1, Patch: 1)
+var latestVersion: versionData_Type = versionData_Type(Major: 1, Minor: 1, Patch: 2)
 
 var buildingLatestVersion: versionData_Type = versionData_Type(Major: 1, Minor: 0, Patch: 0)
 

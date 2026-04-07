@@ -22,8 +22,9 @@ class GeneralGameData: ObservableObject {
     
     @Published var clickRate: Decimal = 0
     
+    @Published var ascensions: Int = 0
     
-    
+    @Published var canAccend: Bool = false
     
     
     
@@ -60,8 +61,20 @@ class GeneralGameData: ObservableObject {
 
         var allSuffixes: [String] = []
         var time = Date()
-       
+        var ascensions: Int? = 0
         
+        
+        
+    }
+    
+    
+    func canYouAccend() {
+        
+        if currentClicks > TranslateNum(1, suffix: " Vigintillion") {
+            canAccend = true
+        } else {
+            canAccend = false
+        }
     }
     
     func setStartingData() {

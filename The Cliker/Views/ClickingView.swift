@@ -28,6 +28,19 @@ struct ClickingView: View {
             
             ZStack {
                 
+                
+              
+                
+              /*
+                Button {
+                    
+                } label: {
+                    Text("Ascend")
+                }
+                
+                */
+                
+                
                 Text(gameState.currentWorld)
                     .font(.title)
                     .fontWeight(.black)
@@ -94,6 +107,11 @@ struct ClickingView: View {
                 .buttonStyle(ShrinkingButton())
                 .position(x:geometry.size.width/2, y:geometry.size.height/2)
                
+                
+               // ProgressBar_UIElement(progress: NSDecimalNumber(decimal: gameState.clickRate / 15).doubleValue, height: geometry.size.height * 0.1, width: geometry.size.width * 0.005, color: .green, allignment: .leading)
+                  //  .position(x: geometry.size.width * 0.6, y:geometry.size.height/2)
+                
+                
                 //MARK: NOTIFICATIONS
                 switch gameState.importantInfo {
                 case .nothing:

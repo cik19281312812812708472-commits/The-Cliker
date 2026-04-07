@@ -207,7 +207,7 @@ class allGameMechanics: ObservableObject {
         
         let investorUpgrade = gameState.allUpgrades[.investors]
         let investorLevel = NSDecimalNumber(decimal: investorUpgrade?.level ?? 0).doubleValue
-        totalClickIncrease += gameState.currentClicks/100 * (Decimal(Double.random(in: (investorLevel/2)...(investorLevel * 10)))/100000000 + 1)
+      //  totalClickIncrease += gameState.currentClicks/100 * (Decimal(Double.random(in: (investorLevel/2)...(investorLevel * 10)))/100000000 + 1)
         
         print("Invested and gained: \( gameState.currentClicks/100 * (Decimal(Double.random(in: (investorLevel/2)...(investorLevel * 10)))/100000000 + 1))") 
         
