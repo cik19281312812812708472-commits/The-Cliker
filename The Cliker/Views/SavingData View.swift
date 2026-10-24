@@ -13,7 +13,9 @@ struct SavingData_View: View {
     @EnvironmentObject var gameState: GeneralGameData
     @State private var worldName: String = ""
     
+    @State private var savingWorld: Bool = false
     
+    let savingAnimationWaitTime: Double = 1.5
     var body: some View {
         
        
@@ -30,20 +32,26 @@ struct SavingData_View: View {
                     gameState.deleteData(worldName: gameState.currentWorld)
                     gameState.saveData(worldName: worldName)
                     gameState.currentWorld = worldName
+                    
+                    savingWorld = true
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + savingAnimationWaitTime) {
+                        savingWorld = false
+                    }
+                    
                 } label: {
-                    Text("Save World")
+                    
+                    Text(savingWorld ? "Saved" : "Save World")
                         .font(.largeTitle)
                         .fontWeight(.black)
                         .foregroundStyle(Color(.black))
                         .padding(10)
-                        .background(.yellow)
-                        .cornerRadius(10)
                        
                 }
                 .contextMenu {
                     Text("This will save the current state of this world.")
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(SavingAnimation(activateAnimation: savingWorld, pressedColor: .green, unPressedColor: .yellow, duration: 0.1, minimumScale: 0.95))
                 .position(x: geo.size.width * 0.5, y: geo.size.height * 0.6)
                 
                 Button {

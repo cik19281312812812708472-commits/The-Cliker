@@ -2,7 +2,7 @@
 //  Guide View.swift
 //  The Cliker
 //
-//  Created by Desire on 2026-03-26.
+//  Created by  on 2026-03-26.
 //
 
 import SwiftUI

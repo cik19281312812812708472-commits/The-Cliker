@@ -20,6 +20,9 @@ struct LoadingData_View: View {
     
     @EnvironmentObject var gameState: GeneralGameData
     @State var worldLookingState: worldLookingState_Blueprint = .worldList
+    @State var loadingWorld: String? = nil
+    
+    
     var body: some View {
         
         GeometryReader { geometry in
@@ -49,11 +52,7 @@ struct LoadingData_View: View {
                             .padding(10)
                             .background(.yellow)
                             .cornerRadius(10)
-                           
-                            
-                           
-                          
-                            
+                   
                     }
                     .buttonStyle(.plain)
                     .position(x: geometry.size.width / 2, y: geometry.size.height * 0.7)
@@ -64,34 +63,53 @@ struct LoadingData_View: View {
                         .position(x: geometry.size.width / 2, y: geometry.size.height / 2)
                 } else {
                     
-                    
+                    //put this in a hstack
                     ScrollView {
                         
                         Text("Worlds:")
                             .font(.title3)
                             .fontWeight(.black)
                         
-                        RoundedRectangle(cornerRadius: geometry.size.width * 0.00001)
+                        RoundedRectangle(cornerRadius: geometry.size.width * 0.0001)
                             .frame(width: geometry.size.width * 0.12, height: geometry.size.height * 0.002)
                             .fixedSize()
+                       
                            
                         
                         ForEach(gameState.worldsSaved, id: \.self) { world in
                             
                             Button {
-                                gameState.worldBeingLoaded = world
-                                gameState.lastView = gameState.gameCondition
-                                gameState.gameCondition = .playingGame
-                                gameState.loadingWorld = true
+                                
+                                
+                                loadingWorld = world
+                                
+                                
+                                
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                  
+                                    
+                                    
+                                    
+                                    gameState.worldBeingLoaded = world
+                                    gameState.lastView = gameState.gameCondition
+                                    gameState.gameCondition = .playingGame
+                                    gameState.loadingWorld = true
+                                    loadingWorld = nil
+                                }
+                                
+                                
                             } label: {
                                 Text(world)
                                     .foregroundColor(.black)
                                     .padding(10)
-                                    .background(.yellow)
                                     .cornerRadius(7)
                             }
+                            .buttonStyle(SavingAnimation(activateAnimation: loadingWorld == world, pressedColor: .green, unPressedColor: .yellow, duration: 0.2, minimumScale: 0.95))
                             
                         }
+                        
+                        
+                        Spacer()
                         
                     }
                     .frame(width: geometry.size.height * 0.25, height: geometry.size.height * 0.3)

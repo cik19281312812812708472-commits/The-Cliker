@@ -29,7 +29,7 @@ struct ClickingView: View {
             ZStack {
                 
                 
-              
+                NofiticationsView(geo: geometry)
                 
               /*
                 Button {
@@ -112,138 +112,12 @@ struct ClickingView: View {
                   //  .position(x: geometry.size.width * 0.6, y:geometry.size.height/2)
                 
                 
-                //MARK: NOTIFICATIONS
-                switch gameState.importantInfo {
-                case .nothing:
-                    #if os(macOS)
-                    
-                    #endif
-                case .worldNotLoaded:
-                    Text("The world loaded wasn't found")
-                        .foregroundColor(.black)
-                        .padding(2)
-                        .background(.yellow)
-                        .cornerRadius(5)
-                        .textSelection(.enabled)
-                        .position(x:geometry.size.width/2, y:geometry.size.height * 0.1)
-                case .worldDeleted:
-                    Text("The world was Deleted")
-                        .foregroundColor(.black)
-                        .padding(2)
-                        .background(.yellow)
-                        .cornerRadius(5)
-                        .textSelection(.enabled)
-                        .position(x:geometry.size.width/2, y:geometry.size.height * 0.1)
-                case .worldCreated:
-                    Text("The world was created")
-                        .foregroundColor(.black)
-                        .padding(2)
-                        .background(.yellow)
-                        .cornerRadius(5)
-                        .textSelection(.enabled)
-                        .position(x:geometry.size.width/2, y:geometry.size.height * 0.1)
-                }
+                
                 
                
                 
                 //MARK: Settings
-                ScrollView {
-                    Text("Settings")
-                        .font(.system(size: 20))
-                        .fontWeight(.black)
-                    
-                    Divider()
-                    
-                    
-                    Button {
-                        gameState.lastView = gameState.gameCondition
-                        gameState.gameCondition = .guide
-                        
-                    } label: {
-                        Text("Game Guide")
-                           
-                            .padding(2)
-                            //.background(.gray)
-                            .cornerRadius(5)
-                            .textSelection(.enabled)
-                    }
-                    
-                    
-                    Button {
-                        gameState.lastView = gameState.gameCondition
-                        gameState.gameCondition = .savingData
-                        
-                    } label: {
-                        Text("Save Game")
-                           
-                            .padding(2)
-                            //.background(.gray)
-                            .cornerRadius(5)
-                            .textSelection(.enabled)
-                    }
-                    
-                    Divider()
-                    Toggle("Auto Save", isOn: $gameState.autoSaving)
-                        .contextMenu {
-                            Text("This will auto save your game every second. If you are playing.")
-                        }
-                        .toggleStyle(.checkbox)
-                    
-                    Divider()
-                    VStack {
-                        
-                        Text("Volume")
-                            .bold()
-                        Slider(value: $appData.appVolume, in: 0...1)
-                            .frame(width: geometry.size.width * 0.1)
-                            
-                    }
-                    Divider()
-                    
-                    
-                    
-                    
-                    Button {
-                        gameState.lastView = gameState.gameCondition
-                        gameState.gameCondition = .loadingData
-                        
-                    } label: {
-                        Text("Load a World")
-                            
-                            .padding(2)
-                            //.background(.gray)
-                            .cornerRadius(5)
-                            .textSelection(.enabled)
-                    }
-                    
-                    Button {
-                        gameState.lastView = gameState.gameCondition
-                        gameState.gameCondition = .creatingWorld
-                    } label: {
-                        Text("Create a World")
-                           
-                            .padding(2)
-                            //.background(.gray)
-                            .cornerRadius(5)
-                            .textSelection(.enabled)
-                    }
-                    
-                    Button {
-                        gameState.lastView = gameState.gameCondition
-                        gameState.gameCondition = .deletingData
-                    } label: {
-                        Text("Delete a World")
-                        
-                            .padding(2)
-                            //.background(.gray)
-                            .cornerRadius(5)
-                            .textSelection(.enabled)
-                    }
-                    
-                    
-                        
-                    
-                }
+                ClickingView_SettingsScrollBar(geo: geometry)
                 .frame(width: geometry.size.width * 0.1, height:  geometry.size.height * 0.1)
                 .position(x:geometry.size.width/2, y:geometry.size.height * 0.9)
                 

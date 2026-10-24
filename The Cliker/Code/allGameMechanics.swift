@@ -18,6 +18,7 @@ class allGameMechanics: ObservableObject {
     var gameState: GeneralGameData
     var soundManager: SoundManager
     
+    var startedBackgroundMusic: Bool = false
     init(gameState: GeneralGameData, loanSharkMechanics: LoanSharkMechanics, soundManager: SoundManager) {
         self.gameState = gameState
         self.loanSharkMechanics = loanSharkMechanics
@@ -38,7 +39,8 @@ class allGameMechanics: ObservableObject {
         
         addClickBoost()
       
-        
+        startedBackgroundMusic ? soundManager.playBackgroundMusic() : ()
+    
         print("gameState.worldssave = ", gameState.worldsSaved)
         
         if gameState.autoSaving == true && gameState.gameCondition == .playingGame {
@@ -149,13 +151,13 @@ class allGameMechanics: ObservableObject {
     func employ() {
         
         guard let employTarget = gameState.allUpgrades[.employeers]?.buildingRecruiting else { return }
-        let level = gameState.allUpgrades[.employeers]?.level ?? 0
+        let level: Int = NSDecimalNumber(decimal: gameState.allUpgrades[.employeers]?.level ?? 0).intValue
         
         if level >= 1 {
             
             if let target = gameState.allBuildingAttribites[employTarget] {
                 if gameState.currentClicks >=  target.Cost * 1000 {
-                    gameState.allBuildingAttribites[employTarget]?.amount += NSDecimalNumber(decimal: level).intValue
+                    gameState.allBuildingAttribites[employTarget]?.amount +=  level
                     gameState.currentClicks -= target.Cost
                     setCost(whatBuilding: employTarget, UpgradeOrBuilding: false, whatUpgrade: .employeers)
                     gameState.allUpgrades[.Efficiency]?.Cost += 1
@@ -165,9 +167,7 @@ class allGameMechanics: ObservableObject {
             
         }
         
-        
-        
-        
+         
     }
     
     
@@ -207,9 +207,10 @@ class allGameMechanics: ObservableObject {
         
         let investorUpgrade = gameState.allUpgrades[.investors]
         let investorLevel = NSDecimalNumber(decimal: investorUpgrade?.level ?? 0).doubleValue
-      //  totalClickIncrease += gameState.currentClicks/100 * (Decimal(Double.random(in: (investorLevel/2)...(investorLevel * 10)))/100000000 + 1)
+        if investorLevel > 1 {
+            totalClickIncrease += gameState.currentClicks/100 * (Decimal(Double.random(in: (investorLevel/2)...(investorLevel * 2))))
+        }
         
-        print("Invested and gained: \( gameState.currentClicks/100 * (Decimal(Double.random(in: (investorLevel/2)...(investorLevel * 10)))/100000000 + 1))") 
         
         
         

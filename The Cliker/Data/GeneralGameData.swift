@@ -139,11 +139,13 @@ class GeneralGameData: ObservableObject {
         let loanShark = LoanSharkMechanics(gameState: self, loanSharkState: loanSharkState)
         let tempAppData = AppData()
         
-        allGameMechanics(gameState: self, loanSharkMechanics: loanShark, soundManager: SoundManager(appData: tempAppData)).updateEverything()
+        let localAllGameMechanics = allGameMechanics(gameState: self, loanSharkMechanics: loanShark, soundManager: SoundManager(appData: tempAppData))
+        
+        localAllGameMechanics.updateEverything()
         
         var tempTime = timeElapsed
         while tempTime >= 1 {
-            allGameMechanics(gameState: self, loanSharkMechanics: loanShark, soundManager: SoundManager(appData: tempAppData)).employ()
+            localAllGameMechanics.employ()
             tempTime -= 1
         }
                 
@@ -218,7 +220,7 @@ class GeneralGameData: ObservableObject {
                             buildingToAdd = BuildingAttributesBlueprint(version: buildingLatestVersion, Building: buildingAttribute.key, amount: building.amount, costMultiplier: building.costMultiplier, Cost: building.Cost, Increase: building.Increase, IncreaseMultiplier: building.IncreaseMultiplier, rent: building.rent, buildingType: building.buildingType)
              
                         default:
-                            fatalError("tried to load a faulty version: that is \(buildingVersion)")
+                            fatalError("Tried to load a faulty version: that is \(buildingVersion)")
                         }
   
                                                 

@@ -2,7 +2,7 @@
 //  Sound Manager.swift
 //  The Cliker
 //
-//  Created by Desire on 2026-03-24.
+//  Created by  on 2026-03-24.
 //
 
 import Foundation
@@ -46,6 +46,28 @@ class SoundManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
         }
     }
     
+    
+    func playBackgroundMusic() {
+        
+        if let url = Bundle.main.url(forResource: "Background Music", withExtension: "mp3") {
+            
+            if let soundPlayer = try? AVAudioPlayer(contentsOf: url) {
+                
+                soundPlayer.delegate = self
+                audioManager.append(soundPlayer)
+                soundPlayer.numberOfLoops = -1
+                soundPlayer.play()
+                ///This is to remove volume when changing async.
+                updateVolume()
+                
+            }
+            
+        }
+        
+        
+    }
+    
+    
     func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
             
         print("Sound Finished")
@@ -55,6 +77,9 @@ class SoundManager: NSObject, ObservableObject, AVAudioPlayerDelegate {
         
     }
     
+    
+    
+    ///
     func updateVolume() {
         
         for player in audioManager {
